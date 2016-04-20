@@ -16,6 +16,8 @@
 from datetime import time
 from itertools import chain
 
+import numpy as np
+import pandas as pd
 from dateutil.relativedelta import (
     MO,
     TH,
@@ -24,7 +26,6 @@ from pandas import (
     date_range,
     DateOffset,
     Timestamp,
-    Timedelta,
 )
 from pandas.tseries.holiday import(
     AbstractHolidayCalendar,
@@ -39,8 +40,7 @@ from pandas.tseries.holiday import(
 from pandas.tseries.offsets import Day
 from pytz import timezone
 
-from .exchange_calendar import ExchangeCalendar
-from .calendar_helpers import normalize_date
+from zipline.utils.calendars import ExchangeCalendar
 
 # Useful resources for making changes to this file:
 # http://www.nyse.com/pdfs/closings.pdf
@@ -48,14 +48,14 @@ from .calendar_helpers import normalize_date
 
 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY = range(7)
 
-US_EASTERN = timezone('US/Eastern')
-NYSE_OPEN = time(9, 31)
-NYSE_CLOSE = time(16)
-NYSE_STANDARD_EARLY_CLOSE = time(13)
+US_CENTRAL = timezone('Americas/Chicago')
+CME_OPEN = time(17)
+CME_CLOSE = time(16)
+# CME_STANDARD_EARLY_CLOSE = time(13)
 # Does the market open or close on a different calendar day, compared to the
 # calendar day assigned by the exchang to this session?
-NYSE_OPEN_OFFSET = 0
-NYSE_CLOSE_OFFSET = 0
+CME_OPEN_OFFSET = -1
+CME_CLOSE_OFFSET = 0
 
 # Closings
 USNewYearsDay = Holiday(
@@ -172,11 +172,11 @@ USNationalDaysofMourning = [
 ]
 
 
-class NYSEHolidayCalendar(AbstractHolidayCalendar):
+class CMEHolidayCalendar(AbstractHolidayCalendar):
     """
-    Non-trading days for the NYSE.
+    Non-trading days for the CME.
 
-    See NYSEExchangeCalendar for full description.
+    See CMEExchangeCalendar for full description.
     """
     rules = [
         USNewYearsDay,
@@ -192,17 +192,7 @@ class NYSEHolidayCalendar(AbstractHolidayCalendar):
     ]
 
 
-class NYSE2PMCloseCalendar(AbstractHolidayCalendar):
-    """
-    Holiday Calendar for 2PM closes for NYSE
-    """
-    rules = [
-        ChristmasEveBefore1993,
-        USBlackFridayBefore1993,
-    ]
-
-
-class NYSEEarlyCloseCalendar(AbstractHolidayCalendar):
+class CMEEarlyCloseCalendar(AbstractHolidayCalendar):
     """
     Regular early close calendar for NYSE
     """
@@ -214,12 +204,12 @@ class NYSEEarlyCloseCalendar(AbstractHolidayCalendar):
     ]
 
 
-class NYSEExchangeCalendar(ExchangeCalendar):
+class CMEExchangeCalendar(ExchangeCalendar):
     """
-    Exchange calendar for NYSE
+    Exchange calendar for CME
 
-    Open Time: 9:31 AM, US/Eastern
-    Close Time: 4:00 PM, US/Eastern
+    Open Time: 5:00 AM, Americas/Chicago
+    Close Time: 5:00 PM, Americas/Chicago
 
     Regularly-Observed Holidays:
     - New Years Day (observed on monday when Jan 1 is a Sunday)
@@ -232,7 +222,7 @@ class NYSEExchangeCalendar(ExchangeCalendar):
     - Thanksgiving (fourth Thursday in November)
     - Christmas (observed on nearest weekday to December 25)
 
-    NOTE: The NYSE does not observe the following US Federal Holidays:
+    NOTE: The CME does not observe the following US Federal Holidays:
     - Columbus Day
     - Veterans Day
 
@@ -262,33 +252,24 @@ class NYSEExchangeCalendar(ExchangeCalendar):
     we've done alright...and we should check if it's a half day.
     """
 
-    exchange_name = 'NYSE'
-    native_timezone = US_EASTERN
-    open_time = NYSE_OPEN
-    close_time = NYSE_CLOSE
-    open_offset = NYSE_OPEN_OFFSET
-    close_offset = NYSE_CLOSE_OFFSET
+    native_timezone = US_CENTRAL
+    open_time = CME_OPEN
+    close_time = CME_CLOSE
+    open_offset = CME_OPEN_OFFSET
+    close_offset = CME_CLOSE_OFFSET
 
-    holidays_calendar = NYSEHolidayCalendar()
+    holidays_calendar = CMEHolidayCalendar()
     special_opens_calendars = ()
-    special_closes_calendars = [
-        (NYSE_STANDARD_EARLY_CLOSE, NYSEEarlyCloseCalendar()),
-        (time(14), NYSE2PMCloseCalendar()),
-    ]
+    special_closes_calendars = []
 
-    holidays_adhoc = list(chain(
+    holidays_adhoc = chain(
         September11Closings,
         HurricaneSandyClosings,
         USNationalDaysofMourning,
-    ))
+    )
 
     special_opens_adhoc = ()
-    special_closes_adhoc = [
-        (NYSE_STANDARD_EARLY_CLOSE, ('1997-12-26',
-                                     '1999-12-31',
-                                     '2003-12-26',
-                                     '2013-07-03')),
-    ]
+    special_closes_adhoc = []
 
     @property
     def name(self):
@@ -296,19 +277,19 @@ class NYSEExchangeCalendar(ExchangeCalendar):
         The name of this exchange calendar.
         E.g.: 'NYSE', 'LSE', 'CME Energy'
         """
-        return self.exchange_name
+        return 'CME'
 
     @property
     def tz(self):
         """
         The native timezone of the exchange.
+
+        SD: Not clear that this needs to be exposed.
         """
         return self.native_timezone
 
-    def is_open_on_minute(self, dt):
+    def is_open(self, dt):
         """
-        Is the exchange open (accepting orders) at @dt.
-
         Parameters
         ----------
         dt : Timestamp
@@ -320,37 +301,22 @@ class NYSEExchangeCalendar(ExchangeCalendar):
         """
         # Retrieve the exchange session relevant for this datetime
         session = self.session_date(dt)
-        # Retrieve the open and close for this exchange session
-        open, close = self.open_and_close(session)
+        # Retrieve the opens and closes for this exchange session
+        o_and_c_df = self.open_and_close(session)
         # Is @dt within the trading hours for this exchange session
-        return open <= dt and dt <= close
-
-    def is_open_on_day(self, dt):
-        """
-        Is the exchange open (accepting orders) anytime during the calendar day
-        containing @dt.
-
-        Parameters
-        ----------
-        dt : Timestamp
-
-        Returns
-        -------
-        bool
-            True if  exchange is open at any time during the day containing @dt
-        """
-        dt_normalized = normalize_date(dt)
-        return dt_normalized in self.schedule.index
+        for index, row in o_and_c_df.iterrows():
+            if row['market_open'] <= dt and dt <= row['market_close']:
+                return True
+        return False
 
     def trading_days(self, start, end):
         """
         Calculates all of the exchange sessions between the given
-        start and end, inclusive.
+        start and end.
 
-        SD: Should @start and @end are UTC-canonicalized, as our exchange
+        SD: Presumably @start and @end are UTC-canonicalized, as our exchange
         sessions are. If not, then it's not clear how this method should behave
-        if @start and @end are both in the middle of the day. Here, I assume we
-        need to map @start and @end to session.
+        if @start and @end are both in the middle of the day.
 
         Parameters
         ----------
@@ -363,64 +329,35 @@ class NYSEExchangeCalendar(ExchangeCalendar):
             A DatetimeIndex populated with all of the trading days between
             the given start and end.
         """
-        start_session = self.session_date(start)
-        end_session = self.session_date(end)
-        # Increment end_session by one day, beucase .loc[s:e] return all values
-        # in the DataFrame up to but not including `e`.
-        # end_session += Timedelta(days=1)
-        return self.schedule.loc[start_session:end_session]
+        return self.schedule.index[start:end]
 
-    def open_and_close(self, dt):
+    def open_and_close(self, session):
         """
-        Given a datetime, returns a tuple of timestamps of the
-        open and close of the exchange session containing the datetime.
+        Given a UTC-canonicalized date, returns a tuple of timestamps of the
+        open and close of the exchange session on that date.
 
-        SD: Should we accept an arbitrary datetime, or should we first map it
-        to and exchange session using session_date. Need to check what the
+        SD: Can @date be an arbitrary datetime, or should we first map it to
+        and exchange session using session_date. Need to check what the
         consumers expect. Here, I assume we need to map it to a session.
 
         Parameters
         ----------
-        dt : Timestamp
-            A dt in a session whose open and close are needed.
+        session : Timestamp
+            The UTC-canonicalized session whose open and close are needed.
 
         Returns
         -------
         (Timestamp, Timestamp)
-            The open and close for the given dt.
+            The open and close for the given date.
         """
-        session = self.session_date(dt)
-        return self._get_open_and_close(session)
-
-    def _get_open_and_close(self, session_date):
-        """
-        Retrieves the open and close for a given session.
-
-        Parameters
-        ----------
-        session_date : Timestamp
-            The canonicalized session_date whose open and close are needed.
-
-        Returns
-        -------
-        (Timestamp, Timestamp) or (None, None)
-            The open and close for the given dt, or Nones if the given date is
-            not a session.
-        """
-        # Return a tuple of nones if the given date is not a session.
-        if session_date not in self.schedule.index:
-            return (None, None)
-
-        o_and_c = self.schedule.loc[session_date]
-        # `market_open` and `market_close` should be timezone aware, but pandas
-        # 0.16.1 does not appear to support this:
-        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
-        return (o_and_c['market_open'].tz_localize('UTC'),
-                o_and_c['market_close'].tz_localize('UTC'))
+        # Generalised logic for the case of trading pauses.
+        # Note: this logic is ~3-4 times slower than that used for the NYSE
+        # (pass a list, to ensure we get a DataFrame returned)
+        return self.schedule.loc[[session]]
 
     def session_date(self, dt):
         """
-        Given a datetime, returns the UTC-canonicalized date of the exchange
+        Given a time, returns the UTC-canonicalized date of the exchange
         session in which the time belongs. If the time is not in an exchange
         session (while the market is closed), returns the date of the next
         exchange session after the time.
@@ -435,6 +372,5 @@ class NYSEExchangeCalendar(ExchangeCalendar):
         Timestamp
             The date of the exchange session in which dt belongs.
         """
-        while not self.is_open_on_day(dt):
-            dt += Timedelta(days=1)
-        return normalize_date(dt)
+        dt_utc = dt.tz_convert('UTC').tz_convert(None)
+        return dt_utc.replace(hour=0, minute=0, second=0)
