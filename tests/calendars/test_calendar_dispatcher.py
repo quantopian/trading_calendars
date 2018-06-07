@@ -1,21 +1,21 @@
 """
 Tests for TradingCalendarDispatcher.
 """
+from unittest import TestCase
 from zipline.errors import (
     CalendarNameCollision,
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from zipline.testing import ZiplineTestCase
 from zipline.utils.calendars.calendar_utils import TradingCalendarDispatcher
 from zipline.utils.calendars.exchange_calendar_ice import ICEExchangeCalendar
 
 
-class CalendarAliasTestCase(ZiplineTestCase):
+
+class CalendarAliasTestCase(TestCase):
 
     @classmethod
-    def init_class_fixtures(cls):
-        super(CalendarAliasTestCase, cls).init_class_fixtures()
+    def setupClass(cls):
         # Make a calendar once so that we don't spend time in every test
         # instantiating calendars.
         cls.dispatcher_kwargs = dict(
@@ -27,8 +27,7 @@ class CalendarAliasTestCase(ZiplineTestCase):
             },
         )
 
-    def init_instance_fixtures(self):
-        super(CalendarAliasTestCase, self).init_instance_fixtures()
+    def setUp(self):
         self.dispatcher = TradingCalendarDispatcher(
             # Make copies here so that tests that mutate the dispatcher dicts
             # are isolated from one another.

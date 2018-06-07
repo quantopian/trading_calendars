@@ -34,7 +34,6 @@ from zipline.errors import (
     InvalidCalendarName,
 )
 
-from zipline.testing.predicates import assert_equal
 from zipline.utils.calendars import (
     deregister_calendar,
     get_calendar,
@@ -46,8 +45,10 @@ from zipline.utils.calendars.calendar_utils import (
     register_calendar_type,
 
 )
-from zipline.utils.calendars.trading_calendar import days_at_time, \
-    TradingCalendar
+from zipline.utils.calendars.trading_calendar import (
+    days_at_time, 
+    TradingCalendar,
+)
 
 
 class FakeCalendar(TradingCalendar):
@@ -705,7 +706,9 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[-1],
         )
 
-        assert_equal(found_opens, self.answers['market_open'])
+        pd.util.testing.assert_series_equal(
+            found_opens, self.answers['market_open']
+        )
 
     def test_session_closes_in_range(self):
         found_closes = self.calendar.session_closes_in_range(
@@ -713,7 +716,9 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[-1],
         )
 
-        assert_equal(found_closes, self.answers['market_close'])
+        pd.util.testing.assert_series_equal(
+            found_closes, self.answers['market_close']
+        )
 
     def test_daylight_savings(self):
         # 2004 daylight savings switches:
