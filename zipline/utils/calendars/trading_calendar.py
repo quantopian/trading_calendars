@@ -16,6 +16,7 @@ from abc import ABCMeta, abstractproperty
 from lru import LRU
 import warnings
 
+from operator import attrgetter
 from pandas.tseries.holiday import AbstractHolidayCalendar
 from six import with_metaclass
 from numpy import searchsorted
@@ -33,13 +34,8 @@ from zipline.utils.calendars._calendar_helpers import (
     next_divider_idx,
     previous_divider_idx,
 )
-from zipline.utils.input_validation import (
-    attrgetter,
-    coerce,
-    preprocess,
-)
+from zipline.utils.preprocess import preprocess
 from zipline.utils.memoize import lazyval
-from zipline.utils.pandas_utils import days_at_time
 
 
 start_default = pd.Timestamp('1990-01-01', tz='UTC')
@@ -50,6 +46,91 @@ end_default = end_base + pd.Timedelta(days=365)
 
 NANOS_IN_MINUTE = 60000000000
 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY = range(7)
+
+
+# TODO: this is stolen from zipline, figure out where this should go long term
+def days_at_time(days, t, tz, day_offset=0):
+    """
+    Create an index of days at time ``t``, interpreted in timezone ``tz``.
+
+    The returned index is localized to UTC.
+
+    Parameters
+    ----------
+    days : DatetimeIndex
+        An index of dates (represented as midnight).
+    t : datetime.time
+        The time to apply as an offset to each day in ``days``.
+    tz : pytz.timezone
+        The timezone to use to interpret ``t``.
+    day_offset : int
+        The number of days we want to offset @days by
+
+    Examples
+    --------
+    In the example below, the times switch from 13:45 to 12:45 UTC because
+    March 13th is the daylight savings transition for US/Eastern.  All the
+    times are still 8:45 when interpreted in US/Eastern.
+
+    >>> import pandas as pd; import datetime; import pprint
+    >>> dts = pd.date_range('2016-03-12', '2016-03-14')
+    >>> dts_at_845 = days_at_time(dts, datetime.time(8, 45), 'US/Eastern')
+    >>> pprint.pprint([str(dt) for dt in dts_at_845])
+    ['2016-03-12 13:45:00+00:00',
+     '2016-03-13 12:45:00+00:00',
+     '2016-03-14 12:45:00+00:00']
+    """
+    if len(days) == 0:
+        return days
+
+    # Offset days without tz to avoid timezone issues.
+    days = pd.DatetimeIndex(days).tz_localize(None)
+    delta = pd.Timedelta(
+        days=day_offset,
+        hours=t.hour,
+        minutes=t.minute,
+        seconds=t.second,
+    )
+    return (days + delta).tz_localize(tz).tz_convert('UTC')
+
+
+# NOTE: this is lifted from zipline.utils.input_validation, figure out what
+# to do with this long term
+def coerce(from_, to, **to_kwargs):
+    """
+    A preprocessing decorator that coerces inputs of a given type by passing
+    them to a callable.
+
+    Parameters
+    ----------
+    from : type or tuple or types
+        Inputs types on which to call ``to``.
+    to : function
+        Coercion function to call on inputs.
+    **to_kwargs
+        Additional keywords to forward to every call to ``to``.
+
+    Examples
+    --------
+    >>> @preprocess(x=coerce(float, int), y=coerce(float, int))
+    ... def floordiff(x, y):
+    ...     return x - y
+    ...
+    >>> floordiff(3.2, 2.5)
+    1
+
+    >>> @preprocess(x=coerce(str, int, base=2), y=coerce(str, int, base=2))
+    ... def add_binary_strings(x, y):
+    ...     return bin(x + y)[2:]
+    ...
+    >>> add_binary_strings('101', '001')
+    '110'
+    """
+    def preprocessor(func, argname, arg):
+        if isinstance(arg, from_):
+            return to(arg, **to_kwargs)
+        return arg
+    return preprocessor
 
 
 class TradingCalendar(with_metaclass(ABCMeta)):

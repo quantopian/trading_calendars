@@ -1,5 +1,10 @@
 """
 Utilities for validating inputs to user-facing API functions.
+
+Note
+----
+This file is lifted from zipline. Figure out how to dedupe this
+stuff later on.
 """
 from textwrap import dedent
 from types import CodeType

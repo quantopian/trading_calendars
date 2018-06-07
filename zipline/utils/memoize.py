@@ -1,3 +1,8 @@
+"""
+Note
+----
+Lifted from zipline.
+"""
 from weakref import WeakKeyDictionary
 
 
