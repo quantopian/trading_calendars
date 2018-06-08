@@ -28,6 +28,7 @@ from zipline.utils.calendars.trading_calendar import (
 def july_5th_holiday_observance(datetime_index):
     return datetime_index[datetime_index.year != 2013]
 
+
 # These have the same definition, but are used in different places because the
 # NYSE closed at 2:00 PM on Christmas Eve until 1993.
 ChristmasEveBefore1993 = Holiday(
