@@ -14,7 +14,7 @@ from uuid import uuid4
 from toolz.curried.operator import getitem
 from six import viewkeys, exec_, PY3
 
-from zipline.utils.compat import wraps
+from calendars.utils.compat import wraps
 
 
 _code_argorder = (

@@ -9,9 +9,9 @@ from pandas.tseries.holiday import (
 )
 from pytz import timezone
 
-from zipline.utils.calendars import TradingCalendar
-from zipline.utils.calendars.trading_calendar import HolidayCalendar
-from zipline.utils.calendars.us_holidays import (
+from calendars import TradingCalendar
+from calendars.trading_calendar import HolidayCalendar
+from calendars.us_holidays import (
     USMartinLutherKingJrAfter1998,
     USMemorialDay,
     USBlackFridayInOrAfter1993,

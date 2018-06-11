@@ -2,14 +2,13 @@
 Tests for TradingCalendarDispatcher.
 """
 from unittest import TestCase
-from zipline.errors import (
+from calendars.errors import (
     CalendarNameCollision,
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from zipline.utils.calendars.calendar_utils import TradingCalendarDispatcher
-from zipline.utils.calendars.exchange_calendar_ice import ICEExchangeCalendar
-
+from calendars.calendar_utils import TradingCalendarDispatcher
+from calendars.exchange_calendar_ice import ICEExchangeCalendar
 
 
 class CalendarAliasTestCase(TestCase):

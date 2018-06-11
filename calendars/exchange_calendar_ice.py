@@ -10,9 +10,9 @@ from pandas.tseries.holiday import (
 from pandas.tslib import Timestamp
 from pytz import timezone
 
-from zipline.utils.calendars import TradingCalendar
-from zipline.utils.calendars.trading_calendar import HolidayCalendar
-from zipline.utils.calendars.us_holidays import (
+from calendars import TradingCalendar
+from calendars.trading_calendar import HolidayCalendar
+from calendars.us_holidays import (
     USNewYearsDay,
     Christmas,
     USMartinLutherKingJrAfter1998,

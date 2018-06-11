@@ -29,24 +29,24 @@ from pandas.util.testing import assert_index_equal
 from pytz import timezone
 from toolz import concat
 
-from zipline.errors import (
+from calendars.errors import (
     CalendarNameCollision,
     InvalidCalendarName,
 )
 
-from zipline.utils.calendars import (
+from calendars import (
     deregister_calendar,
     get_calendar,
     register_calendar,
 )
-from zipline.utils.calendars.calendar_utils import (
+from calendars.calendar_utils import (
     _default_calendar_aliases,
     _default_calendar_factories,
     register_calendar_type,
 
 )
-from zipline.utils.calendars.trading_calendar import (
-    days_at_time, 
+from calendars.trading_calendar import (
+    days_at_time,
     TradingCalendar,
 )
 
@@ -182,8 +182,7 @@ class ExchangeCalendarTestBase(object):
         """
         fullpath = join(
             dirname(abspath(__file__)),
-            '../resources',
-            'calendars',
+            './resources',
             filename + '.csv',
         )
 

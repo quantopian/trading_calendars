@@ -4,11 +4,11 @@ from pandas import Timedelta, Timestamp
 from pandas.tseries.holiday import GoodFriday
 from pytz import timezone
 
-from zipline.utils.calendars import TradingCalendar
-from zipline.utils.calendars.trading_calendar import (
+from calendars import TradingCalendar
+from calendars.trading_calendar import (
     HolidayCalendar, end_default
 )
-from zipline.utils.calendars.us_holidays import (
+from calendars.us_holidays import (
     USNewYearsDay,
     Christmas
 )

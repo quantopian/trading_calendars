@@ -2,7 +2,7 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from zipline.utils.calendars.exchange_calendar_tsx import TSXExchangeCalendar
+from calendars.exchange_calendar_tsx import TSXExchangeCalendar
 
 
 class TSXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
@@ -178,7 +178,6 @@ class TSXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         # Christmas fell on a Saturday in 2010, so the following two trading
         # days should be holidays
-
         christmas_observed = pd.Timestamp('2016-12-26', tz='UTC')
         boxing_day_observed = pd.Timestamp('2016-12-27', tz='UTC')
 
@@ -198,7 +197,7 @@ class TSXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         christmas_observed = pd.Timestamp('2016-12-26', tz='UTC')
         boxing_day_observed = pd.Timestamp('2016-12-27', tz='UTC')
 
-        self.assertNotIn(christmas, self.calendar.all_sessions)
+        self.assertNotIn(christmas_observed, self.calendar.all_sessions)
         self.assertNotIn(boxing_day_observed, self.calendar.all_sessions)
 
     def test_start_end(self):

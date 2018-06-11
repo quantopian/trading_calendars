@@ -1,16 +1,16 @@
-from zipline.errors import (
+from calendars.errors import (
     CalendarNameCollision,
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from zipline.utils.calendars.exchange_calendar_cfe import CFEExchangeCalendar
-from zipline.utils.calendars.exchange_calendar_ice import ICEExchangeCalendar
-from zipline.utils.calendars.exchange_calendar_nyse import NYSEExchangeCalendar
-from zipline.utils.calendars.exchange_calendar_cme import CMEExchangeCalendar
-from zipline.utils.calendars.exchange_calendar_bmf import BMFExchangeCalendar
-from zipline.utils.calendars.exchange_calendar_lse import LSEExchangeCalendar
-from zipline.utils.calendars.exchange_calendar_tsx import TSXExchangeCalendar
-from zipline.utils.calendars.us_futures_calendar import (
+from calendars.exchange_calendar_cfe import CFEExchangeCalendar
+from calendars.exchange_calendar_ice import ICEExchangeCalendar
+from calendars.exchange_calendar_nyse import NYSEExchangeCalendar
+from calendars.exchange_calendar_cme import CMEExchangeCalendar
+from calendars.exchange_calendar_bmf import BMFExchangeCalendar
+from calendars.exchange_calendar_lse import LSEExchangeCalendar
+from calendars.exchange_calendar_tsx import TSXExchangeCalendar
+from calendars.us_futures_calendar import (
     QuantopianUSFuturesCalendar,
 )
 
@@ -41,7 +41,7 @@ class TradingCalendarDispatcher(object):
     A class for dispatching and caching trading calendars.
 
     Methods of a global instance of this class are provided by
-    zipline.utils.calendar_utils.
+    calendars.calendar_utils.
 
     Parameters
     ----------
@@ -68,7 +68,7 @@ class TradingCalendarDispatcher(object):
 
         Returns
         -------
-        calendar : zipline.utils.calendars.TradingCalendar
+        calendar : calendars.TradingCalendar
             The desired calendar.
         """
         canonical_name = self.resolve_alias(name)
