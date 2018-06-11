@@ -80,11 +80,11 @@ def days_at_time(days, t, tz, day_offset=0):
      '2016-03-13 12:45:00+00:00',
      '2016-03-14 12:45:00+00:00']
     """
+    days = pd.DatetimeIndex(days).tz_localize(None)
     if len(days) == 0:
-        return days
+        return days.tz_localize('UTC')
 
     # Offset days without tz to avoid timezone issues.
-    days = pd.DatetimeIndex(days).tz_localize(None)
     delta = pd.Timedelta(
         days=day_offset,
         hours=t.hour,

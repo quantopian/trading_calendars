@@ -14,13 +14,16 @@
 # limitations under the License.
 
 from datetime import time
+from itertools import chain
+from pandas import Timestamp
 from pandas.tseries.holiday import (
-    Holiday,
     DateOffset,
-    MO,
-    weekend_to_monday,
-    GoodFriday,
     EasterMonday,
+    GoodFriday,
+    Holiday,
+    MO,
+    previous_friday,
+    weekend_to_monday,
 )
 from pytz import timezone
 
@@ -31,6 +34,8 @@ from .trading_calendar import (
     HolidayCalendar
 )
 
+# Regular Holidays
+# ----------------
 # New Year's Day
 LSENewYearsDay = Holiday(
     "New Year's Day",
@@ -45,12 +50,30 @@ MayBank = Holiday(
     offset=DateOffset(weekday=MO(1)),
     day=1,
 )
-# Spring bank holiday
-SpringBank = Holiday(
+# Spring bank holiday is the last Monday in May except:
+# - in 2002, it was moved to June 3
+# - in 2012, it was moved to June 4
+SpringBankBefore2002 = Holiday(
     "Spring Bank Holiday",
     month=5,
     day=31,
     offset=DateOffset(weekday=MO(-1)),
+    end_date="2002-01-01",
+)
+SpringBank2002To2012 = Holiday(
+    "Spring Bank Holiday",
+    month=5,
+    day=31,
+    offset=DateOffset(weekday=MO(-1)),
+    start_date="2003-01-01",
+    end_date="2012-01-01",
+)
+SpringBank2013Onwards = Holiday(
+    "Spring Bank Holiday",
+    month=5,
+    day=31,
+    offset=DateOffset(weekday=MO(-1)),
+    start_date="2013-01-01",
 )
 # Summer bank holiday
 SummerBank = Holiday(
@@ -88,6 +111,33 @@ WeekendBoxingDay = Holiday(
     days_of_week=(MONDAY, TUESDAY),
 )
 
+# Early Closes
+# ------------
+# If Christmas Eve falls on a weekday, that day is a half day.
+# If it falls on a weekend, the preceding Friday is a half day.
+ChristmasEve = Holiday(
+    'Christmas Eve Early Close',
+    month=12,
+    day=24,
+    observance=previous_friday,
+)
+# New Year's eve (or the preceding Friday if it falls on a weekend)
+# is a half day.
+NewYearsEve = Holiday(
+    "New Year's Eve Early Close",
+    month=12,
+    day=31,
+    observance=previous_friday,
+)
+
+# Ad Hoc Closes
+# -------------
+SpringBank2002 = Timestamp("2002-06-03", tz="UTC")
+GoldenJubilee = Timestamp("2002-06-04", tz="UTC")
+RoyalWedding = Timestamp("2011-04-29", tz="UTC")
+SpringBank2012 = Timestamp("2012-06-04", tz="UTC")
+DiamondJubilee = Timestamp("2012-06-05", tz="UTC")
+
 
 class LSEExchangeCalendar(TradingCalendar):
     """
@@ -107,7 +157,12 @@ class LSEExchangeCalendar(TradingCalendar):
     - Dec. 27th (if Christmas is on a weekend)
     - Boxing Day
     - Dec. 28th (if Boxing Day is on a weekend)
+
+    Early Closes:
+    - Christmas Eve
+    - New Year's Eve
     """
+    regular_early_close = time(12, 30)
 
     @property
     def name(self):
@@ -132,10 +187,31 @@ class LSEExchangeCalendar(TradingCalendar):
             GoodFriday,
             EasterMonday,
             MayBank,
-            SpringBank,
+            SpringBankBefore2002,
+            SpringBank2002To2012,
+            SpringBank2013Onwards,
             SummerBank,
             Christmas,
             WeekendChristmas,
             BoxingDay,
             WeekendBoxingDay
         ])
+
+    @property
+    def adhoc_holidays(self):
+        return [
+            SpringBank2002,
+            GoldenJubilee,
+            RoyalWedding,
+            SpringBank2012,
+            DiamondJubilee,
+        ]
+
+    @property
+    def special_closes(self):
+        return [
+            (self.regular_early_close, HolidayCalendar([
+                ChristmasEve,
+                NewYearsEve,
+            ]))
+        ]
