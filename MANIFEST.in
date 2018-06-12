@@ -1,0 +1,7 @@
+include LICENSE
+
+include etc/requirements*.txt
+
+include calendars/resources *.csv
+include versioneer.py
+include calendars/_version.py
