@@ -32,3 +32,7 @@ __all__ = [
     'register_calendar_type',
     'TradingCalendar',
 ]
+
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
