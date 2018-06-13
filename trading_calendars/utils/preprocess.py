@@ -14,7 +14,7 @@ from uuid import uuid4
 from toolz.curried.operator import getitem
 from six import viewkeys, exec_, PY3
 
-from calendars.utils.compat import wraps
+from trading_calendars.utils.compat import wraps
 
 
 _code_argorder = (

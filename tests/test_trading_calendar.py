@@ -24,28 +24,28 @@ import numpy as np
 import pandas as pd
 from nose_parameterized import parameterized
 from pandas import read_csv
-from pandas.tslib import Timedelta
+from pandas import Timedelta
 from pandas.util.testing import assert_index_equal
 from pytz import timezone
 from toolz import concat
 
-from calendars.errors import (
+from trading_calendars.errors import (
     CalendarNameCollision,
     InvalidCalendarName,
 )
 
-from calendars import (
+from trading_calendars import (
     deregister_calendar,
     get_calendar,
     register_calendar,
 )
-from calendars.calendar_utils import (
+from trading_calendars.calendar_utils import (
     _default_calendar_aliases,
     _default_calendar_factories,
     register_calendar_type,
 
 )
-from calendars.trading_calendar import (
+from trading_calendars.trading_calendar import (
     days_at_time,
     TradingCalendar,
 )

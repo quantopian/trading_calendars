@@ -28,14 +28,14 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
-from calendars._calendar_helpers import (
+from trading_calendars._calendar_helpers import (
     compute_all_minutes,
     is_open,
     next_divider_idx,
     previous_divider_idx,
 )
-from calendars.utils.preprocess import preprocess
-from calendars.utils.memoize import lazyval
+from trading_calendars.utils.preprocess import preprocess
+from trading_calendars.utils.memoize import lazyval
 
 
 start_default = pd.Timestamp('1990-01-01', tz='UTC')

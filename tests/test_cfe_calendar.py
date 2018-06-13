@@ -2,7 +2,7 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from calendars.exchange_calendar_cfe import CFEExchangeCalendar
+from trading_calendars.exchange_calendar_cfe import CFEExchangeCalendar
 
 
 class CFECalendarTestCase(ExchangeCalendarTestBase, TestCase):

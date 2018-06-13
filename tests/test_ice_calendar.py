@@ -2,7 +2,7 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from calendars.exchange_calendar_ice import ICEExchangeCalendar
+from trading_calendars.exchange_calendar_ice import ICEExchangeCalendar
 
 
 class ICECalendarTestCase(ExchangeCalendarTestBase, TestCase):

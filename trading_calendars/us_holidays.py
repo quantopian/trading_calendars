@@ -16,7 +16,7 @@ from dateutil.relativedelta import (
 )
 from pandas.tseries.offsets import Day
 
-from calendars.trading_calendar import (
+from trading_calendars.trading_calendar import (
     MONDAY,
     TUESDAY,
     WEDNESDAY,

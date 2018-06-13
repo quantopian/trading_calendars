@@ -7,12 +7,12 @@ from pandas.tseries.holiday import (
     USLaborDay,
     USThanksgivingDay
 )
-from pandas.tslib import Timestamp
+from pandas import Timestamp
 from pytz import timezone
 
-from calendars import TradingCalendar
-from calendars.trading_calendar import HolidayCalendar
-from calendars.us_holidays import (
+from trading_calendars import TradingCalendar
+from trading_calendars.trading_calendar import HolidayCalendar
+from trading_calendars.us_holidays import (
     USNewYearsDay,
     Christmas,
     USMartinLutherKingJrAfter1998,

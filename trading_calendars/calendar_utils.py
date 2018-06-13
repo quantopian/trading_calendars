@@ -1,16 +1,16 @@
-from calendars.errors import (
+from trading_calendars.errors import (
     CalendarNameCollision,
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from calendars.exchange_calendar_cfe import CFEExchangeCalendar
-from calendars.exchange_calendar_ice import ICEExchangeCalendar
-from calendars.exchange_calendar_nyse import NYSEExchangeCalendar
-from calendars.exchange_calendar_cme import CMEExchangeCalendar
-from calendars.exchange_calendar_bmf import BMFExchangeCalendar
-from calendars.exchange_calendar_lse import LSEExchangeCalendar
-from calendars.exchange_calendar_tsx import TSXExchangeCalendar
-from calendars.us_futures_calendar import (
+from trading_calendars.exchange_calendar_cfe import CFEExchangeCalendar
+from trading_calendars.exchange_calendar_ice import ICEExchangeCalendar
+from trading_calendars.exchange_calendar_nyse import NYSEExchangeCalendar
+from trading_calendars.exchange_calendar_cme import CMEExchangeCalendar
+from trading_calendars.exchange_calendar_bmf import BMFExchangeCalendar
+from trading_calendars.exchange_calendar_lse import LSEExchangeCalendar
+from trading_calendars.exchange_calendar_tsx import TSXExchangeCalendar
+from trading_calendars.us_futures_calendar import (
     QuantopianUSFuturesCalendar,
 )
 

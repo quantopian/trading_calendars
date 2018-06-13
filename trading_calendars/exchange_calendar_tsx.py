@@ -10,7 +10,7 @@ from pandas.tseries.holiday import (
 )
 from pytz import timezone
 
-from calendars.trading_calendar import (
+from trading_calendars.trading_calendar import (
     TradingCalendar,
     HolidayCalendar,
     MONDAY,
@@ -19,7 +19,7 @@ from calendars.trading_calendar import (
     THURSDAY,
     FRIDAY,
 )
-from calendars.exchange_calendar_lse import (
+from trading_calendars.exchange_calendar_lse import (
     Christmas,
     WeekendChristmas,
     BoxingDay,

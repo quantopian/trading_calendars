@@ -2,13 +2,13 @@
 Tests for TradingCalendarDispatcher.
 """
 from unittest import TestCase
-from calendars.errors import (
+from trading_calendars.errors import (
     CalendarNameCollision,
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from calendars.calendar_utils import TradingCalendarDispatcher
-from calendars.exchange_calendar_ice import ICEExchangeCalendar
+from trading_calendars.calendar_utils import TradingCalendarDispatcher
+from trading_calendars.exchange_calendar_ice import ICEExchangeCalendar
 
 
 class CalendarAliasTestCase(TestCase):

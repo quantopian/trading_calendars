@@ -2,6 +2,6 @@ include LICENSE
 
 include etc/requirements*.txt
 
-include calendars/resources *.csv
+include trading_calendars/resources *.csv
 include versioneer.py
-include calendars/_version.py
+include trading_calendars/_version.py
