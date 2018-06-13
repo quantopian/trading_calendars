@@ -14,13 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from setuptools import (
-    Extension,
     find_packages,
     setup,
 )
 
-from Cython.Build import cythonize
-import numpy as np
 import versioneer
 
 DISTNAME = "trading_calendars"
@@ -54,6 +51,20 @@ classifiers = [
 ]
 
 
+reqs = [
+    "pandas",
+    "pytz",
+    "lru-dict",
+    "toolz",
+]
+
+test_reqs = [
+    "flake8",
+    "nose",
+    "parameterized",
+]
+
+
 if __name__ == '__main__':
     setup(
         name=DISTNAME,
@@ -67,5 +78,6 @@ if __name__ == '__main__':
         classifiers=classifiers,
         long_description=LONG_DESCRIPTION,
         packages=find_packages(),
-        ext_modules=ext_modules,
+        install_requires=reqs,
+        tests_require=test_reqs,
     )
