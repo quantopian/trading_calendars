@@ -53,14 +53,6 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 
-ext_modules = cythonize([
-    Extension(
-        'calendars._calendar_helpers',
-        ['calendars/_calendar_helpers.pyx'],
-        include_dirs=[np.get_include()]
-    ),
-])
-
 
 if __name__ == '__main__':
     setup(
