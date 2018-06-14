@@ -1,6 +1,6 @@
 import numpy as np
 
-NANOSECONDS_PER_MINUTE = 60000000000
+NANOSECONDS_PER_MINUTE = int(6e10)
 
 
 def next_divider_idx(dividers, minute_val):
