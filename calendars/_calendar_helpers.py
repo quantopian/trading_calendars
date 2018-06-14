@@ -57,19 +57,15 @@ def compute_all_minutes(opens_in_ns, closes_in_ns):
 
     # One allocation for the entire thing. This assumes that each day
     # represents a contiguous block of minutes.
-    all_minutes = np.empty(num_minutes, dtype='int64')
-    ix = 0
+    pieces = []
 
-    for day_ix in range(len(daily_sizes)):
-        size = daily_sizes[day_ix]
-        minute = opens_in_ns[day_ix]
-
-        all_minutes[ix:ix+size] = np.arange(
-            minute,
-            minute + (size * NANOSECONDS_PER_MINUTE),
-            NANOSECONDS_PER_MINUTE
+    for open_, size in zip(opens_in_ns, daily_sizes):
+        pieces.append(
+            np.arange(open_,
+                      open_ + size * NANOSECONDS_PER_MINUTE,
+                      NANOSECONDS_PER_MINUTE)
         )
 
-        ix += size
-
-    return all_minutes.view('datetime64[ns]')
+    out = np.concatenate(pieces).view('datetime64[ns]')
+    assert len(out) == num_minutes
+    return out
