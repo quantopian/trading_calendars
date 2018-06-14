@@ -272,22 +272,22 @@ class ExchangeCalendarTestBase(object):
         # - the minute before the close
         # - the last minute of the session
         # - the first minute after the close (if gaps exist between sessions)
-        answers_to_use = self.answers[1:-2]
+        opens = self.answers.market_open.iloc[1:-2]
+        closes = self.answers.market_close.iloc[1:-2]
 
-        for idx, info in enumerate(answers_to_use.iterrows()):
-            open_minute = info[1].iloc[0]
-            close_minute = info[1].iloc[1]
+        previous_opens = self.answers.market_open.iloc[:-1]
+        previous_closes = self.answers.market_close.iloc[:-1]
+
+        next_opens = self.answers.market_open.iloc[2:]
+        next_closes = self.answers.market_close.iloc[2:]
+
+        for (open_minute, close_minute,
+             previous_open, previous_close,
+             next_open, next_close) in zip(opens, closes,
+                                           previous_opens, previous_closes,
+                                           next_opens, next_closes):
 
             minute_before_open = open_minute - self.one_minute
-
-            # answers_to_use starts at the second element of self.answers,
-            # so self.answers.iloc[idx] is one element before, and
-            # self.answers.iloc[idx + 2] is one element after the current
-            # element
-            previous_open = self.answers.iloc[idx].market_open
-            next_open = self.answers.iloc[idx + 2].market_open
-            previous_close = self.answers.iloc[idx].market_close
-            next_close = self.answers.iloc[idx + 2].market_close
 
             # minute before open
             if self.GAPS_BETWEEN_SESSIONS:
