@@ -14,7 +14,6 @@
 # limitations under the License.
 
 from datetime import time
-from itertools import chain
 from pandas import Timestamp
 from pandas.tseries.holiday import (
     DateOffset,

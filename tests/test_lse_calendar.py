@@ -1,9 +1,8 @@
-from textwrap import dedent
 from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from zipline.utils.calendars.exchange_calendar_lse import LSEExchangeCalendar
+from trading_calendars.exchange_calendar_lse import LSEExchangeCalendar
 
 
 class LSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
@@ -55,12 +54,12 @@ class LSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         half_days = [
             # In Dec 2010, Christmas Eve and NYE are on Friday,
             # so they should be half days
-            pd.Timestamp('2010-12-24'),
-            pd.Timestamp('2010-12-31'),
+            pd.Timestamp('2010-12-24', tz='Europe/London'),
+            pd.Timestamp('2010-12-31', tz='Europe/London'),
             # In Dec 2011, Christmas Eve and NYE were both on a Saturday,
             # so the preceding Fridays (the 23rd and 30th) are half days
-            pd.Timestamp('2011-12-23'),
-            pd.Timestamp('2011-12-30'),
+            pd.Timestamp('2011-12-23', tz='Europe/London'),
+            pd.Timestamp('2011-12-30', tz='Europe/London'),
         ]
 
         for half_day in half_days:

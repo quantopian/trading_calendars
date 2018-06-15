@@ -28,14 +28,14 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
-from zipline.utils.calendars._calendar_helpers import (
+from trading_calendars.calendar_helpers import (
     compute_all_minutes,
     is_open,
     next_divider_idx,
     previous_divider_idx,
 )
-from zipline.utils.preprocess import preprocess
-from zipline.utils.memoize import lazyval
+from trading_calendars.utils.preprocess import preprocess
+from trading_calendars.utils.memoize import lazyval
 
 
 start_default = pd.Timestamp('1990-01-01', tz='UTC')
