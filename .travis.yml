@@ -24,18 +24,19 @@ before_install:
 install:
   - conda create -n testenv --yes -c quantopian pip python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION pandas=$PANDAS_VERSION scipy=$SCIPY_VERSION libgfortran=$LIBGFORTRAN_VERSION
   - source activate testenv
-
-before_script:
-  - "flake8 ."
+  - CACHE_DIR="$HOME/.cache/.pip/pip_np""$CONDA_NPY"
+  - python -m pip install --upgrade pip coveralls --cache-dir=$CACHE_DIR
 
 script:
+  - flake8 trading_calendars tests
   - nosetests tests
-  - source deactivate
+
+after_success:
+  - coveralls
 
 notifications:
   email: false
 
 branches:
   only:
-    - reorg_calendars
     - master

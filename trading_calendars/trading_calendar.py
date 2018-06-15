@@ -28,7 +28,7 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
-from trading_calendars._calendar_helpers import (
+from trading_calendars.calendar_helpers import (
     compute_all_minutes,
     is_open,
     next_divider_idx,
