@@ -52,16 +52,11 @@ classifiers = [
 
 
 reqs = [
+    "lru-dict",
+    "numpy",
     "pandas",
     "pytz",
-    "lru-dict",
     "toolz",
-]
-
-test_reqs = [
-    "flake8",
-    "nose",
-    "parameterized",
 ]
 
 
@@ -79,5 +74,4 @@ if __name__ == '__main__':
         long_description=LONG_DESCRIPTION,
         packages=find_packages(),
         install_requires=reqs,
-        tests_require=test_reqs,
     )
