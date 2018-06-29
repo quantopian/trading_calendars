@@ -818,7 +818,40 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         pd.DatetimeIndex (UTC)
             The list of session labels corresponding to the given minutes.
         """
-        return pd.Index(map(self.minute_to_session_label, index))
+        if not index.is_monotonic_increasing:
+            raise ValueError(
+                "Non-ordered index passed to minute_index_to_session_labels."
+            )
+
+        # Find the indices of the previous open and the next close for each
+        # minute.
+        prev_opens = (
+            self._opens.values.searchsorted(index.values, side='right') - 1
+        )
+        next_closes = (
+            self._closes.values.searchsorted(index.values, side='left')
+        )
+
+        # If they don't match, the minute is outside the trading day. Barf.
+        mismatches = (prev_opens != next_closes)
+        if mismatches.any():
+            # Show the first bad minute in the error message.
+            bad_ix = np.flatnonzero(mismatches)[0]
+            example = index[bad_ix]
+
+            prev_day = prev_opens[bad_ix]
+            prev_open, prev_close = self.schedule.iloc[prev_day]
+            next_open, next_close = self.schedule.iloc[prev_day + 1]
+
+            raise ValueError(
+                "{} non-market minutes in minute_index_to_session_labels:\n"
+                "First Bad Minute: {}\n"
+                "Previous Session: {} -> {}"
+                "Next Session: {} -> {}"
+                .format(example, prev_open, prev_close, next_open, next_close)
+            )
+
+        return self.schedule.index[prev_opens]
 
     def _special_dates(self, calendars, ad_hoc_dates, start_date, end_date):
         """
