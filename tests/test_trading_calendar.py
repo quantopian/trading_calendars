@@ -750,3 +750,52 @@ class ExchangeCalendarTestBase(object):
                 self.calendar.open_time.minute,
                 localized_open.minute
             )
+
+
+class OpenDetectionTestCase(TestCase):
+    # This is an extra set of unit tests that were added during a rewrite of
+    # `minute_index_to_session_labels` to ensure that the existing
+    # calendar-generic test suite correctly covered edge cases around
+    # non-market minutes.
+    def test_detect_non_market_minutes(self):
+        cal = get_calendar('NYSE')
+        # NOTE: This test is here instead of being on the base class for all
+        # calendars because some of our calendars are 24/7, which means there
+        # aren't any non-market minutes to find.
+        day0 = cal.minutes_for_sessions_in_range(
+            pd.Timestamp('2013-07-03', tz='UTC'),
+            pd.Timestamp('2013-07-03', tz='UTC'),
+        )
+        for minute in day0:
+            self.assertTrue(cal.is_open_on_minute(minute))
+
+        day1 = cal.minutes_for_sessions_in_range(
+            pd.Timestamp('2013-07-05', tz='UTC'),
+            pd.Timestamp('2013-07-05', tz='UTC'),
+        )
+        for minute in day1:
+            self.assertTrue(cal.is_open_on_minute(minute))
+
+        def NYSE_timestamp(s):
+            return pd.Timestamp(s, tz='US/Eastern').tz_convert('UTC')
+
+        non_market = [
+            # After close.
+            NYSE_timestamp('2013-07-03 16:01'),
+            # Holiday.
+            NYSE_timestamp('2013-07-04 10:00'),
+            # Before open.
+            NYSE_timestamp('2013-07-05 9:29'),
+        ]
+        for minute in non_market:
+            self.assertFalse(cal.is_open_on_minute(minute), minute)
+
+            input_ = pd.to_datetime(
+                np.hstack([day0.values, minute.asm8, day1.values]),
+                utc=True,
+            )
+            with self.assertRaises(ValueError) as e:
+                cal.minute_index_to_session_labels(input_)
+
+            exc_str = str(e.exception)
+            self.assertIn("First Bad Minute: {}".format(minute), exc_str)

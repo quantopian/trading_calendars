@@ -844,11 +844,15 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             next_open, next_close = self.schedule.iloc[prev_day + 1]
 
             raise ValueError(
-                "{} non-market minutes in minute_index_to_session_labels:\n"
-                "First Bad Minute: {}\n"
-                "Previous Session: {} -> {}"
-                "Next Session: {} -> {}"
-                .format(example, prev_open, prev_close, next_open, next_close)
+                "{num} non-market minutes in minute_index_to_session_labels:\n"
+                "First Bad Minute: {first_bad}\n"
+                "Previous Session: {prev_open} -> {prev_close}"
+                "Next Session: {next_open} -> {next_close}"
+                .format(
+                    num=mismatches.sum(),
+                    first_bad=example,
+                    prev_open=prev_open, prev_close=prev_close,
+                    next_open=next_open, next_close=next_close)
             )
 
         return self.schedule.index[prev_opens]
