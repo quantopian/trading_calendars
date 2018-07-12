@@ -265,3 +265,4 @@ deregister_calendar = global_calendar_dispatcher.deregister_calendar
 register_calendar = global_calendar_dispatcher.register_calendar
 register_calendar_type = global_calendar_dispatcher.register_calendar_type
 register_calendar_alias = global_calendar_dispatcher.register_calendar_alias
+resolve_alias = global_calendar_dispatcher.resolve_alias
