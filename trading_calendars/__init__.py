@@ -21,6 +21,7 @@ from .calendar_utils import (
     register_calendar,
     register_calendar_alias,
     register_calendar_type,
+    resolve_alias,
 )
 
 __all__ = [
@@ -30,6 +31,7 @@ __all__ = [
     'register_calendar',
     'register_calendar_alias',
     'register_calendar_type',
+    'resolve_alias',
     'TradingCalendar',
 ]
 
