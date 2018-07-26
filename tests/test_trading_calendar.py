@@ -171,9 +171,27 @@ class ExchangeCalendarTestBase(object):
     answer_key_filename = None
     calendar_class = None
 
+    # Affects tests that care about the empty periods between sessions. Should
+    # be set to False for 24/7 calendars.
     GAPS_BETWEEN_SESSIONS = True
 
+    # Affects tests that care about early closes. Should be set to False for
+    # calendars that don't have any early closes.
+    HAVE_EARLY_CLOSES = True
+
+    # Affects test_sanity_check_session_lengths. Should be set to the largest
+    # number of hours that ever appear in a single session.
     MAX_SESSION_HOURS = 0
+
+    # Affects test_minute_index_to_session_labels.
+    # Change these if the start/end dates of your test suite don't contain the
+    # defaults.
+    MINUTE_INDEX_TO_SESSION_LABELS_START = pd.Timestamp('2011-01-04', tz='UTC')
+    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-04', tz='UTC')
+
+    # Affects tests around daylight savings. If possible, should contain two
+    # dates that are not both in the same daylight savings regime.
+    DAYLIGHT_SAVINGS_DATES = ["2004-04-05", "2004-11-01"]
 
     @staticmethod
     def load_answer_key(filename):
@@ -454,8 +472,8 @@ class ExchangeCalendarTestBase(object):
     ])
     def test_minute_index_to_session_labels(self, interval, offset):
         minutes = self.calendar.minutes_for_sessions_in_range(
-            pd.Timestamp('2011-01-04', tz='UTC'),
-            pd.Timestamp('2011-04-04', tz='UTC'),
+            self.MINUTE_INDEX_TO_SESSION_LABELS_START,
+            self.MINUTE_INDEX_TO_SESSION_LABELS_END,
         )
         minutes = minutes[range(offset, len(minutes), interval)]
 
@@ -520,17 +538,18 @@ class ExchangeCalendarTestBase(object):
         )
 
         # early close period
-        early_close_session_label = self.calendar.early_closes[0]
-        minutes_for_early_close = \
-            self.calendar.minutes_for_session(early_close_session_label)
-        _open, _close = self.calendar.open_and_close_for_session(
-            early_close_session_label
-        )
+        if self.HAVE_EARLY_CLOSES:
+            early_close_session_label = self.calendar.early_closes[0]
+            minutes_for_early_close = \
+                self.calendar.minutes_for_session(early_close_session_label)
+            _open, _close = self.calendar.open_and_close_for_session(
+                early_close_session_label
+            )
 
-        np.testing.assert_array_equal(
-            minutes_for_early_close,
-            pd.date_range(start=_open, end=_close, freq="min")
-        )
+            np.testing.assert_array_equal(
+                minutes_for_early_close,
+                pd.date_range(start=_open, end=_close, freq="min")
+            )
 
     def test_sessions_in_range(self):
         # pick two sessions
@@ -552,8 +571,13 @@ class ExchangeCalendarTestBase(object):
         )
 
     def _get_session_block(self):
-        # find and return a (full session, early close session, full session)
-        # block
+        # Try to find and return a (full session, early close session, full
+        # session) block.
+
+        if not self.HAVE_EARLY_CLOSES:
+            # If we don't have any early closes, just return a "random" chunk
+            # of three sessions.
+            return self.calendar.all_sessions[10:13]
 
         shortened_session = self.calendar.early_closes[0]
         shortened_session_idx = \
@@ -726,7 +750,7 @@ class ExchangeCalendarTestBase(object):
         # make sure there's no weirdness around calculating the next day's
         # session's open time.
 
-        for date in ["2004-04-05", "2004-11-01"]:
+        for date in self.DAYLIGHT_SAVINGS_DATES:
             next_day = pd.Timestamp(date, tz='UTC')
             open_date = next_day + Timedelta(days=self.calendar.open_offset)
 
