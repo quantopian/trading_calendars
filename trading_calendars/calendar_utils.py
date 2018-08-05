@@ -212,8 +212,6 @@ class TradingCalendarDispatcher(object):
         canonical_name : str
             The real name of the calendar to create/return.
         """
-        # Use an OrderedDict as an ordered set so that we can return the order
-        # of aliases in the event of a cycle.
         seen = []
 
         while name in self._aliases:
