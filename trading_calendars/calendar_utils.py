@@ -25,6 +25,7 @@ _default_calendar_factories = {
     'LSE': LSEExchangeCalendar,
     'TSX': TSXExchangeCalendar,
     'us_futures': QuantopianUSFuturesCalendar,
+    '24/7': AlwaysOpenCalendar,
 }
 _default_calendar_aliases = {
     'NASDAQ': 'NYSE',

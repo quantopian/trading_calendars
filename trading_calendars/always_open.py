@@ -8,7 +8,7 @@ class AlwaysOpenCalendar(TradingCalendar):
     """
     @property
     def name(self):
-        return '24-7'
+        return '24/7'
 
     @property
     def tz(self):
