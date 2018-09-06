@@ -1,5 +1,5 @@
 #
-# Copyright 2016 Quantopian, Inc.
+# Copyright 2018 Quantopian, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -178,7 +178,7 @@ class ExchangeCalendarTestBase(object):
     @staticmethod
     def load_answer_key(filename):
         """
-        Load a CSV from tests/resources/calendars/{filename}.csv
+        Load a CSV from tests/resources/{filename}.csv
         """
         fullpath = join(
             dirname(abspath(__file__)),

@@ -4,6 +4,7 @@ from trading_calendars.errors import (
     InvalidCalendarName,
 )
 from trading_calendars.exchange_calendar_cfe import CFEExchangeCalendar
+from trading_calendars.exchange_calendar_fwb import FWBExchangeCalendar
 from trading_calendars.exchange_calendar_ice import ICEExchangeCalendar
 from trading_calendars.exchange_calendar_nyse import NYSEExchangeCalendar
 from trading_calendars.exchange_calendar_cme import CMEExchangeCalendar
@@ -17,6 +18,7 @@ from trading_calendars.us_futures_calendar import (
 _default_calendar_factories = {
     'NYSE': NYSEExchangeCalendar,
     'CME': CMEExchangeCalendar,
+    'FWB': FWBExchangeCalendar,
     'ICE': ICEExchangeCalendar,
     'CFE': CFEExchangeCalendar,
     'BMF': BMFExchangeCalendar,
