@@ -1,17 +1,18 @@
-from trading_calendars.errors import (
+from .always_open import AlwaysOpenCalendar
+from .errors import (
     CalendarNameCollision,
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from trading_calendars.exchange_calendar_cfe import CFEExchangeCalendar
-from trading_calendars.exchange_calendar_fwb import FWBExchangeCalendar
-from trading_calendars.exchange_calendar_ice import ICEExchangeCalendar
-from trading_calendars.exchange_calendar_nyse import NYSEExchangeCalendar
-from trading_calendars.exchange_calendar_cme import CMEExchangeCalendar
-from trading_calendars.exchange_calendar_bmf import BMFExchangeCalendar
-from trading_calendars.exchange_calendar_lse import LSEExchangeCalendar
-from trading_calendars.exchange_calendar_tsx import TSXExchangeCalendar
-from trading_calendars.us_futures_calendar import (
+from .exchange_calendar_bmf import BMFExchangeCalendar
+from .exchange_calendar_cfe import CFEExchangeCalendar
+from .exchange_calendar_cme import CMEExchangeCalendar
+from .exchange_calendar_fwb import FWBExchangeCalendar
+from .exchange_calendar_ice import ICEExchangeCalendar
+from .exchange_calendar_lse import LSEExchangeCalendar
+from .exchange_calendar_nyse import NYSEExchangeCalendar
+from .exchange_calendar_tsx import TSXExchangeCalendar
+from .us_futures_calendar import (
     QuantopianUSFuturesCalendar,
 )
 
@@ -25,6 +26,7 @@ _default_calendar_factories = {
     'LSE': LSEExchangeCalendar,
     'TSX': TSXExchangeCalendar,
     'us_futures': QuantopianUSFuturesCalendar,
+    '24/7': AlwaysOpenCalendar,
 }
 _default_calendar_aliases = {
     'NASDAQ': 'NYSE',
@@ -212,8 +214,6 @@ class TradingCalendarDispatcher(object):
         canonical_name : str
             The real name of the calendar to create/return.
         """
-        # Use an OrderedDict as an ordered set so that we can return the order
-        # of aliases in the event of a cycle.
         seen = []
 
         while name in self._aliases:

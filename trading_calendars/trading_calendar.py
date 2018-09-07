@@ -129,6 +129,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         return CustomBusinessDay(
             holidays=self.adhoc_holidays,
             calendar=self.regular_holidays,
+            weekmask=self.weekmask,
         )
 
     @abstractproperty
@@ -146,6 +147,19 @@ class TradingCalendar(with_metaclass(ABCMeta)):
     @abstractproperty
     def close_time(self):
         raise NotImplementedError()
+
+    @property
+    def weekmask(self):
+        """
+        String indicating the days of the week on which the market is open.
+
+        Default is '1111100' (i.e., Monday-Friday).
+
+        See Also
+        --------
+        numpy.busdaycalendar
+        """
+        return '1111100'
 
     @property
     def open_offset(self):
