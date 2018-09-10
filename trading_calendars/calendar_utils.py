@@ -11,6 +11,7 @@ from .exchange_calendar_fwb import FWBExchangeCalendar
 from .exchange_calendar_ice import ICEExchangeCalendar
 from .exchange_calendar_lse import LSEExchangeCalendar
 from .exchange_calendar_nyse import NYSEExchangeCalendar
+from .exchange_calendar_tse import TSEExchangeCalendar
 from .exchange_calendar_tsx import TSXExchangeCalendar
 from .us_futures_calendar import (
     QuantopianUSFuturesCalendar,
@@ -25,6 +26,7 @@ _default_calendar_factories = {
     'BMF': BMFExchangeCalendar,
     'LSE': LSEExchangeCalendar,
     'TSX': TSXExchangeCalendar,
+    'TSE': TSEExchangeCalendar,
     'us_futures': QuantopianUSFuturesCalendar,
     '24/7': AlwaysOpenCalendar,
 }
