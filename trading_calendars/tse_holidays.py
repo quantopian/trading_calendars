@@ -139,7 +139,6 @@ CitizensHolidayGoldenWeek = Holiday(
     "Citizen's Holiday Golden Week",
     month=5,
     day=4,
-    start_date='2000-01-01',
     end_date='2007-01-01'
 )
 
@@ -149,7 +148,6 @@ GreeneryDayThrough2006 = Holiday(
     "Greenery Day",
     month=4,
     day=29,
-    start_date='2000-01-01',
     end_date='2007-01-01',
     observance=sunday_to_monday,
 )
@@ -171,11 +169,10 @@ ConstitutionMemorialDay = Holiday(
 )
 
 
-MarineDay2000to2002 = Holiday(
-    "Marine Day (2000 to 2002)",
+MarineDayThrough2002 = Holiday(
+    "Marine Day (through 2002)",
     month=7,
     day=20,
-    start_date='2000-01-01',
     end_date='2003-01-01',
     observance=sunday_to_monday,
 )
@@ -221,11 +218,10 @@ CitizensHolidaySilverWeek = [
     Timestamp('2015-09-22'),
 ]
 
-RespectForTheAgedDay2000to2002 = Holiday(
-    "Respect for the Aged Day (2000 to 2002)",
+RespectForTheAgedDayThrough2002 = Holiday(
+    "Respect for the Aged Day (through 2002)",
     month=9,
     day=15,
-    start_date='2000-01-01',
     end_date='2003-01-01',
     observance=sunday_to_monday,
 )

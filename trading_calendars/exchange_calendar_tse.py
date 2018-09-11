@@ -1,10 +1,12 @@
 from datetime import time
 from itertools import chain
+import pandas as pd
 from pytz import timezone
 
-from trading_calendars.trading_calendar import (
+from .trading_calendar import (
     TradingCalendar,
     HolidayCalendar,
+    end_default,
 )
 from .tse_holidays import (
     NewYearsHolidayDec31,
@@ -20,11 +22,11 @@ from .tse_holidays import (
     GreeneryDay2007Onwards,
     CitizensHolidayGoldenWeek,
     ChildrensDay,
-    MarineDay2000to2002,
+    MarineDayThrough2002,
     MarineDay2003Onwards,
     AutumnalEquinoxes,
     CitizensHolidaySilverWeek,
-    RespectForTheAgedDay2000to2002,
+    RespectForTheAgedDayThrough2002,
     RespectForTheAgedDay2003Onwards,
     HealthAndSportsDay,
     CultureDay,
@@ -32,6 +34,9 @@ from .tse_holidays import (
     EmperorAkihitoBirthday,
     EmperorNaruhitoBirthday,
 )
+
+
+TSE_START_DEFAULT = pd.Timestamp('2000-01-01', tz='UTC')
 
 
 class TSEExchangeCalendar(TradingCalendar):
@@ -64,6 +69,10 @@ class TSEExchangeCalendar(TradingCalendar):
     - Labor Thanksgiving Day (Nov. 23)
     - Emperor's Birthday (Dec. 23)
     """
+    def __init__(self, start=TSE_START_DEFAULT, end=end_default):
+        # because we are not tracking holiday info farther back than 2000,
+        # make the default start date 01-01-2000
+        super(TSEExchangeCalendar, self).__init__(start=start, end=end)
 
     @property
     def name(self):
@@ -96,9 +105,9 @@ class TSEExchangeCalendar(TradingCalendar):
             GreeneryDay2007Onwards,
             CitizensHolidayGoldenWeek,
             ChildrensDay,
-            MarineDay2000to2002,
+            MarineDayThrough2002,
             MarineDay2003Onwards,
-            RespectForTheAgedDay2000to2002,
+            RespectForTheAgedDayThrough2002,
             RespectForTheAgedDay2003Onwards,
             HealthAndSportsDay,
             CultureDay,
