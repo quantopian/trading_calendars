@@ -71,7 +71,7 @@ class TSEExchangeCalendar(TradingCalendar):
 
     @property
     def tz(self):
-        return timezone('Japan')
+        return timezone('Asia/Tokyo')
 
     @property
     def open_time(self):
