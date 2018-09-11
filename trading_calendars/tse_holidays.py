@@ -19,7 +19,7 @@ def is_holiday_or_weekend(holidays, dt):
     Given a list of holidays, return whether dt is a holiday
     or it is on a weekend.
     """
-    one_day = timedelta(1)
+    one_day = timedelta(days=1)
 
     for h in holidays:
         if dt in h.dates(dt - one_day, dt + one_day) or \
@@ -49,12 +49,6 @@ def next_non_holiday_weekday(holidays, dt):
     return dt
 
 
-# New Year's Holidays (Dec. 31 - Jan. 3)
-NewYearsHolidayDec31 = Holiday(
-    "New Year's Holiday (Dec 31)",
-    month=12,
-    day=31,
-)
 NewYearsHolidayJan1 = Holiday(
     "New Year's Holiday (Jan 1)",
     month=1,
@@ -88,8 +82,10 @@ NationalFoundationDay = Holiday(
 # The dates on which the vernal/autumnal equinox will be observed
 # are announced on the first weekday of February of the previous
 # year, so we treat them as ad-hoc holidays, even though they
-# occur every year. For more info, see
+# occur every year. For more info, see:
 # https://en.wikipedia.org/wiki/Public_holidays_in_Japan#cite_note-3
+# For the list of equinoxes going back to 2000, see:
+# https://www.timeanddate.com/holidays/japan/
 VernalEquinoxes = [
     Timestamp('2000-03-20'),
     Timestamp('2001-03-20'),
@@ -270,7 +266,7 @@ EmperorAkihitoBirthday = Holiday(
     "Emperor Akihito's Birthday",
     month=12,
     day=23,
-    end_date="2019-01-01",
+    end_date="2019-04-30",
     observance=sunday_to_monday,
 )
 
@@ -278,6 +274,12 @@ EmperorNaruhitoBirthday = Holiday(
     "Emperor Naruhito's Birthday",
     month=2,
     day=23,
-    start_date="2020-01-01",
+    start_date="2019-04-30",
     observance=sunday_to_monday,
+)
+
+NewYearsHolidayDec31 = Holiday(
+    "New Year's Holiday (Dec 31)",
+    month=12,
+    day=31,
 )
