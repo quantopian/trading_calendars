@@ -28,15 +28,15 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
-from trading_calendars.calendar_helpers import (
+from .calendar_helpers import (
     compute_all_minutes,
     is_open,
     next_divider_idx,
     previous_divider_idx,
 )
-from trading_calendars.utils.memoize import lazyval
-from trading_calendars.utils.pandas_utils import days_at_time
-from trading_calendars.utils.preprocess import preprocess, coerce
+from .utils.memoize import lazyval
+from .utils.pandas_utils import days_at_time
+from .utils.preprocess import preprocess, coerce
 
 
 start_default = pd.Timestamp('1990-01-01', tz='UTC')
@@ -47,6 +47,8 @@ end_default = end_base + pd.Timedelta(days=365)
 
 NANOS_IN_MINUTE = 60000000000
 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY = range(7)
+WEEKDAYS = [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY]
+WEEKENDS = [SATURDAY, SUNDAY]
 
 
 class TradingCalendar(with_metaclass(ABCMeta)):
