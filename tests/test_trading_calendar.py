@@ -570,10 +570,12 @@ class ExchangeCalendarTestBase(object):
                                             second_session_label)
         )
 
-    def _get_session_block(self):
-        # Try to find and return a (full session, early close session, full
-        # session) block.
-
+    def get_session_block(self):
+        """
+        Get an "interesting" range of three sessions in a row. By default this
+        tries to find and return a (full session, early close session, full
+        session) block.
+        """
         if not self.HAVE_EARLY_CLOSES:
             # If we don't have any early closes, just return a "random" chunk
             # of three sessions.
@@ -591,7 +593,7 @@ class ExchangeCalendarTestBase(object):
         return [session_before, shortened_session, session_after]
 
     def test_minutes_in_range(self):
-        sessions = self._get_session_block()
+        sessions = self.get_session_block()
 
         first_open, first_close = self.calendar.open_and_close_for_session(
             sessions[0]
@@ -644,7 +646,7 @@ class ExchangeCalendarTestBase(object):
         np.testing.assert_array_equal(all_minutes, minutes1)
 
     def test_minutes_for_sessions_in_range(self):
-        sessions = self._get_session_block()
+        sessions = self.get_session_block()
 
         minutes = self.calendar.minutes_for_sessions_in_range(
             sessions[0],
@@ -668,7 +670,7 @@ class ExchangeCalendarTestBase(object):
         )
 
     def test_sessions_window(self):
-        sessions = self._get_session_block()
+        sessions = self.get_session_block()
 
         np.testing.assert_array_equal(
             self.calendar.sessions_window(sessions[0], len(sessions) - 1),
@@ -683,7 +685,7 @@ class ExchangeCalendarTestBase(object):
         )
 
     def test_session_distance(self):
-        sessions = self._get_session_block()
+        sessions = self.get_session_block()
 
         forward_distance = self.calendar.session_distance(
             sessions[0],

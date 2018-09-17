@@ -16,6 +16,7 @@ from .exchange_calendar_tsx import TSXExchangeCalendar
 from .us_futures_calendar import (
     QuantopianUSFuturesCalendar,
 )
+from .weekday_calendar import WeekdayCalendar
 
 _default_calendar_factories = {
     'NYSE': NYSEExchangeCalendar,
@@ -29,6 +30,7 @@ _default_calendar_factories = {
     'TSE': TSEExchangeCalendar,
     'us_futures': QuantopianUSFuturesCalendar,
     '24/7': AlwaysOpenCalendar,
+    '24/5': WeekdayCalendar,
 }
 _default_calendar_aliases = {
     'NASDAQ': 'NYSE',
