@@ -11,6 +11,7 @@ from .exchange_calendar_xfra import XFRAExchangeCalendar
 from .exchange_calendar_iepa import IEPAExchangeCalendar
 from .exchange_calendar_xlon import XLONExchangeCalendar
 from .exchange_calendar_xnys import XNYSExchangeCalendar
+from .exchange_calendar_xswx import XSWXExchangeCalendar
 from .exchange_calendar_xtks import XTKSExchangeCalendar
 from .exchange_calendar_xtse import XTSEExchangeCalendar
 from .us_futures_calendar import (
@@ -26,6 +27,7 @@ _default_calendar_factories = {
     'XCBF': XCBFExchangeCalendar,
     'BVMF': BVMFExchangeCalendar,
     'XLON': XLONExchangeCalendar,
+    'XSWX': XSWXExchangeCalendar,
     'XTSE': XTSEExchangeCalendar,
     'XTKS': XTKSExchangeCalendar,
     'us_futures': QuantopianUSFuturesCalendar,
