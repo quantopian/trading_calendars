@@ -26,22 +26,23 @@ from pandas.tseries.holiday import (
 )
 from pytz import timezone
 
+from .common_holidays import (
+    new_years_day,
+    christmas,
+    weekend_christmas,
+    boxing_day,
+    weekend_boxing_day,
+)
 from .trading_calendar import (
     TradingCalendar,
-    MONDAY,
-    TUESDAY,
-    HolidayCalendar
+    HolidayCalendar,
 )
 
 # Regular Holidays
 # ----------------
 # New Year's Day
-LSENewYearsDay = Holiday(
-    "New Year's Day",
-    month=1,
-    day=1,
-    observance=weekend_to_monday,
-)
+LSENewYearsDay = new_years_day(observance=weekend_to_monday)
+
 # Early May bank holiday
 MayBank = Holiday(
     "Early May Bank Holiday",
@@ -81,34 +82,14 @@ SummerBank = Holiday(
     day=31,
     offset=DateOffset(weekday=MO(-1)),
 )
-# Christmas
-Christmas = Holiday(
-    "Christmas",
-    month=12,
-    day=25,
-)
-# If christmas day is Saturday Monday 27th is a holiday
-# If christmas day is sunday the Tuesday 27th is a holiday
-WeekendChristmas = Holiday(
-    "Weekend Christmas",
-    month=12,
-    day=27,
-    days_of_week=(MONDAY, TUESDAY),
-)
-# Boxing day
-BoxingDay = Holiday(
-    "Boxing Day",
-    month=12,
-    day=26,
-)
-# If boxing day is saturday then Monday 28th is a holiday
-# If boxing day is sunday then Tuesday 28th is a holiday
-WeekendBoxingDay = Holiday(
-    "Weekend Boxing Day",
-    month=12,
-    day=28,
-    days_of_week=(MONDAY, TUESDAY),
-)
+
+Christmas = christmas()
+
+WeekendChristmas = weekend_christmas()
+
+BoxingDay = boxing_day()
+
+WeekendBoxingDay = weekend_boxing_day()
 
 # Early Closes
 # ------------

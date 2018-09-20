@@ -15,14 +15,22 @@
 
 from datetime import time
 from pandas.tseries.holiday import (
-    Easter,
     EasterMonday,
     GoodFriday,
     Holiday,
 )
-from pandas.tseries.offsets import Day
 from pytz import timezone
 
+from .common_holidays import (
+    new_years_day,
+    european_labour_day,
+    ascension_day,
+    whit_monday,
+    christmas_eve,
+    christmas,
+    boxing_day,
+    new_years_eve,
+)
 from .trading_calendar import (
     TradingCalendar,
     HolidayCalendar,
@@ -30,11 +38,7 @@ from .trading_calendar import (
 
 # Regular Holidays
 # ----------------
-SIXNewYearsDay = Holiday(
-    "New Year's Day",
-    month=1,
-    day=1,
-)
+NewYearsDay = new_years_day()
 
 BerchtoldsDay = Holiday(
     "Berchtold's Day",
@@ -42,25 +46,11 @@ BerchtoldsDay = Holiday(
     day=2,
 )
 
-LabourDay = Holiday(
-    "Labour Day",
-    month=5,
-    day=1,
-)
+EuropeanLabourDay = european_labour_day()
 
-AscensionDay = Holiday(
-    "Ascension Day",
-    month=1,
-    day=1,
-    offset=[Easter(), Day(39)],
-)
+AscensionDay = ascension_day()
 
-WhitMonday = Holiday(
-    "Whit Monday",
-    month=1,
-    day=1,
-    offset=[Easter(), Day(50)],
-)
+WhitMonday = whit_monday()
 
 SwissNationalDay = Holiday(
     "Swiss National Day",
@@ -68,29 +58,13 @@ SwissNationalDay = Holiday(
     day=1
 )
 
-ChristmasEve = Holiday(
-    'Christmas Eve',
-    month=12,
-    day=24,
-)
+ChristmasEve = christmas_eve()
 
-Christmas = Holiday(
-    "Christmas",
-    month=12,
-    day=25,
-)
+Christmas = christmas()
 
-BoxingDay = Holiday(
-    "Boxing Day",
-    month=12,
-    day=26,
-)
+BoxingDay = boxing_day()
 
-NewYearsEve = Holiday(
-    "New Year's Eve",
-    month=12,
-    day=31,
-)
+NewYearsEve = new_years_eve()
 
 
 class XSWXExchangeCalendar(TradingCalendar):
@@ -134,11 +108,11 @@ class XSWXExchangeCalendar(TradingCalendar):
     @property
     def regular_holidays(self):
         return HolidayCalendar([
-            SIXNewYearsDay,
+            NewYearsDay,
             BerchtoldsDay,
             EasterMonday,
             GoodFriday,
-            LabourDay,
+            EuropeanLabourDay,
             AscensionDay,
             WhitMonday,
             SwissNationalDay,
