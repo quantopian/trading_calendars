@@ -6,7 +6,8 @@ from .trading_calendar import MONDAY, TUESDAY
 
 def new_years_day(start_date=None,
                   end_date=None,
-                  observance=None):
+                  observance=None,
+                  days_of_week=None):
 
     return Holiday(
         "New Year's Day",
@@ -15,10 +16,14 @@ def new_years_day(start_date=None,
         start_date=start_date,
         end_date=end_date,
         observance=observance,
+        days_of_week=days_of_week,
     )
 
 
-def european_labour_day(start_date=None, end_date=None, observance=None):
+def european_labour_day(start_date=None,
+                        end_date=None,
+                        observance=None,
+                        days_of_week=None):
     return Holiday(
         "Labour Day",
         month=5,
@@ -26,6 +31,7 @@ def european_labour_day(start_date=None, end_date=None, observance=None):
         start_date=start_date,
         end_date=end_date,
         observance=observance,
+        days_of_week=days_of_week,
     )
 
 
@@ -54,7 +60,10 @@ def whit_monday(start_date=None, end_date=None):
     )
 
 
-def christmas_eve(start_date=None, end_date=None, observance=None):
+def christmas_eve(start_date=None,
+                  end_date=None,
+                  observance=None,
+                  days_of_week=None):
     return Holiday(
         'Christmas Eve',
         month=12,
@@ -62,10 +71,14 @@ def christmas_eve(start_date=None, end_date=None, observance=None):
         start_date=start_date,
         end_date=end_date,
         observance=observance,
+        days_of_week=days_of_week,
     )
 
 
-def christmas(start_date=None, end_date=None, observance=None):
+def christmas(start_date=None,
+              end_date=None,
+              observance=None,
+              days_of_week=None):
     return Holiday(
         "Christmas",
         month=12,
@@ -73,6 +86,7 @@ def christmas(start_date=None, end_date=None, observance=None):
         start_date=start_date,
         end_date=end_date,
         observance=observance,
+        days_of_week=days_of_week,
     )
 
 
@@ -92,7 +106,10 @@ def weekend_christmas(start_date=None, end_date=None, observance=None):
     )
 
 
-def boxing_day(start_date=None, end_date=None, observance=None):
+def boxing_day(start_date=None,
+               end_date=None,
+               observance=None,
+               days_of_week=None):
     return Holiday(
         "Boxing Day",
         month=12,
@@ -100,6 +117,7 @@ def boxing_day(start_date=None, end_date=None, observance=None):
         start_date=start_date,
         end_date=end_date,
         observance=observance,
+        days_of_week=days_of_week,
     )
 
 
@@ -119,7 +137,10 @@ def weekend_boxing_day(start_date=None, end_date=None, observance=None):
     )
 
 
-def new_years_eve(start_date=None, end_date=None, observance=None):
+def new_years_eve(start_date=None,
+                  end_date=None,
+                  observance=None,
+                  days_of_week=None):
     return Holiday(
         "New Year's Eve",
         month=12,
@@ -127,4 +148,5 @@ def new_years_eve(start_date=None, end_date=None, observance=None):
         start_date=start_date,
         end_date=end_date,
         observance=observance,
+        days_of_week=days_of_week,
     )
