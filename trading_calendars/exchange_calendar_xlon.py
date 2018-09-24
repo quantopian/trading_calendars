@@ -138,9 +138,9 @@ SpringBank2012 = Timestamp("2012-06-04", tz="UTC")
 DiamondJubilee = Timestamp("2012-06-05", tz="UTC")
 
 
-class LSEExchangeCalendar(TradingCalendar):
+class XLONExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for the London Stock Exchange
+    Exchange calendar for the London Stock Exchange (XLON).
 
     Open Time: 8:00 AM, GMT
     Close Time: 4:30 PM, GMT
@@ -165,7 +165,7 @@ class LSEExchangeCalendar(TradingCalendar):
 
     @property
     def name(self):
-        return "LSE"
+        return "XLON"
 
     @property
     def tz(self):

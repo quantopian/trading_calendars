@@ -31,7 +31,7 @@ from .trading_calendar import (
 
 # Regular Holidays
 # ----------------
-FWBNewYearsDay = Holiday(
+XFRANewYearsDay = Holiday(
     "New Year's Day",
     month=1,
     day=1,
@@ -94,9 +94,9 @@ LastWorkingDay = Holiday(
 )
 
 
-class FWBExchangeCalendar(TradingCalendar):
+class XFRAExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for the Frankfurt Stock Exchange.
+    Exchange calendar for the Frankfurt Stock Exchange (XFRA).
 
     Open Time: 9:00 AM, CET
     Close Time: 5:30 PM, CET
@@ -120,7 +120,7 @@ class FWBExchangeCalendar(TradingCalendar):
 
     @property
     def name(self):
-        return "FWB"
+        return "XFRA"
 
     @property
     def tz(self):
@@ -137,7 +137,7 @@ class FWBExchangeCalendar(TradingCalendar):
     @property
     def regular_holidays(self):
         return HolidayCalendar([
-            FWBNewYearsDay,
+            XFRANewYearsDay,
             GoodFriday,
             EasterMonday,
             LabourDay,

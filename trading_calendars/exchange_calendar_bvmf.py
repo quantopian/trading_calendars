@@ -146,9 +146,9 @@ AnoNovoSabado = Holiday(
 )
 
 
-class BMFExchangeCalendar(TradingCalendar):
+class BVMFExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for BM&F BOVESPA
+    Exchange calendar for BM&F BOVESPA (BVMF).
 
     Open Time: 10:00 AM, Brazil/Sao Paulo
     Close Time: 4:00 PM, Brazil/Sao Paulo
@@ -175,7 +175,7 @@ class BMFExchangeCalendar(TradingCalendar):
 
     @property
     def name(self):
-        return "BMF"
+        return "BVMF"
 
     @property
     def tz(self):

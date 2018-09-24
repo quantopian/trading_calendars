@@ -2,12 +2,12 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_cme import CMEExchangeCalendar
+from trading_calendars.exchange_calendar_cmes import CMESExchangeCalendar
 
 
-class CMECalendarTestCase(ExchangeCalendarTestBase, TestCase):
-    answer_key_filename = "cme"
-    calendar_class = CMEExchangeCalendar
+class CMESCalendarTestCase(ExchangeCalendarTestBase, TestCase):
+    answer_key_filename = "cmes"
+    calendar_class = CMESExchangeCalendar
     GAPS_BETWEEN_SESSIONS = False
     MAX_SESSION_HOURS = 24
 

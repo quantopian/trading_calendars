@@ -30,7 +30,7 @@ def july_5th_holiday_observance(datetime_index):
 
 
 # These have the same definition, but are used in different places because the
-# NYSE closed at 2:00 PM on Christmas Eve until 1993.
+# XNYS closed at 2:00 PM on Christmas Eve until 1993.
 ChristmasEveBefore1993 = Holiday(
     'Christmas Eve',
     month=12,

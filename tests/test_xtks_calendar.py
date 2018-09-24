@@ -2,8 +2,8 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_tse import TSEExchangeCalendar
-from trading_calendars.tse_holidays import (
+from trading_calendars.exchange_calendar_xtks import XTKSExchangeCalendar
+from trading_calendars.xtks_holidays import (
     AutumnalEquinoxes,
     ChildrensDay,
     CitizensHolidaySilverWeek,
@@ -15,10 +15,10 @@ from trading_calendars.tse_holidays import (
 from trading_calendars.trading_calendar import WEDNESDAY, SUNDAY
 
 
-class TSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
-    answer_key_filename = 'tse'
-    calendar_class = TSEExchangeCalendar
+    answer_key_filename = 'xtks'
+    calendar_class = XTKSExchangeCalendar
 
     MAX_SESSION_HOURS = 6
     HAVE_EARLY_CLOSES = False
@@ -170,7 +170,7 @@ class TSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         """
         start = pd.Timestamp('2010-1-3', tz='UTC')
         end = pd.Timestamp('2010-1-10', tz='UTC')
-        calendar = TSEExchangeCalendar(start=start, end=end)
+        calendar = XTKSExchangeCalendar(start=start, end=end)
         expected_first = pd.Timestamp('2010-1-4', tz='UTC')
         expected_last = pd.Timestamp('2010-1-8', tz='UTC')
         self.assertTrue(calendar.first_trading_session == expected_first)

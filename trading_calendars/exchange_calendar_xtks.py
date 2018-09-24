@@ -8,7 +8,7 @@ from .trading_calendar import (
     HolidayCalendar,
     end_default,
 )
-from .tse_holidays import (
+from .xtks_holidays import (
     NewYearsHolidayDec31,
     NewYearsHolidayJan1,
     NewYearsHolidayJan2,
@@ -36,10 +36,10 @@ from .tse_holidays import (
 )
 
 
-TSE_START_DEFAULT = pd.Timestamp('2000-01-01', tz='UTC')
+XTKS_START_DEFAULT = pd.Timestamp('2000-01-01', tz='UTC')
 
 
-class TSEExchangeCalendar(TradingCalendar):
+class XTKSExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for the Tokyo Stock Exchange
 
@@ -69,14 +69,14 @@ class TSEExchangeCalendar(TradingCalendar):
     - Labor Thanksgiving Day (Nov. 23)
     - Emperor's Birthday (Dec. 23)
     """
-    def __init__(self, start=TSE_START_DEFAULT, end=end_default):
+    def __init__(self, start=XTKS_START_DEFAULT, end=end_default):
         # because we are not tracking holiday info farther back than 2000,
         # make the default start date 01-01-2000
-        super(TSEExchangeCalendar, self).__init__(start=start, end=end)
+        super(XTKSExchangeCalendar, self).__init__(start=start, end=end)
 
     @property
     def name(self):
-        return "TSE"
+        return "XTKS"
 
     @property
     def tz(self):

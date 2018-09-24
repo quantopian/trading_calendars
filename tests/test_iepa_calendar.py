@@ -2,13 +2,13 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_ice import ICEExchangeCalendar
+from trading_calendars.exchange_calendar_iepa import IEPAExchangeCalendar
 
 
-class ICECalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class IEPACalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
-    answer_key_filename = 'ice'
-    calendar_class = ICEExchangeCalendar
+    answer_key_filename = 'iepa'
+    calendar_class = IEPAExchangeCalendar
     MAX_SESSION_HOURS = 22
 
     def test_hurricane_sandy_one_day(self):
@@ -16,7 +16,7 @@ class ICECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             self.calendar.is_session(pd.Timestamp("2012-10-29", tz='UTC'))
         )
 
-        # ICE wasn't closed on day 2 of hurricane sandy
+        # IEPA wasn't closed on day 2 of hurricane sandy
         self.assertTrue(
             self.calendar.is_session(pd.Timestamp("2012-10-30", tz='UTC'))
         )
@@ -47,7 +47,7 @@ class ICECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
             market_close = self.calendar.schedule.loc[dt].market_close
             self.assertEqual(
-                13,     # all ICE early closes are 1 pm local
+                13,     # all IEPA early closes are 1 pm local
                 market_close.tz_localize("UTC").tz_convert(
                     self.calendar.tz
                 ).hour

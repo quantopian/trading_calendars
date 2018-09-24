@@ -4,42 +4,43 @@ from .errors import (
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
-from .exchange_calendar_bmf import BMFExchangeCalendar
-from .exchange_calendar_cfe import CFEExchangeCalendar
-from .exchange_calendar_cme import CMEExchangeCalendar
-from .exchange_calendar_fwb import FWBExchangeCalendar
-from .exchange_calendar_ice import ICEExchangeCalendar
-from .exchange_calendar_lse import LSEExchangeCalendar
-from .exchange_calendar_nyse import NYSEExchangeCalendar
-from .exchange_calendar_tse import TSEExchangeCalendar
-from .exchange_calendar_tsx import TSXExchangeCalendar
+from .exchange_calendar_bvmf import BVMFExchangeCalendar
+from .exchange_calendar_xcbf import XCBFExchangeCalendar
+from .exchange_calendar_cmes import CMESExchangeCalendar
+from .exchange_calendar_xfra import XFRAExchangeCalendar
+from .exchange_calendar_iepa import IEPAExchangeCalendar
+from .exchange_calendar_xlon import XLONExchangeCalendar
+from .exchange_calendar_xnys import XNYSExchangeCalendar
+from .exchange_calendar_xtks import XTKSExchangeCalendar
+from .exchange_calendar_xtse import XTSEExchangeCalendar
 from .us_futures_calendar import (
     QuantopianUSFuturesCalendar,
 )
 from .weekday_calendar import WeekdayCalendar
 
 _default_calendar_factories = {
-    'NYSE': NYSEExchangeCalendar,
-    'CME': CMEExchangeCalendar,
-    'FWB': FWBExchangeCalendar,
-    'ICE': ICEExchangeCalendar,
-    'CFE': CFEExchangeCalendar,
-    'BMF': BMFExchangeCalendar,
-    'LSE': LSEExchangeCalendar,
-    'TSX': TSXExchangeCalendar,
-    'TSE': TSEExchangeCalendar,
+    'XNYS': XNYSExchangeCalendar,
+    'CMES': CMESExchangeCalendar,
+    'XFRA': XFRAExchangeCalendar,
+    'IEPA': IEPAExchangeCalendar,
+    'XCBF': XCBFExchangeCalendar,
+    'BVMF': BVMFExchangeCalendar,
+    'XLON': XLONExchangeCalendar,
+    'XTSE': XTSEExchangeCalendar,
+    'XTKS': XTKSExchangeCalendar,
     'us_futures': QuantopianUSFuturesCalendar,
     '24/7': AlwaysOpenCalendar,
     '24/5': WeekdayCalendar,
 }
 _default_calendar_aliases = {
-    'NASDAQ': 'NYSE',
-    'BATS': 'NYSE',
-    'CBOT': 'CME',
-    'COMEX': 'CME',
-    'NYMEX': 'CME',
-    'ICEUS': 'ICE',
-    'NYFE': 'ICE',
+    'NYSE': 'XNYS',
+    'NASDAQ': 'XNYS',
+    'BATS': 'XNYS',
+    'CBOT': 'CMES',
+    'COMEX': 'CMES',
+    'NYMEX': 'CMES',
+    'ICEUS': 'IEPA',
+    'NYFE': 'IEPA',
 }
 default_calendar_names = sorted(_default_calendar_factories.keys())
 

@@ -40,7 +40,7 @@ from .us_holidays import (
 )
 
 
-class CMEExchangeCalendar(TradingCalendar):
+class CMESExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for CME
 

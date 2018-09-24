@@ -47,9 +47,9 @@ from .us_holidays import (
 # http://www.stevemorse.org/jcal/whendid.html
 
 
-class NYSEExchangeCalendar(TradingCalendar):
+class XNYSExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for NYSE
+    Exchange calendar for NYSE (XNYS).
 
     Open Time: 9:31 AM, US/Eastern
     Close Time: 4:00 PM, US/Eastern
@@ -65,7 +65,7 @@ class NYSEExchangeCalendar(TradingCalendar):
     - Thanksgiving (fourth Thursday in November)
     - Christmas (observed on nearest weekday to December 25)
 
-    NOTE: The NYSE does not observe the following US Federal Holidays:
+    NOTE: The XNYS does not observe the following US Federal Holidays:
     - Columbus Day
     - Veterans Day
 
@@ -75,7 +75,7 @@ class NYSEExchangeCalendar(TradingCalendar):
     - Christmas Eve (except on Fridays, when the exchange is closed entirely)
     - Day After Thanksgiving (aka Black Friday, observed from 1992 onward)
 
-    NOTE: Until 1993, the standard early close time for the NYSE was 2:00 PM.
+    NOTE: Until 1993, the standard early close time for the XNYS was 2:00 PM.
     From 1993 onward, it has been 1:00 PM.
 
     Additional Irregularities:
@@ -99,7 +99,7 @@ class NYSEExchangeCalendar(TradingCalendar):
 
     @property
     def name(self):
-        return "NYSE"
+        return "XNYS"
 
     @property
     def tz(self):

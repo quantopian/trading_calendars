@@ -2,13 +2,13 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_fwb import FWBExchangeCalendar
+from trading_calendars.exchange_calendar_xfra import XFRAExchangeCalendar
 
 
-class FWBCalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XFRACalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
-    answer_key_filename = 'fwb'
-    calendar_class = FWBExchangeCalendar
+    answer_key_filename = 'xfra'
+    calendar_class = XFRAExchangeCalendar
 
     # The FWB is open from 9:00 am to 5:30 pm.
     MAX_SESSION_HOURS = 8.5
@@ -71,7 +71,7 @@ class FWBCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         """
         start = pd.Timestamp('2010-1-3', tz='UTC')
         end = pd.Timestamp('2010-1-10', tz='UTC')
-        calendar = FWBExchangeCalendar(start=start, end=end)
+        calendar = XFRAExchangeCalendar(start=start, end=end)
         expected_first = pd.Timestamp('2010-1-4', tz='UTC')
         expected_last = pd.Timestamp('2010-1-8', tz='UTC')
 

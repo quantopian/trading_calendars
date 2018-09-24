@@ -23,9 +23,9 @@ from trading_calendars.us_holidays import (
 )
 
 
-class CFEExchangeCalendar(TradingCalendar):
+class XCBFExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for the CBOE Futures Exchange (CFE).
+    Exchange calendar for the CBOE Futures Exchange (XCBF).
 
     http://cfe.cboe.com/aboutcfe/expirationcalendar.aspx
 
@@ -36,7 +36,7 @@ class CFEExchangeCalendar(TradingCalendar):
     """
     @property
     def name(self):
-        return "CFE"
+        return "XCBF"
 
     @property
     def tz(self):
