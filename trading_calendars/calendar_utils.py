@@ -36,11 +36,18 @@ _default_calendar_aliases = {
     'NYSE': 'XNYS',
     'NASDAQ': 'XNYS',
     'BATS': 'XNYS',
+    'FWB': 'XFRA',
+    'LSE': 'XLON',
+    'TSX': 'XTSE',
+    'BMF': 'BVMF',
+    'CME': 'CMES',
     'CBOT': 'CMES',
     'COMEX': 'CMES',
     'NYMEX': 'CMES',
+    'ICE': 'IEPA',
     'ICEUS': 'IEPA',
     'NYFE': 'IEPA',
+    'CFE': 'XCBF',
 }
 default_calendar_names = sorted(_default_calendar_factories.keys())
 
