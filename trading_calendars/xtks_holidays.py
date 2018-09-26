@@ -11,7 +11,8 @@ from pandas.tseries.holiday import (
     sunday_to_monday,
 )
 
-from trading_calendars.trading_calendar import SUNDAY, WEEKENDS
+from .common_holidays import new_years_day
+from .trading_calendar import SUNDAY, WEEKENDS
 
 
 def is_holiday_or_weekend(holidays, dt):
@@ -49,11 +50,8 @@ def next_non_holiday_weekday(holidays, dt):
     return dt
 
 
-NewYearsHolidayJan1 = Holiday(
-    "New Year's Holiday (Jan 1)",
-    month=1,
-    day=1,
-)
+NewYearsHolidayJan1 = new_years_day()
+
 NewYearsHolidayJan2 = Holiday(
     "New Year's Holiday (Jan 2)",
     month=1,

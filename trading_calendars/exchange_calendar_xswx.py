@@ -18,38 +18,44 @@ from pandas.tseries.holiday import (
     EasterMonday,
     GoodFriday,
     Holiday,
-    previous_workday
 )
 from pytz import timezone
 
 from .common_holidays import (
     new_years_day,
     european_labour_day,
+    ascension_day,
     whit_monday,
     christmas_eve,
     christmas,
     boxing_day,
     new_years_eve,
-
 )
 from .trading_calendar import (
     TradingCalendar,
-    HolidayCalendar
+    HolidayCalendar,
 )
 
 # Regular Holidays
 # ----------------
 NewYearsDay = new_years_day()
 
+BerchtoldsDay = Holiday(
+    "Berchtold's Day",
+    month=1,
+    day=2,
+)
+
 EuropeanLabourDay = european_labour_day()
 
-WhitMonday = whit_monday(start_date='2010-01-01')
+AscensionDay = ascension_day()
 
-DayOfGermanUnity = Holiday(
-    "Day of German Unity",
-    month=10,
-    day=3,
-    start_date='2014-01-01'
+WhitMonday = whit_monday()
+
+SwissNationalDay = Holiday(
+    "Swiss National Day",
+    month=8,
+    day=1
 )
 
 ChristmasEve = christmas_eve()
@@ -60,49 +66,36 @@ BoxingDay = boxing_day()
 
 NewYearsEve = new_years_eve()
 
-# Early Closes
-# ------------
-# The last weekday before Dec 31 is an early close starting in 2010.
-LastWorkingDay = Holiday(
-    "Last Working Day of Year Early Close",
-    month=12,
-    day=31,
-    start_date='2010-01-01',
-    observance=previous_workday,
-)
 
-
-class XFRAExchangeCalendar(TradingCalendar):
+class XSWXExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for the Frankfurt Stock Exchange (XFRA).
+    Exchange calendar for the Swiss Exchange (XSWX)
 
-    Open Time: 9:00 AM, CET
-    Close Time: 5:30 PM, CET
+    Open Time: 8:00 AM, CET, CEST in summer
+    Close Time: 5:30 PM, CET, CEST in summer
 
     Regularly-Observed Holidays:
-    - New Years Day
+    - New Year's Day
+    - Berchtold's Day
     - Good Friday
     - Easter Monday
-    - Whit Monday
     - Labour Day
-    - Day of German Unity
+    - Ascension Day
+    - Whit Monday
+    - Swiss National Day
     - Christmas Eve
     - Christmas Day
     - Boxing Day
-
-    Early Closes:
-    - Last working day before Dec. 31
+    - New Year's Eve
     """
-    # TODO: verify the early close time
-    regular_early_close = time(12, 30)
 
     @property
     def name(self):
-        return "XFRA"
+        return "XSWX"
 
     @property
     def tz(self):
-        return timezone('CET')
+        return timezone('Europe/Zurich')
 
     @property
     def open_time(self):
@@ -116,21 +109,15 @@ class XFRAExchangeCalendar(TradingCalendar):
     def regular_holidays(self):
         return HolidayCalendar([
             NewYearsDay,
-            GoodFriday,
+            BerchtoldsDay,
             EasterMonday,
+            GoodFriday,
             EuropeanLabourDay,
+            AscensionDay,
             WhitMonday,
-            DayOfGermanUnity,
+            SwissNationalDay,
             ChristmasEve,
             Christmas,
             BoxingDay,
             NewYearsEve,
         ])
-
-    @property
-    def special_closes(self):
-        return [
-            (self.regular_early_close, HolidayCalendar([
-                LastWorkingDay,
-            ]))
-        ]

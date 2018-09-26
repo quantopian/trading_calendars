@@ -10,7 +10,7 @@ from pandas.tseries.holiday import (
 )
 from pytz import timezone
 
-from trading_calendars.trading_calendar import (
+from .trading_calendar import (
     TradingCalendar,
     HolidayCalendar,
     MONDAY,
@@ -19,21 +19,19 @@ from trading_calendars.trading_calendar import (
     THURSDAY,
     FRIDAY,
 )
-from trading_calendars.exchange_calendar_xlon import (
-    Christmas,
-    WeekendChristmas,
-    BoxingDay,
-    WeekendBoxingDay
+
+from .common_holidays import (
+    new_years_day,
+    christmas,
+    weekend_christmas,
+    boxing_day,
+    weekend_boxing_day,
 )
 
 
 # New Year's Day
-XTSENewYearsDay = Holiday(
-    "New Year's Day",
-    month=1,
-    day=1,
-    observance=weekend_to_monday,
-)
+XTSENewYearsDay = new_years_day(observance=weekend_to_monday)
+
 # Ontario Family Day
 FamilyDay = Holiday(
     "Family Day",
@@ -85,6 +83,14 @@ ChristmasEveEarlyClose2010Onwards = Holiday(
     days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
     start_date=pd.Timestamp("2010-01-01"),
 )
+
+Christmas = christmas()
+
+WeekendChristmas = weekend_christmas()
+
+BoxingDay = boxing_day()
+
+WeekendBoxingDay = weekend_boxing_day()
 
 September11ClosingsCanada = pd.date_range('2001-09-11', '2001-09-12', tz='UTC')
 
