@@ -2,12 +2,12 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_cfe import CFEExchangeCalendar
+from trading_calendars.exchange_calendar_xcbf import XCBFExchangeCalendar
 
 
-class CFECalendarTestCase(ExchangeCalendarTestBase, TestCase):
-    answer_key_filename = "cfe"
-    calendar_class = CFEExchangeCalendar
+class XCBFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
+    answer_key_filename = "xcbf"
+    calendar_class = XCBFExchangeCalendar
 
     MAX_SESSION_HOURS = 8
 

@@ -40,9 +40,9 @@ from .us_holidays import (
 )
 
 
-class CMEExchangeCalendar(TradingCalendar):
+class CMESExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for CME
+    Exchange calendar for the Chicago Mercantile Exchange (CMES).
 
     Open Time: 5:00 PM, America/Chicago
     Close Time: 5:00 PM, America/Chicago

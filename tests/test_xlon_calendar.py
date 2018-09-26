@@ -2,15 +2,15 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_lse import LSEExchangeCalendar
+from trading_calendars.exchange_calendar_xlon import XLONExchangeCalendar
 
 
-class LSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XLONCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
-    answer_key_filename = 'lse'
-    calendar_class = LSEExchangeCalendar
+    answer_key_filename = 'xlon'
+    calendar_class = XLONExchangeCalendar
 
-    # The LSE is open from 8:00 am to 4:30 pm.
+    # The XLON exchange is open from 8:00 am to 4:30 pm.
     MAX_SESSION_HOURS = 8.5
 
     def test_2012(self):
@@ -75,7 +75,7 @@ class LSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         """
         start = pd.Timestamp('2010-1-3', tz='UTC')
         end = pd.Timestamp('2010-1-10', tz='UTC')
-        calendar = LSEExchangeCalendar(start=start, end=end)
+        calendar = XLONExchangeCalendar(start=start, end=end)
         expected_first = pd.Timestamp('2010-1-4', tz='UTC')
         expected_last = pd.Timestamp('2010-1-8', tz='UTC')
 

@@ -19,7 +19,7 @@ from trading_calendars.trading_calendar import (
     THURSDAY,
     FRIDAY,
 )
-from trading_calendars.exchange_calendar_lse import (
+from trading_calendars.exchange_calendar_xlon import (
     Christmas,
     WeekendChristmas,
     BoxingDay,
@@ -28,7 +28,7 @@ from trading_calendars.exchange_calendar_lse import (
 
 
 # New Year's Day
-TSXNewYearsDay = Holiday(
+XTSENewYearsDay = Holiday(
     "New Year's Day",
     month=1,
     day=1,
@@ -89,9 +89,9 @@ ChristmasEveEarlyClose2010Onwards = Holiday(
 September11ClosingsCanada = pd.date_range('2001-09-11', '2001-09-12', tz='UTC')
 
 
-class TSXExchangeCalendar(TradingCalendar):
+class XTSEExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for the Toronto Stock Exchange
+    Exchange calendar for the Toronto Stock Exchange (XTSE).
 
     Open Time: 9:30 AM, EST
     Close Time: 4:00 PM, EST
@@ -122,7 +122,7 @@ class TSXExchangeCalendar(TradingCalendar):
 
     @property
     def name(self):
-        return "TSX"
+        return "XTSE"
 
     @property
     def tz(self):
@@ -139,7 +139,7 @@ class TSXExchangeCalendar(TradingCalendar):
     @property
     def regular_holidays(self):
         return HolidayCalendar([
-            TSXNewYearsDay,
+            XTSENewYearsDay,
             FamilyDay,
             GoodFriday,
             VictoriaDay,

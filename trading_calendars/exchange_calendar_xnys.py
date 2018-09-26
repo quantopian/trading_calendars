@@ -47,9 +47,9 @@ from .us_holidays import (
 # http://www.stevemorse.org/jcal/whendid.html
 
 
-class NYSEExchangeCalendar(TradingCalendar):
+class XNYSExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for NYSE
+    Exchange calendar for the New York Stock Exchange (XNYS).
 
     Open Time: 9:31 AM, US/Eastern
     Close Time: 4:00 PM, US/Eastern
@@ -99,7 +99,7 @@ class NYSEExchangeCalendar(TradingCalendar):
 
     @property
     def name(self):
-        return "NYSE"
+        return "XNYS"
 
     @property
     def tz(self):

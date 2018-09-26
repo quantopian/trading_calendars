@@ -21,9 +21,9 @@ from trading_calendars.us_holidays import (
     USNationalDaysofMourning)
 
 
-class ICEExchangeCalendar(TradingCalendar):
+class IEPAExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for ICE US.
+    Exchange calendar for ICE US (IEPA).
 
     Open Time: 8pm, US/Eastern
     Close Time: 6pm, US/Eastern
@@ -32,7 +32,7 @@ class ICEExchangeCalendar(TradingCalendar):
     """
     @property
     def name(self):
-        return "ICE"
+        return "IEPA"
 
     @property
     def tz(self):

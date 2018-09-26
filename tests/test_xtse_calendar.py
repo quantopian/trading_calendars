@@ -2,13 +2,13 @@ from unittest import TestCase
 import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
-from trading_calendars.exchange_calendar_tsx import TSXExchangeCalendar
+from trading_calendars.exchange_calendar_xtse import XTSEExchangeCalendar
 
 
-class TSXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
-    answer_key_filename = 'tsx'
-    calendar_class = TSXExchangeCalendar
+    answer_key_filename = 'xtse'
+    calendar_class = XTSEExchangeCalendar
 
     MAX_SESSION_HOURS = 6.5
 
@@ -206,7 +206,7 @@ class TSXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         """
         start = pd.Timestamp('2010-1-3', tz='UTC')
         end = pd.Timestamp('2010-1-10', tz='UTC')
-        calendar = TSXExchangeCalendar(start=start, end=end)
+        calendar = XTSEExchangeCalendar(start=start, end=end)
         expected_first = pd.Timestamp('2010-1-4', tz='UTC')
         expected_last = pd.Timestamp('2010-1-8', tz='UTC')
         self.assertTrue(calendar.first_trading_session == expected_first)
