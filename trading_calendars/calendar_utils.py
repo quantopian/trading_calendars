@@ -5,21 +5,24 @@ from .errors import (
     InvalidCalendarName,
 )
 from .exchange_calendar_bvmf import BVMFExchangeCalendar
-from .exchange_calendar_xcbf import XCBFExchangeCalendar
 from .exchange_calendar_cmes import CMESExchangeCalendar
-from .exchange_calendar_xfra import XFRAExchangeCalendar
 from .exchange_calendar_iepa import IEPAExchangeCalendar
+from .exchange_calendar_xams import XAMSExchangeCalendar
+from .exchange_calendar_xbru import XBRUExchangeCalendar
+from .exchange_calendar_xcbf import XCBFExchangeCalendar
+from .exchange_calendar_xfra import XFRAExchangeCalendar
+from .exchange_calendar_xlis import XLISExchangeCalendar
 from .exchange_calendar_xlon import XLONExchangeCalendar
 from .exchange_calendar_xnys import XNYSExchangeCalendar
+from .exchange_calendar_xpar import XPARExchangeCalendar
 from .exchange_calendar_xswx import XSWXExchangeCalendar
 from .exchange_calendar_xtks import XTKSExchangeCalendar
 from .exchange_calendar_xtse import XTSEExchangeCalendar
-from .us_futures_calendar import (
-    QuantopianUSFuturesCalendar,
-)
+from .us_futures_calendar import QuantopianUSFuturesCalendar
 from .weekday_calendar import WeekdayCalendar
 
 _default_calendar_factories = {
+    # Exchange calendars.
     'XNYS': XNYSExchangeCalendar,
     'CMES': CMESExchangeCalendar,
     'XFRA': XFRAExchangeCalendar,
@@ -30,6 +33,11 @@ _default_calendar_factories = {
     'XSWX': XSWXExchangeCalendar,
     'XTSE': XTSEExchangeCalendar,
     'XTKS': XTKSExchangeCalendar,
+    'XBRU': XBRUExchangeCalendar,
+    'XPAR': XPARExchangeCalendar,
+    'XAMS': XAMSExchangeCalendar,
+    'XLIS': XLISExchangeCalendar,
+    # Miscellaneous calendars.
     'us_futures': QuantopianUSFuturesCalendar,
     '24/7': AlwaysOpenCalendar,
     '24/5': WeekdayCalendar,

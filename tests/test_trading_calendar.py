@@ -778,6 +778,83 @@ class ExchangeCalendarTestBase(object):
             )
 
 
+class EuronextCalendarTestBase(ExchangeCalendarTestBase):
+    """
+    Shared tests for countries on the Euronext exchange.
+    """
+    # Early close is 2:05 PM.
+    # Source: https://www.euronext.com/en/calendars-hours
+    TIMEDELTA_TO_EARLY_CLOSE = pd.Timedelta(hours=14, minutes=5)
+
+    def test_normal_year(self):
+        expected_holidays_2014 = [
+            pd.Timestamp('2014-01-01', tz='UTC'),  # New Year's Day
+            pd.Timestamp('2014-04-18', tz='UTC'),  # Good Friday
+            pd.Timestamp('2014-04-21', tz='UTC'),  # Easter Monday
+            pd.Timestamp('2014-05-01', tz='UTC'),  # Labor Day
+            pd.Timestamp('2014-12-25', tz='UTC'),  # Christmas
+            pd.Timestamp('2014-12-26', tz='UTC'),  # Boxing Day
+        ]
+
+        for session_label in expected_holidays_2014:
+            self.assertNotIn(session_label, self.calendar.all_sessions)
+
+        early_closes_2014 = [
+            pd.Timestamp('2014-12-24', tz='UTC'),  # Christmas Eve
+            pd.Timestamp('2014-12-31', tz='UTC'),  # New Year's Eve
+        ]
+
+        for early_close_session_label in early_closes_2014:
+            self.assertIn(
+                early_close_session_label,
+                self.calendar.early_closes,
+            )
+
+    def test_holidays_fall_on_weekend(self):
+        # Holidays falling on a weekend should not be made up during the week.
+        expected_sessions = [
+            # In 2010, Labor Day fell on a Saturday, so the market should be
+            # open on both the prior Friday and the following Monday.
+            pd.Timestamp('2010-04-30', tz='UTC'),
+            pd.Timestamp('2010-05-03', tz='UTC'),
+            # Christmas also fell on a Saturday, meaning Boxing Day fell on a
+            # Sunday. The market should still be open on both the prior Friday
+            # and the following Monday.
+            pd.Timestamp('2010-12-24', tz='UTC'),
+            pd.Timestamp('2010-12-27', tz='UTC'),
+        ]
+
+        for session_label in expected_sessions:
+            self.assertIn(session_label, self.calendar.all_sessions)
+
+    def test_half_days(self):
+        half_days = [
+            # In 2010, Christmas Eve and NYE are on Friday, so they should be
+            # half days.
+            pd.Timestamp('2010-12-24', tz=self.TZ),
+            pd.Timestamp('2010-12-31', tz=self.TZ),
+        ]
+        full_days = [
+            # In Dec 2011, Christmas Eve and NYE were both on a Saturday, so
+            # the preceding Fridays should be full days.
+            pd.Timestamp('2011-12-23', tz=self.TZ),
+            pd.Timestamp('2011-12-30', tz=self.TZ),
+        ]
+
+        for half_day in half_days:
+            half_day_close_time = self.calendar.next_close(half_day)
+            self.assertEqual(
+                half_day_close_time,
+                half_day + self.TIMEDELTA_TO_EARLY_CLOSE,
+            )
+        for full_day in full_days:
+            full_day_close_time = self.calendar.next_close(full_day)
+            self.assertEqual(
+                full_day_close_time,
+                full_day + self.TIMEDELTA_TO_NORMAL_CLOSE,
+            )
+
+
 class OpenDetectionTestCase(TestCase):
     # This is an extra set of unit tests that were added during a rewrite of
     # `minute_index_to_session_labels` to ensure that the existing
