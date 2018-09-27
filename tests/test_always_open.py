@@ -53,3 +53,12 @@ class AlwaysOpenTestCase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2016-02-28', tz='utc'),
         )
         assert_index_equal(minutes, cal_minutes)
+
+    def test_start_end(self):
+
+        start = pd.Timestamp('2010-1-3', tz='UTC')
+        end = pd.Timestamp('2010-1-10', tz='UTC')
+        calendar = self.calendar_class(start=start, end=end)
+
+        self.assertTrue(calendar.first_trading_session == start)
+        self.assertTrue(calendar.last_trading_session == end)
