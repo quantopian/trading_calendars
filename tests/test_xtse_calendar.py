@@ -199,15 +199,3 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         self.assertNotIn(christmas_observed, self.calendar.all_sessions)
         self.assertNotIn(boxing_day_observed, self.calendar.all_sessions)
-
-    def test_start_end(self):
-        """
-        Check TradingCalendar with defined start/end dates.
-        """
-        start = pd.Timestamp('2010-1-3', tz='UTC')
-        end = pd.Timestamp('2010-1-10', tz='UTC')
-        calendar = XTSEExchangeCalendar(start=start, end=end)
-        expected_first = pd.Timestamp('2010-1-4', tz='UTC')
-        expected_last = pd.Timestamp('2010-1-8', tz='UTC')
-        self.assertTrue(calendar.first_trading_session == expected_first)
-        self.assertTrue(calendar.last_trading_session == expected_last)
