@@ -29,6 +29,7 @@ from pytz import timezone
 
 from .common_holidays import (
     new_years_day,
+    anzac_day,
     christmas,
     boxing_day,
 )
@@ -56,12 +57,7 @@ WaitangiDay = Holiday(
     observance=weekend_to_monday,
 )
 
-AnzacDay = Holiday(
-    "Anzac Day",
-    month=4,
-    day=25,
-    observance=weekend_to_monday,
-)
+AnzacDay = anzac_day(observance=weekend_to_monday)
 
 QueensBirthday = Holiday(
     "Queen's Birthday",
