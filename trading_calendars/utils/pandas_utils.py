@@ -44,3 +44,25 @@ def days_at_time(days, t, tz, day_offset=0):
         seconds=t.second,
     )
     return (days + delta).tz_localize(tz).tz_convert('UTC')
+
+
+def series_from_records(records):
+    """Construct a Series from a list of tuples.
+
+    Parameters
+    ----------
+    records : list[tuple]
+        A list of tuples, with the first element in each tuple
+        corresponding to a Series index, and the second element in each
+        corresponding to Series values.
+
+    Returns
+    -------
+    pd.Series
+    """
+    df = pd.DataFrame.from_records(records, index=[0])
+
+    if df.empty:
+        return pd.Series()
+
+    return df[1]
