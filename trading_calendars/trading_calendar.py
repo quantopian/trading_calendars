@@ -88,8 +88,8 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         _special_closes = self._calculate_special_closes(start, end)
 
         # Overwrite the special opens and closes on top of the standard ones.
-        _overwrite_special_opens(self._opens, self._closes, _special_opens)
-        _overwrite_special_closes(self._opens, self._closes, _special_closes)
+        _overwrite_special_dates(_all_days, self._opens, _special_opens)
+        _overwrite_special_dates(_all_days, self._closes, _special_closes)
 
         # In pandas 0.16.1 _opens and _closes will lose their timezone
         # information. This looks like it has been resolved in 0.17.1.
@@ -917,48 +917,40 @@ def holidays_at_time(calendar, start, end, time, tz):
     )
 
 
-def _overwrite_special_opens(opens,
-                             closes,
-                             special_opens):
+def _overwrite_special_dates(midnight_utcs,
+                             opens_or_closes,
+                             special_opens_or_closes):
     """
-    Overwrite dates in special_opens_or_closes.
+    Overwrite dates in open_or_closes with corresponding dates in
+    special_opens_or_closes, using midnight_utcs for alignment.
     """
     # Short circuit when nothing to apply.
-    if not len(special_opens):
+    if not len(special_opens_or_closes):
         return
 
-    indexer = closes.searchsorted(special_opens)
+    len_m, len_oc = len(midnight_utcs), len(opens_or_closes)
+    if len_m != len_oc:
+        raise ValueError(
+            "Found misaligned dates while building calendar.\n"
+            "Expected midnight_utcs to be the same length as open_or_closes,\n"
+            "but len(midnight_utcs)=%d, len(open_or_closes)=%d" % len_m, len_oc
+        )
 
-    # TODO: Is there a check we can do to ensure that we've matched the
-    #       special opens with the correct session?
+    # Find the array indices corresponding to each special date.
+    indexer = midnight_utcs.get_indexer(special_opens_or_closes.normalize())
+
+    # -1 indicates that no corresponding entry was found.  If any -1s are
+    # present, then we have special dates that doesn't correspond to any
+    # trading day.
+    if -1 in indexer:
+        bad_dates = list(special_opens_or_closes[indexer == -1])
+        raise ValueError("Special dates %s are not trading days." % bad_dates)
 
     # NOTE: This is a slightly dirty hack.  We're in-place overwriting the
     # internal data of an Index, which is conceptually immutable.  Since we're
     # maintaining sorting, this should be ok, but this is a good place to
     # sanity check if things start going haywire with calendar computations.
-    opens.values[indexer] = special_opens.values
-
-
-def _overwrite_special_closes(opens,
-                              closes,
-                              special_closes):
-    """
-    Overwrite dates in special_closes.
-    """
-    # Short circuit when nothing to apply.
-    if not len(special_closes):
-        return
-
-    indexer = opens.searchsorted(special_closes) - 1
-
-    # TODO: Is there a check we can do to ensure that we've matched the
-    #       special opens/closes with the correct session?
-
-    # NOTE: This is a slightly dirty hack.  We're in-place overwriting the
-    # internal data of an Index, which is conceptually immutable.  Since we're
-    # maintaining sorting, this should be ok, but this is a good place to
-    # sanity check if things start going haywire with calendar computations.
-    closes.values[indexer] = special_closes.values
+    opens_or_closes.values[indexer] = special_opens_or_closes.values
 
 
 class HolidayCalendar(AbstractHolidayCalendar):
