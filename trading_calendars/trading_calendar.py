@@ -28,7 +28,6 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
-from toolz import concat
 
 from .calendar_helpers import (
     compute_all_minutes,
@@ -37,7 +36,7 @@ from .calendar_helpers import (
     previous_divider_idx,
 )
 from .utils.memoize import lazyval
-from .utils.pandas_utils import days_at_time, series_from_records
+from .utils.pandas_utils import days_at_time
 from .utils.preprocess import preprocess, coerce
 
 
@@ -885,15 +884,32 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
     def _special_dates(self, calendars, ad_hoc_dates, start_date, end_date):
         """
-        Combine an iterable of pairs of the form (time, calendar)
-        and an iterable of pairs of the form (time, [dates]) into a
-        Series mapping each special session to the special time on that
-        session.
+        Compute a Series of times associated with special dates.
 
-        (This is shared logic for computing special opens and special closes.)
+        Parameters
+        ----------
+        holiday_calendars : list[(datetime.time, HolidayCalendar)]
+            Pairs of time and calendar describing when that time occurs. These
+            are used to describe regularly-scheduled late opens or early
+            closes.
+        ad_hoc_dates : list[(datetime.time, list[pd.Timestamp])]
+            Pairs of time and list of dates associated with the given times.
+            These are used to describe late opens or early closes that occurred
+            for unscheduled or otherwise irregular reasons.
+        start_date : pd.Timestamp
+            Start of the range for which we should calculate special dates.
+        end_date : pd.Timestamp
+            End of the range for which we should calculate special dates.
+
+        Returns
+        -------
+        special_dates : pd.Series
+            Series mapping trading sessions with special opens/closes to the
+            special open/close for that session.
         """
-        holiday_schedule = concat(
-            schedule_for_holidays_at_time(
+        # List of Series for regularly-scheduled times.
+        regular = [
+            scheduled_special_times(
                 calendar,
                 start_date,
                 end_date,
@@ -901,21 +917,24 @@ class TradingCalendar(with_metaclass(ABCMeta)):
                 self.tz,
             )
             for time_, calendar in calendars
-        )
+        ]
 
-        ad_hoc_holiday_schedule = concat(
-            zip(datetimes, days_at_time(datetimes, time_, self.tz))
+        # List of Series for ad-hoc times.
+        ad_hoc = [
+            pd.Series(
+                index=pd.to_datetime(datetimes, utc=True),
+                data=days_at_time(datetimes, time_, self.tz),
+            )
             for time_, datetimes in ad_hoc_dates
-        )
+        ]
 
-        schedule = series_from_records(
-            concat([
-                holiday_schedule,
-                ad_hoc_holiday_schedule,
-            ])
-        )
+        merged = regular + ad_hoc
+        if not merged:
+            # Concat barfs if the input has length 0.
+            return pd.Series([])
 
-        return schedule[(schedule >= start_date) & (schedule <= end_date)]
+        result = pd.concat(merged).sort_index()
+        return result[(result >= start_date) & (result <= end_date)]
 
     def _calculate_special_opens(self, start, end):
         return self._special_dates(
@@ -934,14 +953,17 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         )
 
 
-def schedule_for_holidays_at_time(calendar, start, end, time, tz):
+def scheduled_special_times(calendar, start, end, time, tz):
     """
     Returns a Series mapping each holiday (as a UTC midnight Timestamp)
     in ``calendar`` between ``start`` and ``end`` to that session at
     ``time`` (as a UTC Timestamp).
     """
     days = calendar.holidays(start, end)
-    return zip(days, days_at_time(days, time, tz=tz))
+    return pd.Series(
+        index=pd.DatetimeIndex(days, tz='UTC'),
+        data=days_at_time(days, time, tz=tz),
+    )
 
 
 def _overwrite_special_dates(midnight_utcs,
