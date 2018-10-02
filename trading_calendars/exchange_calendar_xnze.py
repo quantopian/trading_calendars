@@ -115,6 +115,8 @@ class XNZEExchangeCalendar(TradingCalendar):
     - New Year's Day
     - Day after New Year's Day
     - Waitangi Day
+    - Good Friday
+    - Easter Monday
     - Anzac Day
     - Queen's Birthday
     - Labour Day
@@ -151,9 +153,9 @@ class XNZEExchangeCalendar(TradingCalendar):
             WaitangiDay,
             GoodFriday,
             EasterMonday,
+            AnzacDay,
             QueensBirthday,
             LabourDay,
-            AnzacDay,
             Christmas,
             WeekendChristmas,
             BoxingDay,
