@@ -11,6 +11,11 @@ class XNZECalendarTestCase(ExchangeCalendarTestBase, TestCase):
     answer_key_filename = 'xnze'
     calendar_class = XNZEExchangeCalendar
 
+    MINUTE_INDEX_TO_SESSION_LABELS_START = pd.Timestamp('2011-01-05', tz='UTC')
+    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-05', tz='UTC')
+
+    TEST_START_END_EXPECTED_FIRST = pd.Timestamp('2010-1-5', tz='UTC')
+
     # The New Zealand Exchange is open from 10:00 am to 4:45 pm.
     MAX_SESSION_HOURS = 6.75
 

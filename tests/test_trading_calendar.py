@@ -193,6 +193,11 @@ class ExchangeCalendarTestBase(object):
     # dates that are not both in the same daylight savings regime.
     DAYLIGHT_SAVINGS_DATES = ["2004-04-05", "2004-11-01"]
 
+    # Affects test_start_end. Change these if your calendar start/end
+    # dates between 2010-01-03 and 2010-01-10 don't match the defaults.
+    TEST_START_END_EXPECTED_FIRST = pd.Timestamp('2010-01-04', tz='UTC')
+    TEST_START_END_EXPECTED_LAST = pd.Timestamp('2010-01-08', tz='UTC')
+
     @staticmethod
     def load_answer_key(filename):
         """
@@ -783,12 +788,17 @@ class ExchangeCalendarTestBase(object):
         """
         start = pd.Timestamp('2010-1-3', tz='UTC')
         end = pd.Timestamp('2010-1-10', tz='UTC')
-        calendar = self.calendar_class(start=start, end=end)
-        expected_first = pd.Timestamp('2010-1-4', tz='UTC')
-        expected_last = pd.Timestamp('2010-1-8', tz='UTC')
 
-        self.assertTrue(calendar.first_trading_session == expected_first)
-        self.assertTrue(calendar.last_trading_session == expected_last)
+        calendar = self.calendar_class(start=start, end=end)
+
+        self.assertEqual(
+            calendar.first_trading_session,
+            self.TEST_START_END_EXPECTED_FIRST,
+        )
+        self.assertEqual(
+            calendar.last_trading_session,
+            self.TEST_START_END_EXPECTED_LAST,
+        )
 
 
 class EuronextCalendarTestBase(ExchangeCalendarTestBase):
