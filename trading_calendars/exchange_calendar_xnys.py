@@ -16,6 +16,7 @@
 from datetime import time
 from itertools import chain
 
+from pandas import DatetimeIndex
 from pandas.tseries.holiday import (
     GoodFriday,
     USLaborDay,
@@ -153,10 +154,16 @@ class XNYSExchangeCalendar(TradingCalendar):
     @property
     def special_closes_adhoc(self):
         return [
-            (self.regular_early_close, [
-                '1997-12-26',
-                '1999-12-31',
-                '2003-12-26',
-                '2013-07-03'
-            ])
+            (
+                self.regular_early_close,
+                DatetimeIndex(
+                    [
+                        '1997-12-26',
+                        '1999-12-31',
+                        '2003-12-26',
+                        '2013-07-03',
+                    ],
+                    tz='UTC',
+                )
+            )
         ]

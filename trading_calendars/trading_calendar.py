@@ -19,8 +19,8 @@ import warnings
 from operator import attrgetter
 from pandas.tseries.holiday import AbstractHolidayCalendar
 from six import with_metaclass
-from numpy import searchsorted
 import numpy as np
+from numpy import searchsorted
 import pandas as pd
 from pandas import (
     DataFrame,
@@ -28,6 +28,7 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
+
 from .calendar_helpers import (
     compute_all_minutes,
     is_open,
@@ -77,13 +78,21 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             _all_days = date_range(start, end, freq=self.day, tz='UTC')
 
         # `DatetimeIndex`s of standard opens/closes for each day.
-        self._opens = days_at_time(_all_days, self.open_time, self.tz,
-                                   self.open_offset)
+        self._opens = days_at_time(
+            _all_days,
+            self.open_time,
+            self.tz,
+            self.open_offset,
+        )
         self._closes = days_at_time(
-            _all_days, self.close_time, self.tz, self.close_offset
+            _all_days,
+            self.close_time,
+            self.tz,
+            self.close_offset,
         )
 
-        # `DatetimeIndex`s of nonstandard opens/closes
+        # `Series`s mapping sessions with nonstandard opens/closes to
+        # the open/close time.
         _special_opens = self._calculate_special_opens(start, end)
         _special_closes = self._calculate_special_closes(start, end)
 
@@ -875,22 +884,57 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
     def _special_dates(self, calendars, ad_hoc_dates, start_date, end_date):
         """
-        Union an iterable of pairs of the form (time, calendar)
-        and an iterable of pairs of the form (time, [dates])
+        Compute a Series of times associated with special dates.
 
-        (This is shared logic for computing special opens and special closes.)
+        Parameters
+        ----------
+        holiday_calendars : list[(datetime.time, HolidayCalendar)]
+            Pairs of time and calendar describing when that time occurs. These
+            are used to describe regularly-scheduled late opens or early
+            closes.
+        ad_hoc_dates : list[(datetime.time, list[pd.Timestamp])]
+            Pairs of time and list of dates associated with the given times.
+            These are used to describe late opens or early closes that occurred
+            for unscheduled or otherwise irregular reasons.
+        start_date : pd.Timestamp
+            Start of the range for which we should calculate special dates.
+        end_date : pd.Timestamp
+            End of the range for which we should calculate special dates.
+
+        Returns
+        -------
+        special_dates : pd.Series
+            Series mapping trading sessions with special opens/closes to the
+            special open/close for that session.
         """
-        _dates = DatetimeIndex([], tz='UTC').union_many(
-            [
-                holidays_at_time(calendar, start_date, end_date, time_,
-                                 self.tz)
-                for time_, calendar in calendars
-            ] + [
-                days_at_time(datetimes, time_, self.tz)
-                for time_, datetimes in ad_hoc_dates
-            ]
-        )
-        return _dates[(_dates >= start_date) & (_dates <= end_date)]
+        # List of Series for regularly-scheduled times.
+        regular = [
+            scheduled_special_times(
+                calendar,
+                start_date,
+                end_date,
+                time_,
+                self.tz,
+            )
+            for time_, calendar in calendars
+        ]
+
+        # List of Series for ad-hoc times.
+        ad_hoc = [
+            pd.Series(
+                index=pd.to_datetime(datetimes, utc=True),
+                data=days_at_time(datetimes, time_, self.tz),
+            )
+            for time_, datetimes in ad_hoc_dates
+        ]
+
+        merged = regular + ad_hoc
+        if not merged:
+            # Concat barfs if the input has length 0.
+            return pd.Series([])
+
+        result = pd.concat(merged).sort_index()
+        return result[(result >= start_date) & (result <= end_date)]
 
     def _calculate_special_opens(self, start, end):
         return self._special_dates(
@@ -909,11 +953,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         )
 
 
-def holidays_at_time(calendar, start, end, time, tz):
-    return days_at_time(
-        calendar.holidays(start, end),
-        time,
-        tz=tz,
+def scheduled_special_times(calendar, start, end, time, tz):
+    """
+    Returns a Series mapping each holiday (as a UTC midnight Timestamp)
+    in ``calendar`` between ``start`` and ``end`` to that session at
+    ``time`` (as a UTC Timestamp).
+    """
+    days = calendar.holidays(start, end)
+    return pd.Series(
+        index=pd.DatetimeIndex(days, tz='UTC'),
+        data=days_at_time(days, time, tz=tz),
     )
 
 
@@ -937,7 +986,7 @@ def _overwrite_special_dates(midnight_utcs,
         )
 
     # Find the array indices corresponding to each special date.
-    indexer = midnight_utcs.get_indexer(special_opens_or_closes.normalize())
+    indexer = midnight_utcs.get_indexer(special_opens_or_closes.index)
 
     # -1 indicates that no corresponding entry was found.  If any -1s are
     # present, then we have special dates that doesn't correspond to any
