@@ -15,96 +15,86 @@
 
 from datetime import time
 
-from pandas.tseries.holiday import (
-    Holiday,
-    GoodFriday,
-    EasterMonday,
-    weekend_to_monday,
-)
+from pandas.tseries.holiday import Holiday, GoodFriday, EasterMonday
 from pytz import timezone
 
 from .common_holidays import (
     new_years_day,
     epiphany,
+    ascension_day,
+    whit_monday,
+    corpus_christi,
     european_labour_day,
     assumption_day,
     all_saints_day,
     immaculate_conception,
     christmas_eve,
     christmas,
-    boxing_day,
     new_years_eve,
 )
 from .trading_calendar import HolidayCalendar, TradingCalendar
 
 NewYearsDay = new_years_day()
 
-Epiphany = epiphany(end_date='2007')
+Epiphany = epiphany()
+
+AscensionDay = ascension_day()
+WhitMonday = whit_monday()
+CorpusChristi = corpus_christi()
 
 LabourDay = european_labour_day()
 
-AssumptionDay = assumption_day(end_date='2005', observance=weekend_to_monday)
+AssumptionDay = assumption_day()
 
-NationalDay = Holiday(
-    'National Day',
-    month=10,
-    day=12,
-    end_date='2005',
-)
+NationalHoliday = Holiday('National Holiday', month=10, day=26)
 
-AllSaintsDay = all_saints_day(end_date='2005')
+AllSaintsDay = all_saints_day()
 
-ConstitutionDay = Holiday(
-    'Constitution Day',
-    month=12,
-    day=6,
-    end_date='2005',
-)
+ImmaculateConception = immaculate_conception()
 
-ImmaculateConception = immaculate_conception(end_date='2005')
-
-ChristmasEve = christmas_eve(end_date='2005')
+ChristmasEve = christmas_eve()
 Christmas = christmas()
-BoxingDay = boxing_day()
 
-NewYearsEve = new_years_eve(end_date='2005')
+SaintStephensDay = Holiday("Saint Stephen's Day", month=12, day=26)
+
+NewYearsEve = new_years_eve()
 
 
-class XMADExchangeCalendar(TradingCalendar):
+class XWBOExchangeCalendar(TradingCalendar):
     """
-    Calendar for the Madrid Stock Exchange (Bolsa de Madrid).
+    Calendar for the Wiener Borse AG exchange in Vienna, Austria.
 
     Open Time: 9:00 AM, CET (Central European Time)
     Close Time: 5:30 PM, CET (Central European Time)
 
     Regularly-Observed Holidays:
       - New Year's Day
+      - Epiphany
       - Good Friday
       - Easter Monday
+      - Ascension Day
+      - Whit Monday
+      - Corpus Christi
       - Labour Day
+      - Assumption Day
+      - National Holiday
+      - All Saints Day
+      - Immaculate Conception
+      - Christmas Eve
       - Christmas Day
-      - Boxing Day
-
-    Holidays No Longer Observed:
-      - Epiphany (until 2006, inclusive)
-      - Assumption Day (until 2004, inclusive)
-      - National Day (until 2004, inclusive)
-      - All Saints Day (until 2004, inclusive)
-      - Constitution Day (until 2004, inclusive)
-      - Immaculate Conception (until 2004, inclusive)
-      - Christmas Eve (until 2004, inclusive)
-      - New Year's Eve (until 2004, inclusive)
+      - St. Stephen's Day
+      - New Year's Eve
 
     Early Closes:
       - None
     """
     @property
     def name(self):
-        return 'XMAD'
+        return 'XWBO'
 
     @property
     def tz(self):
-        return timezone('Europe/Madrid')
+        return timezone('Europe/Vienna')
 
     @property
     def open_time(self):
@@ -121,14 +111,16 @@ class XMADExchangeCalendar(TradingCalendar):
             Epiphany,
             GoodFriday,
             EasterMonday,
+            AscensionDay,
+            WhitMonday,
+            CorpusChristi,
             LabourDay,
             AssumptionDay,
-            NationalDay,
+            NationalHoliday,
             AllSaintsDay,
-            ConstitutionDay,
             ImmaculateConception,
             ChristmasEve,
             Christmas,
-            BoxingDay,
+            SaintStephensDay,
             NewYearsEve,
         ])

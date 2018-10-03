@@ -8,7 +8,6 @@ def new_years_day(start_date=None,
                   end_date=None,
                   observance=None,
                   days_of_week=None):
-
     return Holiday(
         "New Year's Day",
         month=1,
@@ -35,6 +34,21 @@ def anzac_day(start_date=None,
     )
 
 
+def epiphany(start_date=None,
+             end_date=None,
+             observance=None,
+             days_of_week=None):
+    return Holiday(
+        'Epiphany',
+        month=1,
+        day=6,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
 def european_labour_day(start_date=None,
                         end_date=None,
                         observance=None,
@@ -50,9 +64,9 @@ def european_labour_day(start_date=None,
     )
 
 
-# Whit Monday and Ascension day don't take observance as a parameter because
-# they depend on a particular offset, and offset and observance cannot both
-# be passed to a Holiday
+# Ascension Day, Whit Monday, and Corpus Christi do not take observance as a
+# parameter because they depend on a particular offset, and offset and
+# observance cannot both be passed to a Holiday.
 def ascension_day(start_date=None, end_date=None):
     return Holiday(
         "Ascension Day",
@@ -72,6 +86,62 @@ def whit_monday(start_date=None, end_date=None):
         offset=[Easter(), Day(50)],
         start_date=start_date,
         end_date=end_date,
+    )
+
+
+def corpus_christi(start_date=None, end_date=None):
+    return Holiday(
+        'Corpus Christi',
+        month=1,
+        day=1,
+        offset=[Easter(), Day(60)],
+        start_date=start_date,
+        end_date=end_date,
+    )
+
+
+def assumption_day(start_date=None,
+                   end_date=None,
+                   observance=None,
+                   days_of_week=None):
+    return Holiday(
+        'Assumption Day',
+        month=8,
+        day=15,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
+def all_saints_day(start_date=None,
+                   end_date=None,
+                   observance=None,
+                   days_of_week=None):
+    return Holiday(
+        'All Saints Day',
+        month=11,
+        day=1,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
+def immaculate_conception(start_date=None,
+                          end_date=None,
+                          observance=None,
+                          days_of_week=None):
+    return Holiday(
+        'Immaculate Conception',
+        month=12,
+        day=8,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
     )
 
 
