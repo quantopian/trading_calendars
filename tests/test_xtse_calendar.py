@@ -199,3 +199,25 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         self.assertNotIn(christmas_observed, self.calendar.all_sessions)
         self.assertNotIn(boxing_day_observed, self.calendar.all_sessions)
+
+    def test_victoria_day(self):
+        #       May 2015
+        # Su Mo Tu We Th Fr Sa
+        #                 1  2
+        #  3  4  5  6  7  8  9
+        # 10 11 12 13 14 15 16
+        # 17 18 19 20 21 22 23
+        # 24 25 26 27 28 29 30
+        # 31
+
+        # Victoria Day is never held on Monday 5/25...
+        self.assertIn(
+            pd.Timestamp('2015-05-25'),
+            self.calendar.all_sessions,
+        )
+
+        # ...but on the Monday preceding 5/25.
+        self.assertNotIn(
+            pd.Timestamp('2015-05-18'),
+            self.calendar.all_sessions,
+        )
