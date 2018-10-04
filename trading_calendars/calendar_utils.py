@@ -8,6 +8,7 @@ from .exchange_calendar_bvmf import BVMFExchangeCalendar
 from .exchange_calendar_cmes import CMESExchangeCalendar
 from .exchange_calendar_iepa import IEPAExchangeCalendar
 from .exchange_calendar_xams import XAMSExchangeCalendar
+from .exchange_calendar_xasx import XASXExchangeCalendar
 from .exchange_calendar_xbru import XBRUExchangeCalendar
 from .exchange_calendar_xcbf import XCBFExchangeCalendar
 from .exchange_calendar_xfra import XFRAExchangeCalendar
@@ -39,6 +40,7 @@ _default_calendar_factories = {
     'XAMS': XAMSExchangeCalendar,
     'XLIS': XLISExchangeCalendar,
     'XNZE': XNZEExchangeCalendar,
+    'XASX': XASXExchangeCalendar,
     # Miscellaneous calendars.
     'us_futures': QuantopianUSFuturesCalendar,
     '24/7': AlwaysOpenCalendar,

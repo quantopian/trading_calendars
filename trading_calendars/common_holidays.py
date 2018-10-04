@@ -20,6 +20,21 @@ def new_years_day(start_date=None,
     )
 
 
+def anzac_day(start_date=None,
+              end_date=None,
+              observance=None,
+              days_of_week=None):
+    return Holiday(
+        'Anzac Day',
+        month=4,
+        day=25,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
 def european_labour_day(start_date=None,
                         end_date=None,
                         observance=None,
