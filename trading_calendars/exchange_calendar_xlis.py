@@ -21,7 +21,11 @@ from pytz import timezone
 
 from .common_holidays import (
     new_years_day,
+    corpus_christi,
     european_labour_day,
+    assumption_day,
+    all_saints_day,
+    immaculate_conception,
     christmas_eve,
     christmas,
     boxing_day,
@@ -38,13 +42,7 @@ Carnival = Holiday(
     offset=[Easter(), Day(-47)],
     end_date='2003',
 )
-CorpusChristiDay = Holiday(
-    'Corpus Christi Day',
-    month=1,
-    day=1,
-    offset=[Easter(), Day(60)],
-    end_date='2003',
-)
+CorpusChristi = corpus_christi(end_date='2003')
 
 LibertyDay = Holiday(
     'Liberty Day',
@@ -69,12 +67,7 @@ SaintAnthonysDay = Holiday(
     end_date='2002',
 )
 
-AssumptionDay = Holiday(
-    'Assumption Day',
-    month=8,
-    day=15,
-    end_date='2003',
-)
+AssumptionDay = assumption_day(end_date='2003')
 
 RepublicDay = Holiday(
     'Republic Day',
@@ -83,12 +76,7 @@ RepublicDay = Holiday(
     end_date='2003',
 )
 
-AllSaintsDay = Holiday(
-    'All Saints Day',
-    month=11,
-    day=1,
-    end_date='2003',
-)
+AllSaintsDay = all_saints_day(end_date='2003')
 
 IndependenceDay = Holiday(
     'Independence Day',
@@ -97,12 +85,7 @@ IndependenceDay = Holiday(
     end_date='2003',
 )
 
-ImmaculateConception = Holiday(
-    'Immaculate Conception',
-    month=12,
-    day=8,
-    end_date='2003',
-)
+ImmaculateConception = immaculate_conception(end_date='2003')
 
 ChristmasEveBefore2003 = christmas_eve(end_date='2003')
 ChristmasEve = christmas_eve(start_date='2003', days_of_week=WEEKDAYS)
@@ -164,7 +147,7 @@ class XLISExchangeCalendar(TradingCalendar):
             Carnival,
             GoodFriday,
             EasterMonday,
-            CorpusChristiDay,
+            CorpusChristi,
             LibertyDay,
             LabourDay,
             PortugalDay,

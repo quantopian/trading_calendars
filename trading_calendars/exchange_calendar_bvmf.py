@@ -22,6 +22,7 @@ from pandas.tseries.holiday import (
 )
 from pytz import timezone
 
+from .common_holidays import corpus_christi
 from .trading_calendar import (
     TradingCalendar,
     FRIDAY,
@@ -63,12 +64,7 @@ QuartaCinzas = Holiday(
 # Good Friday
 SextaPaixao = GoodFriday
 # Feast of the Most Holy Body of Christ
-CorpusChristi = Holiday(
-    'Corpus Christi',
-    month=1,
-    day=1,
-    offset=[Easter(), Day(60)]
-)
+CorpusChristi = corpus_christi()
 # Tiradentes Memorial
 Tiradentes = Holiday(
     'Tiradentes',
