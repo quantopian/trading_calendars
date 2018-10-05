@@ -14,6 +14,7 @@
 # limitations under the License.
 
 from datetime import time
+from pandas import Timestamp
 from pandas.tseries.holiday import (
     EasterMonday,
     GoodFriday,
@@ -43,7 +44,11 @@ NewYearsDay = new_years_day()
 
 EuropeanLabourDay = european_labour_day()
 
-WhitMonday = whit_monday(start_date='2010-01-01')
+# Whit Monday observed in 2007, before it became regularly observed
+# starting in 2015.
+WhitMonday2007AdHoc = Timestamp('2007-05-28', tz='UTC')
+
+WhitMonday = whit_monday(start_date='2015-01-01')
 
 DayOfGermanUnity = Holiday(
     "Day of German Unity",
@@ -51,6 +56,9 @@ DayOfGermanUnity = Holiday(
     day=3,
     start_date='2014-01-01'
 )
+
+# Reformation Day was a German national holiday in 2017.
+ReformationDay500thAnniversaryAdHoc = Timestamp('2017-10-31', tz='UTC')
 
 ChristmasEve = christmas_eve()
 
@@ -126,6 +134,13 @@ class XFRAExchangeCalendar(TradingCalendar):
             BoxingDay,
             NewYearsEve,
         ])
+
+    @property
+    def adhoc_holidays(self):
+        return [
+            WhitMonday2007AdHoc,
+            ReformationDay500thAnniversaryAdHoc,
+        ]
 
     @property
     def special_closes(self):
