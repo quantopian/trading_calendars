@@ -163,3 +163,27 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
             self.assertIn(birthday, expected_birthdays)
 
         self.assertNotIn(pd.Timestamp('2019-12-23'), expected_birthdays)
+
+    def test_mountain_day(self):
+        # Mountain Day was not celebrated prior to 2016.
+        self.assertIn(pd.Timestamp('2015-08-11'), self.calendar.all_sessions)
+
+        # First celebrated and observed in 2016.
+        self.assertNotIn(
+            pd.Timestamp('2016-08-11'),
+            self.calendar.all_sessions,
+        )
+
+        #     August 2019
+        # Su Mo Tu We Th Fr Sa
+        #              1  2  3
+        #  4  5  6  7  8  9 10
+        # 11 12 13 14 15 16 17
+        # 18 19 20 21 22 23 24
+        # 25 26 27 28 29 30 31
+        #
+        # Falls on a Sunday in 2019, so it is observed on Monday.
+        self.assertNotIn(
+            pd.Timestamp('2019-08-12'),
+            self.calendar.all_sessions,
+        )

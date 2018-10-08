@@ -183,6 +183,14 @@ MarineDay2003Onwards = Holiday(
     start_date='2003-01-01',
 )
 
+MountainDay = Holiday(
+    "Mountain Day",
+    month=8,
+    day=11,
+    start_date='2016-01-01',
+    observance=sunday_to_monday,
+)
+
 # See note on equinoxes above VernalEquinoxes
 AutumnalEquinoxes = [
     Timestamp('2000-09-23'),

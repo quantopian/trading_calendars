@@ -14,15 +14,34 @@ class XFRACalendarTestCase(ExchangeCalendarTestBase, TestCase):
     MAX_SESSION_HOURS = 8.5
 
     def test_whit_monday(self):
-        # Whit Monday should be a trading in 2009 but not in 2010
+        # Whit Monday was not observed prior to 2007.
         self.assertIn(
-            pd.Timestamp('2009-06-01', tz='UTC'),
-            self.calendar.all_sessions
+            pd.Timestamp('2006-06-05', tz='UTC'),
+            self.calendar.all_sessions,
         )
 
+        # It was observed as a one-off in 2007...
         self.assertNotIn(
-            pd.Timestamp('2010-05-24', tz='UTC'),
-            self.calendar.all_sessions
+            pd.Timestamp('2007-05-28', tz='UTC'),
+            self.calendar.all_sessions,
+        )
+
+        # ...then not again...
+        self.assertIn(
+            pd.Timestamp('2008-05-12', tz='UTC'),
+            self.calendar.all_sessions,
+        )
+
+        # ...until 2015...
+        self.assertNotIn(
+            pd.Timestamp('2015-05-25', tz='UTC'),
+            self.calendar.all_sessions,
+        )
+
+        # ...when it became regularly observed.
+        self.assertNotIn(
+            pd.Timestamp('2016-05-16', tz='UTC'),
+            self.calendar.all_sessions,
         )
 
     def test_2012(self):
@@ -31,7 +50,7 @@ class XFRACalendarTestCase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp("2012-04-06", tz='UTC'),  # Good Friday
             pd.Timestamp("2012-04-09", tz='UTC'),  # Easter Monday
             pd.Timestamp("2012-05-01", tz='UTC'),  # Labour Day
-            pd.Timestamp("2012-05-28", tz='UTC'),  # Whit Monday
+            # Whit Monday was observed in 2007, then 2015 and after.
             # German Unity Day started being celebrated in 2014
             pd.Timestamp("2012-12-24", tz='UTC'),  # Christmas Eve
             pd.Timestamp("2012-12-25", tz='UTC'),  # Christmas
@@ -64,3 +83,20 @@ class XFRACalendarTestCase(ExchangeCalendarTestBase, TestCase):
                 half_day_close_time,
                 half_day + pd.Timedelta(hours=12, minutes=30)
             )
+
+    def test_reformation_day(self):
+        # Reformation Day was a German national holiday in 2017 only.
+        self.assertNotIn(
+            pd.Timestamp('2017-10-31', tz='UTC'),
+            self.calendar.all_sessions,
+        )
+
+        # Ensure it is a trading day in the surrounding years.
+        self.assertIn(
+            pd.Timestamp('2016-10-31', tz='UTC'),
+            self.calendar.all_sessions,
+        )
+        self.assertIn(
+            pd.Timestamp('2018-10-31', tz='UTC'),
+            self.calendar.all_sessions,
+        )
