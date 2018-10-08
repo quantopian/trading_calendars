@@ -219,6 +219,9 @@ class XNZECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         )
 
     def test_weekend_to_monday_holidays(self):
+        # Prior to 2015, Waitangi Day and Anzac Day are not "Mondayized",
+        # that is, if they occur on the weekend, there is no make-up.
+
         #    February 2010
         # Su Mo Tu We Th Fr Sa
         #     1  2  3  4  5  6
@@ -227,9 +230,9 @@ class XNZECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # 21 22 23 24 25 26 27
         # 28
         #
-        # 2010-02-06 falls on a Saturday, so Waitangi Day is observed the
-        # following Monday.
-        self.assertFalse(
+        # 2010-02-06 falls on a Saturday, so there is no missed session
+        # for Waitangi Day.
+        self.assertTrue(
             self.calendar.is_session(pd.Timestamp('2010-02-08', tz='UTC'))
         )
 
@@ -241,8 +244,40 @@ class XNZECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # 18 19 20 21 22 23 24
         # 25 26 27 28 29 30
         #
-        # 2010-04-25 falls on a Sunday, so Anzac Day is observed the
+        # 2010-04-25 falls on a Sunday, so there is no missed session
+        # for Anzac Day.
+        self.assertTrue(
+            self.calendar.is_session(pd.Timestamp('2010-04-26', tz='UTC'))
+        )
+
+        # Starting in 2015 Waitangi Day and Anzac Day are "Mondayized",
+        # that is, if they fall on the weekend, they are observed on the
+        # following Monday.
+
+        #    February 2016
+        # Su Mo Tu We Th Fr Sa
+        #     1  2  3  4  5  6
+        #  7  8  9 10 11 12 13
+        # 14 15 16 17 18 19 20
+        # 21 22 23 24 25 26 27
+        # 28 29
+        #
+        # 2016-02-06 falls on a Saturday, so Waitangi Day is observed the
         # following Monday.
         self.assertFalse(
-            self.calendar.is_session(pd.Timestamp('2010-04-26', tz='UTC'))
+            self.calendar.is_session(pd.Timestamp('2016-02-08', tz='UTC'))
+        )
+
+        #      April 2015
+        # Su Mo Tu We Th Fr Sa
+        #           1  2  3  4
+        #  5  6  7  8  9 10 11
+        # 12 13 14 15 16 17 18
+        # 19 20 21 22 23 24 25
+        # 26 27 28 29 30
+        #
+        # 2015-04-25 falls on a Saturday, so Anzac Day is observed the
+        # following Monday.
+        self.assertFalse(
+            self.calendar.is_session(pd.Timestamp('2015-04-27', tz='UTC'))
         )

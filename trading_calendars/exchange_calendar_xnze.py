@@ -39,6 +39,8 @@ from .trading_calendar import (
     HolidayCalendar
 )
 
+MONDAYIZATION_START_DATE = "2015-01-01"
+
 # Regular Holidays
 # ----------------
 NewYearsDay = new_years_day(observance=next_monday)
@@ -50,14 +52,27 @@ DayAfterNewYearsDay = Holiday(
     observance=next_monday_or_tuesday,
 )
 
+WaitangiDayNonMondayized = Holiday(
+    "Waitangi Day",
+    month=2,
+    day=6,
+    end_date=MONDAYIZATION_START_DATE,
+)
+
 WaitangiDay = Holiday(
     "Waitangi Day",
     month=2,
     day=6,
     observance=weekend_to_monday,
+    start_date=MONDAYIZATION_START_DATE,
 )
 
-AnzacDay = anzac_day(observance=weekend_to_monday)
+AnzacDayNonMondayized = anzac_day(end_date=MONDAYIZATION_START_DATE)
+
+AnzacDay = anzac_day(
+    observance=weekend_to_monday,
+    start_date=MONDAYIZATION_START_DATE,
+)
 
 QueensBirthday = Holiday(
     "Queen's Birthday",
@@ -143,9 +158,11 @@ class XNZEExchangeCalendar(TradingCalendar):
         return HolidayCalendar([
             NewYearsDay,
             DayAfterNewYearsDay,
+            WaitangiDayNonMondayized,
             WaitangiDay,
             GoodFriday,
             EasterMonday,
+            AnzacDayNonMondayized,
             AnzacDay,
             QueensBirthday,
             LabourDay,
