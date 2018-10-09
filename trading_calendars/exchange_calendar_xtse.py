@@ -112,7 +112,7 @@ class XTSEExchangeCalendar(TradingCalendar):
     - Labor Day (First Monday in September)
     - Thanksgiving (Second Monday in October)
     - Christmas Day
-        - Dec. 26th if Chrismas is on a Sunday
+        - Dec. 26th if Christmas is on a Sunday
         - Dec. 27th if Christmas is on a weekend
     - Boxing Day
         - Dec. 27th if Christmas is on a Sunday

@@ -12,6 +12,7 @@ from .exchange_calendar_xasx import XASXExchangeCalendar
 from .exchange_calendar_xbru import XBRUExchangeCalendar
 from .exchange_calendar_xcbf import XCBFExchangeCalendar
 from .exchange_calendar_xfra import XFRAExchangeCalendar
+from .exchange_calendar_xhkg import XHKGExchangeCalendar
 from .exchange_calendar_xlis import XLISExchangeCalendar
 from .exchange_calendar_xlon import XLONExchangeCalendar
 from .exchange_calendar_xmad import XMADExchangeCalendar
@@ -28,24 +29,25 @@ from .weekday_calendar import WeekdayCalendar
 
 _default_calendar_factories = {
     # Exchange calendars.
-    'XNYS': XNYSExchangeCalendar,
-    'CMES': CMESExchangeCalendar,
-    'XFRA': XFRAExchangeCalendar,
-    'IEPA': IEPAExchangeCalendar,
-    'XCBF': XCBFExchangeCalendar,
     'BVMF': BVMFExchangeCalendar,
-    'XLON': XLONExchangeCalendar,
-    'XSWX': XSWXExchangeCalendar,
-    'XTSE': XTSEExchangeCalendar,
-    'XTKS': XTKSExchangeCalendar,
-    'XBRU': XBRUExchangeCalendar,
-    'XPAR': XPARExchangeCalendar,
+    'CMES': CMESExchangeCalendar,
+    'IEPA': IEPAExchangeCalendar,
     'XAMS': XAMSExchangeCalendar,
-    'XLIS': XLISExchangeCalendar,
-    'XNZE': XNZEExchangeCalendar,
     'XASX': XASXExchangeCalendar,
-    'XMIL': XMILExchangeCalendar,
+    'XBRU': XBRUExchangeCalendar,
+    'XCBF': XCBFExchangeCalendar,
+    'XFRA': XFRAExchangeCalendar,
+    'XHKG': XHKGExchangeCalendar,
+    'XLIS': XLISExchangeCalendar,
+    'XLON': XLONExchangeCalendar,
     'XMAD': XMADExchangeCalendar,
+    'XMIL': XMILExchangeCalendar,
+    'XNYS': XNYSExchangeCalendar,
+    'XNZE': XNZEExchangeCalendar,
+    'XPAR': XPARExchangeCalendar,
+    'XSWX': XSWXExchangeCalendar,
+    'XTKS': XTKSExchangeCalendar,
+    'XTSE': XTSEExchangeCalendar,
     'XWBO': XWBOExchangeCalendar,
     # Miscellaneous calendars.
     'us_futures': QuantopianUSFuturesCalendar,
