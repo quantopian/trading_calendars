@@ -38,10 +38,11 @@ class XMADCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             # open on both the prior Friday and the following Monday.
             pd.Timestamp('2010-04-30', tz='UTC'),
             pd.Timestamp('2010-05-03', tz='UTC'),
+
             # Christmas also fell on a Saturday, meaning Boxing Day fell on a
-            # Sunday. The market should still be open on both the prior Friday
-            # and the following Monday.
-            pd.Timestamp('2010-12-24', tz='UTC'),
+            # Sunday. The market should still be open on the following Monday
+            # (note that Christmas Eve was observed as a holiday through 2010,
+            # so the market is closed on the previous Friday).
             pd.Timestamp('2010-12-27', tz='UTC'),
         ]
 
@@ -69,8 +70,8 @@ class XMADCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2004-11-01', tz='UTC'),  # All Saints Day
             pd.Timestamp('2004-12-06', tz='UTC'),  # Constitution Day
             pd.Timestamp('2004-12-08', tz='UTC'),  # Immaculate Conception
-            pd.Timestamp('2004-12-24', tz='UTC'),  # Christmas Eve
-            pd.Timestamp('2004-12-31', tz='UTC'),  # New Year's Eve
+            pd.Timestamp('2010-12-24', tz='UTC'),  # Christmas Eve
+            pd.Timestamp('2010-12-31', tz='UTC'),  # New Year's Eve
         ]
 
         for session_label in expected_holidays:
@@ -83,8 +84,8 @@ class XMADCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2005-11-01', tz='UTC'),  # All Saints Day
             pd.Timestamp('2005-12-06', tz='UTC'),  # Constitution Day
             pd.Timestamp('2005-12-08', tz='UTC'),  # Immaculate Conception
-            pd.Timestamp('2007-12-24', tz='UTC'),  # Christmas Eve
-            pd.Timestamp('2007-12-31', tz='UTC'),  # New Year's Eve
+            pd.Timestamp('2012-12-24', tz='UTC'),  # Christmas Eve
+            pd.Timestamp('2012-12-31', tz='UTC'),  # New Year's Eve
         ]
 
         for session_label in expected_sessions:

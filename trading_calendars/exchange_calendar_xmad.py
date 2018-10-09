@@ -63,11 +63,11 @@ ConstitutionDay = Holiday(
 
 ImmaculateConception = immaculate_conception(end_date='2005')
 
-ChristmasEve = christmas_eve(end_date='2005')
+ChristmasEve = christmas_eve(end_date='2011')
 Christmas = christmas()
 BoxingDay = boxing_day()
 
-NewYearsEve = new_years_eve(end_date='2005')
+NewYearsEve = new_years_eve(end_date='2011')
 
 
 class XMADExchangeCalendar(TradingCalendar):
@@ -92,8 +92,8 @@ class XMADExchangeCalendar(TradingCalendar):
       - All Saints Day (until 2004, inclusive)
       - Constitution Day (until 2004, inclusive)
       - Immaculate Conception (until 2004, inclusive)
-      - Christmas Eve (until 2004, inclusive)
-      - New Year's Eve (until 2004, inclusive)
+      - Christmas Eve (until 2010, inclusive)
+      - New Year's Eve (until 2010, inclusive)
 
     Early Closes:
       - None
