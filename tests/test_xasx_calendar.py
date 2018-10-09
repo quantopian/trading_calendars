@@ -43,6 +43,10 @@ class XASXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         """
         Holidays falling on a weekend should be made up on the next weekday.
 
+        Anzac Day is observed on the following Monday only when falling
+        on a Sunday. In years where Anzac Day falls on a Saturday, there
+        is no make-up.
+
         Christmas/Boxing Day are special cases, whereby if Christmas is a
         Saturday and Boxing Day is a Sunday, the next Monday and Tuesday will
         be holidays. If Christmas is a Sunday and Boxing Day is a Monday then
@@ -51,10 +55,10 @@ class XASXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         expected_holidays = [
             # New Year's Day on a Sunday, observed on Monday.
             pd.Timestamp('2017-01-02', tz='UTC'),
-            # Australia Day on a Sunday, observed on Monday.
+            # Australia Day on a Sunday, observed on Monday (2010 and after).
             pd.Timestamp('2014-01-27', tz='UTC'),
-            # Anzac Day on a Saturday, observed on Monday.
-            pd.Timestamp('2015-04-27', tz='UTC'),
+            # Anzac Day on a Sunday, observed on Monday.
+            pd.Timestamp('2010-04-26', tz='UTC'),
             # Christmas on a Sunday, Boxing Day on Monday.
             pd.Timestamp('2016-12-26', tz='UTC'),
             pd.Timestamp('2016-12-27', tz='UTC'),
@@ -65,6 +69,17 @@ class XASXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         for session_label in expected_holidays:
             self.assertNotIn(session_label, self.calendar.all_sessions)
+
+        expected_sessions = [
+            # Anzac Day on a Saturday, does not have a make-up.
+            pd.Timestamp('2015-04-27', tz='UTC'),
+            # Anzac Day on a Saturday, does not have a make-up (prior
+            # to 2010).
+            pd.Timestamp('2004-04-26', tz='UTC'),
+        ]
+
+        for session_label in expected_sessions:
+            self.assertIn(session_label, self.calendar.all_sessions)
 
     def test_half_days(self):
         half_days = [
