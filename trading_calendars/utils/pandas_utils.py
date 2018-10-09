@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -44,3 +45,22 @@ def days_at_time(days, t, tz, day_offset=0):
         seconds=t.second,
     )
     return (days + delta).tz_localize(tz).tz_convert('UTC')
+
+
+def vectorized_sunday_to_monday(dtix):
+    """A vectorized implementation of
+    :func:`pandas.tseries.holiday.sunday_to_monday`.
+
+    Parameters
+    ----------
+    dtix : pd.DatetimeIndex
+        The index to shift sundays to mondays.
+
+    Returns
+    -------
+    sundays_as_mondays : pd.DatetimeIndex
+        ``dtix`` with all sundays moved to the next monday.
+    """
+    values = dtix.values.copy()
+    values[dtix.weekday == 6] += np.timedelta64(1, 'D')
+    return pd.DatetimeIndex(values)

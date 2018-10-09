@@ -20,6 +20,21 @@ def new_years_day(start_date=None,
     )
 
 
+def new_years_eve(start_date=None,
+                  end_date=None,
+                  observance=None,
+                  days_of_week=None):
+    return Holiday(
+        "New Year's Eve",
+        month=12,
+        day=31,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
 def anzac_day(start_date=None,
               end_date=None,
               observance=None,
@@ -223,24 +238,9 @@ def weekend_boxing_day(start_date=None, end_date=None, observance=None):
     )
 
 
-def new_years_eve(start_date=None,
-                  end_date=None,
-                  observance=None,
-                  days_of_week=None):
+def chinese_national_day(start_date=None, end_date=None, observance=None):
     return Holiday(
-        "New Year's Eve",
-        month=12,
-        day=31,
-        start_date=start_date,
-        end_date=end_date,
-        observance=observance,
-        days_of_week=days_of_week,
-    )
-
-
-def national_day(start_date=None, end_date=None, observance=None):
-    return Holiday(
-        "National Day",
+        "Chinese National Day",
         month=10,
         day=1,
         start_date=start_date,
