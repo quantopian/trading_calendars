@@ -90,3 +90,24 @@ class XMADCalendarTestBase(ExchangeCalendarTestBase, TestCase):
 
         for session_label in expected_sessions:
             self.assertIn(session_label, all_sessions)
+
+    def test_early_closes(self):
+        # The session label and close time for expected early closes.
+        expected_early_closes = [
+            # Christmas Eve
+            (
+                pd.Timestamp('2012-12-24', tz='UTC'),
+                pd.Timestamp('2012-12-24 14:00', tz='Europe/Madrid'),
+            ),
+            # New Year's Eve
+            (
+                pd.Timestamp('2012-12-31', tz='UTC'),
+                pd.Timestamp('2012-12-31 14:00', tz='Europe/Madrid'),
+            )
+        ]
+
+        for session, expected_close in expected_early_closes:
+            self.assertEqual(
+                self.calendar.session_close(session),
+                expected_close,
+            )

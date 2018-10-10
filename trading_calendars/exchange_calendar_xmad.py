@@ -35,7 +35,15 @@ from .common_holidays import (
     boxing_day,
     new_years_eve,
 )
-from .trading_calendar import HolidayCalendar, TradingCalendar
+from .trading_calendar import (
+    HolidayCalendar,
+    TradingCalendar,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+)
 
 NewYearsDay = new_years_day()
 
@@ -63,11 +71,19 @@ ConstitutionDay = Holiday(
 
 ImmaculateConception = immaculate_conception(end_date='2005')
 
-ChristmasEve = christmas_eve(end_date='2011')
+ChristmasEveThrough2010 = christmas_eve(end_date='2011')
+ChristmasEveEarlyClose2012Onwards = christmas_eve(
+    start_date='2012',
+    days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
+)
 Christmas = christmas()
 BoxingDay = boxing_day()
 
-NewYearsEve = new_years_eve(end_date='2011')
+NewYearsEveThrough2010 = new_years_eve(end_date='2011')
+NewYearsEveEarlyClose2012Onwards = new_years_eve(
+    start_date='2012',
+    days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
+)
 
 
 class XMADExchangeCalendar(TradingCalendar):
@@ -96,8 +112,11 @@ class XMADExchangeCalendar(TradingCalendar):
       - New Year's Eve (until 2010, inclusive)
 
     Early Closes:
-      - None
+      - Christmas Eve (2012 and after)
+      - New Year's Eve (2012 and after)
     """
+    regular_early_close = time(14, 00)
+
     @property
     def name(self):
         return 'XMAD'
@@ -127,8 +146,20 @@ class XMADExchangeCalendar(TradingCalendar):
             AllSaintsDay,
             ConstitutionDay,
             ImmaculateConception,
-            ChristmasEve,
+            ChristmasEveThrough2010,
             Christmas,
             BoxingDay,
-            NewYearsEve,
+            NewYearsEveThrough2010,
         ])
+
+    @property
+    def special_closes(self):
+        return [
+            (
+                self.regular_early_close,
+                HolidayCalendar([
+                    ChristmasEveEarlyClose2012Onwards,
+                    NewYearsEveEarlyClose2012Onwards,
+                ])
+            )
+        ]
