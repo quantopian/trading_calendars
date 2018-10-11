@@ -52,8 +52,10 @@ AustraliaDay = Holiday(
 AnzacDayNonMondayized = anzac_day(end_date='2010')
 AnzacDay = anzac_day(observance=sunday_to_monday, start_date='2010')
 
-# When Easter Monday and Anzac Day coincided in 2011, Easter Tuesday
-# was also observed as a public holiday.
+# When Easter Monday and Anzac Day coincided in 2011, Easter Tuesday was
+# also observed as a public holiday. Note that this isn't defined as a
+# rule, because it will happen next in 2095 (and then in  2163), and
+# there isn't a great way to tell how this will be handled at that point.
 EasterTuesday2011AdHoc = Timestamp('2011-04-26', tz='UTC')
 
 QueensBirthday = Holiday(
