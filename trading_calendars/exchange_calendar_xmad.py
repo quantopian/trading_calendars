@@ -35,7 +35,11 @@ from .common_holidays import (
     boxing_day,
     new_years_eve,
 )
-from .trading_calendar import HolidayCalendar, TradingCalendar
+from .trading_calendar import (
+    HolidayCalendar,
+    TradingCalendar,
+    WEEKDAYS,
+)
 
 NewYearsDay = new_years_day()
 
@@ -63,11 +67,19 @@ ConstitutionDay = Holiday(
 
 ImmaculateConception = immaculate_conception(end_date='2005')
 
-ChristmasEve = christmas_eve(end_date='2005')
+ChristmasEveThrough2010 = christmas_eve(end_date='2011')
+ChristmasEveEarlyClose2012Onwards = christmas_eve(
+    start_date='2012',
+    days_of_week=(WEEKDAYS),
+)
 Christmas = christmas()
 BoxingDay = boxing_day()
 
-NewYearsEve = new_years_eve(end_date='2005')
+NewYearsEveThrough2010 = new_years_eve(end_date='2011')
+NewYearsEveEarlyClose2012Onwards = new_years_eve(
+    start_date='2012',
+    days_of_week=(WEEKDAYS),
+)
 
 
 class XMADExchangeCalendar(TradingCalendar):
@@ -92,12 +104,15 @@ class XMADExchangeCalendar(TradingCalendar):
       - All Saints Day (until 2004, inclusive)
       - Constitution Day (until 2004, inclusive)
       - Immaculate Conception (until 2004, inclusive)
-      - Christmas Eve (until 2004, inclusive)
-      - New Year's Eve (until 2004, inclusive)
+      - Christmas Eve (until 2010, inclusive)
+      - New Year's Eve (until 2010, inclusive)
 
     Early Closes:
-      - None
+      - Christmas Eve (2012 and after)
+      - New Year's Eve (2012 and after)
     """
+    regular_early_close = time(14, 00)
+
     @property
     def name(self):
         return 'XMAD'
@@ -127,8 +142,20 @@ class XMADExchangeCalendar(TradingCalendar):
             AllSaintsDay,
             ConstitutionDay,
             ImmaculateConception,
-            ChristmasEve,
+            ChristmasEveThrough2010,
             Christmas,
             BoxingDay,
-            NewYearsEve,
+            NewYearsEveThrough2010,
         ])
+
+    @property
+    def special_closes(self):
+        return [
+            (
+                self.regular_early_close,
+                HolidayCalendar([
+                    ChristmasEveEarlyClose2012Onwards,
+                    NewYearsEveEarlyClose2012Onwards,
+                ])
+            )
+        ]

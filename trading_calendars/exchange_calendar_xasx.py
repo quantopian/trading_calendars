@@ -16,12 +16,13 @@
 from datetime import time
 
 from dateutil.relativedelta import MO
-from pandas import DateOffset
+from pandas import DateOffset, Timestamp
 from pandas.tseries.holiday import (
     Holiday,
     GoodFriday,
     EasterMonday,
     previous_friday,
+    sunday_to_monday,
     weekend_to_monday,
 )
 from pytz import timezone
@@ -45,7 +46,17 @@ AustraliaDay = Holiday(
     observance=weekend_to_monday,
 )
 
-AnzacDay = anzac_day(observance=weekend_to_monday)
+# Anzac Day was observed on Monday when it fell on a Sunday in
+# 2010 but that does not appear to have been the case previously.
+# We'll assume that this will be the behavior from now on.
+AnzacDayNonMondayized = anzac_day(end_date='2010')
+AnzacDay = anzac_day(observance=sunday_to_monday, start_date='2010')
+
+# When Easter Monday and Anzac Day coincided in 2011, Easter Tuesday was
+# also observed as a public holiday. Note that this isn't defined as a
+# rule, because it will happen next in 2095 (and then in  2163), and
+# there isn't a great way to tell how this will be handled at that point.
+EasterTuesday2011AdHoc = Timestamp('2011-04-26', tz='UTC')
 
 QueensBirthday = Holiday(
     "Queen's Birthday",
@@ -121,6 +132,7 @@ class XASXExchangeCalendar(TradingCalendar):
             AustraliaDay,
             GoodFriday,
             EasterMonday,
+            AnzacDayNonMondayized,
             AnzacDay,
             QueensBirthday,
             Christmas,
@@ -128,6 +140,10 @@ class XASXExchangeCalendar(TradingCalendar):
             BoxingDay,
             WeekendBoxingDay,
         ])
+
+    @property
+    def adhoc_holidays(self):
+        return [EasterTuesday2011AdHoc]
 
     @property
     def special_closes(self):
