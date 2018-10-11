@@ -111,6 +111,22 @@ def local_cmp(f, arr):
         An array of indices where ``f(arr[i], arr[i + 1])`` and
         ``f(arr[i], arr[i + 1])`` are true. index 0 and -1 are considered
         False.
+
+    Examples
+    --------
+    >>> import operator as op
+    # 100 samples of a path of 5 rotations
+    >>> rad = np.fmod(np.linspace(0, 5 * 2 * np.pi, 100), 2 * np.pi)
+    >>> sin = np.sin(rad)
+    >>> local_minima_ix = local_cmp(op.lt, sin)
+
+    # NOTE: this is not all -1 because we only took 100 samples so
+    # 3 * np.pi / 2 doesn't appear exactly in the ``rad`` array.
+    >>> sin[local_minima_ix]
+    array([-0.99886734, -0.99383846, -0.98982144, -0.99685478, -0.99987413])
+
+    >>> rad[local_minima_ix]
+    array([ 4.75998887,  4.82345539,  4.56958931,  4.63305583,  4.69652235])
     """
     return np.flatnonzero(
         np.r_[False, f(arr[1:], arr[:-1])] &
@@ -153,14 +169,17 @@ def utc_to_jd_tt(ts):
     jd_tt : np.ndarray[f8]
         The julian date terrestrial time for the UTC values.
     """
+    # lookup the corrections stored on this function object
+    corrections = utc_to_jd_tt.corrections
+
     jd_utc = ts.astype('M8[s]').view('i8') / 86400 + 2440587.5
     correction_ix = np.searchsorted(
-        utc_to_jd_tt.corrections['time'],
+        corrections['time'],
         ts,
         side='right',
     )
-    correction_ix[correction_ix == len(utc_to_jd_tt.corrections)] -= 1
-    return jd_utc + utc_to_jd_tt.corrections['julian_days'][correction_ix]
+    correction_ix[correction_ix == len(corrections)] -= 1
+    return jd_utc + corrections['julian_days'][correction_ix]
 
 
 def T(year, month, day):
@@ -1492,9 +1511,62 @@ def double_ninth_festival(lunar_ecliptic_longitude,
         double_ninth_festival.tofile(output)
 
 
+def _render_month(year, months, month, *, print_year):
+    import io
+
+    out = io.StringIO()
+
+    # subtract one from month because it is 1-indexed
+    month_start = utc_to_chinese_date(months[month - 1])
+    month_end = utc_to_chinese_date(months[month])
+    days = pd.date_range(month_start, month_end, closed='left')
+
+    is_leap_month = len(days) > 30
+    title = f'Lunar Month {month}{"(+)" if is_leap_month else ""}'
+    if print_year:
+        title += f' {year}'
+    print(f'{title:^20}'.rstrip(), file=out)
+    gregorian_months = f'{days[0].month_name()}-{days[-1].month_name()}'
+    print(f'{gregorian_months:^20}'.rstrip(), file=out)
+    print('Su Mo Tu We Th Fr Sa', file=out)
+    print(' ' * (3 * ((days[0].weekday() + 1) % 7) - 1), end='', file=out)
+
+    for d in days:
+        if d.weekday() == 6:
+            print('', file=out)
+        else:
+            print(' ', end='', file=out)
+
+        print(f'{d.day:>2}', end='', file=out)
+
+    print('', file=out)
+    return out.getvalue()
+
+
+def _concat_lines(strings, width):
+    as_lines = [string.splitlines() for string in strings]
+    max_lines = max(len(lines) for lines in as_lines)
+    for lines in as_lines:
+        missing_lines = max_lines - len(lines)
+        if missing_lines:
+            lines.extend([' ' * width] * missing_lines)
+
+    rows = []
+    for row_parts in zip(*as_lines):
+        row_parts = list(row_parts)
+        for n, row_part in enumerate(row_parts):
+            missing_space = width - len(row_part)
+            if missing_space:
+                row_parts[n] = row_part + ' ' * missing_space
+
+        rows.append('   '.join(row_parts))
+
+    return '\n'.join(row.rstrip() for row in rows)
+
+
 @main.command('chinese-cal')
-@click.argument('month', type=click.IntRange(1, 12))
-@click.argument('year', type=int)
+@click.argument('month', type=int)
+@click.argument('year', type=int, required=False)
 @click.option(
     '--lunar-ecliptic-longitude',
     type=click.Path(dir_okay=True, file_okay=False),
@@ -1516,6 +1588,13 @@ def chinese_cal(month,
     """Print a unix cal like table for a Chinese lunar month. The day numbers
     are the Gregorian days of their Gregorian month.
     """
+    if year is None:
+        year = month
+        month = None
+        full_year = True
+    else:
+        full_year = False
+
     new_moons, solar_elon, solar_minutes = load_new_moons(
         solar_ecliptic_longitude,
         lunar_ecliptic_longitude,
@@ -1535,28 +1614,25 @@ def chinese_cal(month,
         raise ValueError(f'data does not contain {year}')
 
     new_year_month_ix = np.searchsorted(months, given_new_year[0])
+    year_months = months[new_year_month_ix:]
 
-    # subtract one from month because it is 1-indexed
-    month_start = utc_to_chinese_date(months[new_year_month_ix + (month - 1)])
-    month_end = utc_to_chinese_date(months[new_year_month_ix + month])
-    days = pd.date_range(month_start, month_end, closed='left')
-
-    is_leap_month = len(days) > 30
-    title = f'Lunar Month {month}{"*" if is_leap_month else ""} {year}'
-    print(f'{title:^20}')
-    gregorian_conversion = f'{days[0].month_name()}-{days[-1].month_name()}'
-    print(f'{gregorian_conversion:^20}')
-    print('Su Mo Tu We Th Fr Sa')
-    print(' ' * (3 * ((days[0].weekday() + 1) % 7) - 1), end='')
-
-    for d in days:
-        if d.weekday() == 6:
-            print('')
-        else:
-            print(' ', end='')
-
-        print(f'{d.day:>2}', end='')
-    print('')
+    if not full_year:
+        print(_render_month(year, year_months, month, print_year=True))
+    else:
+        month_strings = [
+            [
+                _render_month(
+                    year,
+                    year_months,
+                    row * 3 + column + 1,
+                    print_year=False,
+                )
+                for column in range(3)
+            ]
+            for row in range(4)
+        ]
+        print(f'{year:^66}\n'.rstrip())
+        print('\n\n'.join(_concat_lines(cs, 20) for cs in month_strings))
 
 
 if __name__ == '__main__':
