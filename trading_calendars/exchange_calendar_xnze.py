@@ -39,6 +39,9 @@ from .trading_calendar import (
     HolidayCalendar
 )
 
+
+# Prior to 2015, Waitangi Day and Anzac Day are not "Mondayized",
+# that is, if they occur on the weekend, there is no make-up.
 MONDAYIZATION_START_DATE = "2015-01-01"
 
 # Regular Holidays

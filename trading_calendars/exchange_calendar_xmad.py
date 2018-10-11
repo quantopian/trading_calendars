@@ -38,11 +38,7 @@ from .common_holidays import (
 from .trading_calendar import (
     HolidayCalendar,
     TradingCalendar,
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
+    WEEKDAYS,
 )
 
 NewYearsDay = new_years_day()
@@ -74,7 +70,7 @@ ImmaculateConception = immaculate_conception(end_date='2005')
 ChristmasEveThrough2010 = christmas_eve(end_date='2011')
 ChristmasEveEarlyClose2012Onwards = christmas_eve(
     start_date='2012',
-    days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
+    days_of_week=(WEEKDAYS),
 )
 Christmas = christmas()
 BoxingDay = boxing_day()
@@ -82,7 +78,7 @@ BoxingDay = boxing_day()
 NewYearsEveThrough2010 = new_years_eve(end_date='2011')
 NewYearsEveEarlyClose2012Onwards = new_years_eve(
     start_date='2012',
-    days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
+    days_of_week=(WEEKDAYS),
 )
 
 
