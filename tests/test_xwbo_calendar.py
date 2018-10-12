@@ -70,9 +70,6 @@ class XWBOCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             # Monday for St. Stephen's Day, and open again on Tuesday.
             pd.Timestamp('2011-12-23', tz='UTC'),
             pd.Timestamp('2011-12-27', tz='UTC'),
-            # New Year's Eve on a Saturday and New Year's Day on a Sunday.
-            pd.Timestamp('2011-12-30', tz='UTC'),
-            pd.Timestamp('2012-01-02', tz='UTC'),
         ]
 
         for session_label in expected_sessions:
@@ -96,7 +93,7 @@ class XWBOCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             # New Year's Eve on a Saturday, Friday 12/30 is a trading day.
             pd.Timestamp('2016-12-30', tz='UTC'),
             # New Year's Eve on a Sunday, Friday 12/29 is a trading day.
-            pd.Timestamp('2016-12-29', tz='UTC'),
+            pd.Timestamp('2017-12-29', tz='UTC'),
         ]
 
         for session_label in expected_sessions:
