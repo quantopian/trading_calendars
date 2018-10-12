@@ -43,9 +43,9 @@ class XWBOCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
     def test_holidays_fall_on_weekend(self):
-        # Holidays falling on a weekend should not be made up during the week,
-        # so test that the Fridays and Mondays surrounding them are open market
-        # days.
+        # Holidays falling on a weekend should generally not be made up
+        # during the week, so test that the Fridays and Mondays surrounding
+        # them are open market days.
         expected_sessions = [
             # Epiphany (January 6th) on a Saturday.
             pd.Timestamp('2018-01-05', tz='UTC'),
@@ -70,9 +70,30 @@ class XWBOCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             # Monday for St. Stephen's Day, and open again on Tuesday.
             pd.Timestamp('2011-12-23', tz='UTC'),
             pd.Timestamp('2011-12-27', tz='UTC'),
-            # New Year's Eve on a Saturday and New Year's Day on a Sunday.
+        ]
+
+        for session_label in expected_sessions:
+            self.assertIn(session_label, self.calendar.all_sessions)
+
+    def test_new_years_eve_falls_on_weekend(self):
+        # Prior to 2016, when New Year's Eve fell on the weekend, it was
+        # observed on the preceding Friday.
+        expected_holidays = [
+            # New Year's Eve on a Saturday, observed on Friday 12/30.
             pd.Timestamp('2011-12-30', tz='UTC'),
-            pd.Timestamp('2012-01-02', tz='UTC'),
+            # New Year's Eve on a Sunday, observed on Friday 12/29.
+            pd.Timestamp('2006-12-29', tz='UTC'),
+        ]
+
+        for holiday_label in expected_holidays:
+            self.assertNotIn(holiday_label, self.calendar.all_sessions)
+
+        # In 2016 and after, it is not made up.
+        expected_sessions = [
+            # New Year's Eve on a Saturday, Friday 12/30 is a trading day.
+            pd.Timestamp('2016-12-30', tz='UTC'),
+            # New Year's Eve on a Sunday, Friday 12/29 is a trading day.
+            pd.Timestamp('2017-12-29', tz='UTC'),
         ]
 
         for session_label in expected_sessions:
