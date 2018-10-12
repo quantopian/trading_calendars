@@ -16,10 +16,10 @@
 from datetime import time
 
 from pandas.tseries.holiday import (
-  Holiday,
-  GoodFriday,
-  EasterMonday,
-  previous_friday,
+    Holiday,
+    GoodFriday,
+    EasterMonday,
+    previous_friday,
 )
 from pytz import timezone
 
@@ -65,10 +65,10 @@ SaintStephensDay = Holiday("Saint Stephen's Day", month=12, day=26)
 # Prior to 2016, when New Year's Eve fell on the weekend, it was observed
 # on the preceding Friday. In 2016 and after, it is not made up.
 NewYearsEveThrough2015 = new_years_eve(
-  observance=previous_friday,
-  end_date='2016',
+    observance=previous_friday,
+    end_date='2016',
 )
-NewYearsEve = new_years_eve(start_date='2016')
+NewYearsEve2016Onwards = new_years_eve(start_date='2016')
 
 
 class XWBOExchangeCalendar(TradingCalendar):
@@ -134,5 +134,5 @@ class XWBOExchangeCalendar(TradingCalendar):
             Christmas,
             SaintStephensDay,
             NewYearsEveThrough2015,
-            NewYearsEve,
+            NewYearsEve2016Onwards,
         ])
