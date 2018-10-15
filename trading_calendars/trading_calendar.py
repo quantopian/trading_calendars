@@ -28,6 +28,7 @@ from pandas import (
     DatetimeIndex,
 )
 from pandas.tseries.offsets import CustomBusinessDay
+import toolz
 
 from .calendar_helpers import (
     compute_all_minutes,
@@ -50,6 +51,35 @@ NANOS_IN_MINUTE = 60000000000
 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY = range(7)
 WEEKDAYS = (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY)
 WEEKENDS = (SATURDAY, SUNDAY)
+
+
+def selection(arr, start, end):
+    predicates = []
+    if start is not None:
+        predicates.append(start.tz_localize('UTC') <= arr)
+    if end is not None:
+        predicates.append(arr < end.tz_localize('UTC'))
+
+    if not predicates:
+        return arr
+
+    return arr[np.all(predicates, axis=0)]
+
+
+def _group_times(all_days, times, tz, offset):
+    elements = [
+        days_at_time(
+            selection(all_days, start, end),
+            time,
+            tz,
+            offset
+        )
+        for (start, time), (end, _) in toolz.sliding_window(
+            2,
+            toolz.concatv(times, [(None, None)])
+        )
+    ]
+    return elements[0].append(elements[1:])
 
 
 class TradingCalendar(with_metaclass(ABCMeta)):
@@ -78,15 +108,15 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             _all_days = date_range(start, end, freq=self.day, tz='UTC')
 
         # `DatetimeIndex`s of standard opens/closes for each day.
-        self._opens = days_at_time(
+        self._opens = _group_times(
             _all_days,
-            self.open_time,
+            self.open_times,
             self.tz,
             self.open_offset,
         )
-        self._closes = days_at_time(
+        self._closes = _group_times(
             _all_days,
-            self.close_time,
+            self.close_times,
             self.tz,
             self.close_offset,
         )
@@ -152,11 +182,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         raise NotImplementedError()
 
     @abstractproperty
-    def open_time(self):
+    def open_times(self):
         raise NotImplementedError()
 
     @abstractproperty
-    def close_time(self):
+    def close_times(self):
         raise NotImplementedError()
 
     @property

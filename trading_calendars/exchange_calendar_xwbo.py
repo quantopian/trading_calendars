@@ -99,21 +99,17 @@ class XWBOExchangeCalendar(TradingCalendar):
     Early Closes:
       - None
     """
-    @property
-    def name(self):
-        return 'XWBO'
+    name = 'XWBO'
 
-    @property
-    def tz(self):
-        return timezone('Europe/Vienna')
+    tz = timezone('Europe/Vienna')
 
-    @property
-    def open_time(self):
-        return time(9, 1)
+    open_times = (
+        (None, time(9, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(17, 30)
+    close_times = (
+        (None, time(17, 30)),
+    )
 
     @property
     def regular_holidays(self):

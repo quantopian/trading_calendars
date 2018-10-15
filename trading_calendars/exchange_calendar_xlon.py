@@ -144,21 +144,17 @@ class XLONExchangeCalendar(TradingCalendar):
     """
     regular_early_close = time(12, 30)
 
-    @property
-    def name(self):
-        return "XLON"
+    name = 'XLON'
 
-    @property
-    def tz(self):
-        return timezone('Europe/London')
+    tz = timezone('Europe/London')
 
-    @property
-    def open_time(self):
-        return time(8, 1)
+    open_times = (
+        (None, time(8, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(16, 30)
+    close_times = (
+        (None, time(16, 30)),
+    )
 
     @property
     def regular_holidays(self):

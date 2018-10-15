@@ -126,21 +126,17 @@ class XTSEExchangeCalendar(TradingCalendar):
 
     regular_early_close = time(13)
 
-    @property
-    def name(self):
-        return "XTSE"
+    name = 'XTSE'
 
-    @property
-    def tz(self):
-        return timezone('Canada/Atlantic')
+    tz = timezone('Canada/Atlantic')
 
-    @property
-    def open_time(self):
-        return time(9, 31)
+    open_times = (
+        (None, time(9, 31)),
+    )
 
-    @property
-    def close_time(self):
-        return time(16)
+    close_times = (
+        (None, time(16)),
+    )
 
     @property
     def regular_holidays(self):

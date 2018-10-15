@@ -34,21 +34,17 @@ class XCBFExchangeCalendar(TradingCalendar):
 
     (We are ignoring extended trading hours for now)
     """
-    @property
-    def name(self):
-        return "XCBF"
+    name = 'XCBF'
 
-    @property
-    def tz(self):
-        return timezone("America/Chicago")
+    tz = timezone("America/Chicago")
 
-    @property
-    def open_time(self):
-        return time(8, 31)
+    open_times = (
+        (None, time(8, 31)),
+    )
 
-    @property
-    def close_time(self):
-        return time(15, 15)
+    close_times = (
+        (None, time(15, 15)),
+    )
 
     @property
     def regular_holidays(self):

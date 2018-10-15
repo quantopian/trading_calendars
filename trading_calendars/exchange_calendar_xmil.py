@@ -62,22 +62,18 @@ class XMILExchangeCalendar(TradingCalendar):
     Early Closes:
       - None
     """
-    @property
-    def name(self):
-        return 'XMIL'
+    name = 'XMIL'
 
-    @property
-    def tz(self):
-        # Rome is the same timezone as Milan.
-        return timezone('Europe/Rome')
+    # Rome is the same timezone as Milan.
+    tz = timezone('Europe/Rome')
 
-    @property
-    def open_time(self):
-        return time(9, 1)
+    open_times = (
+        (None, time(9, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(17, 30)
+    close_times = (
+        (None, time(17, 30)),
+    )
 
     @property
     def regular_holidays(self):

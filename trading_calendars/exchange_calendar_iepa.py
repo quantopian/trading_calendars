@@ -30,21 +30,17 @@ class IEPAExchangeCalendar(TradingCalendar):
 
     https://www.theice.com/publicdocs/futures_us/ICE_Futures_US_Regular_Trading_Hours.pdf # noqa
     """
-    @property
-    def name(self):
-        return "IEPA"
+    name = 'IEPA'
 
-    @property
-    def tz(self):
-        return timezone("US/Eastern")
+    tz = timezone("US/Eastern")
 
-    @property
-    def open_time(self):
-        return time(20, 1)
+    open_times = (
+        (None, time(20, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(18)
+    close_times = (
+        (None, time(18)),
+    )
 
     @property
     def open_offset(self):

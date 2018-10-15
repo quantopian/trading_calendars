@@ -25,6 +25,7 @@ from pandas.tseries.holiday import (
     sunday_to_monday,
 )
 from pytz import timezone
+import toolz
 
 from .trading_calendar import (
     TradingCalendar,
@@ -42,6 +43,7 @@ from .common_holidays import (
     chinese_buddhas_birthday_dates,
     chinese_lunar_new_year_dates,
     christmas,
+    christmas_eve,
     day_after_mid_autumn_festival_dates,
     double_ninth_festival_dates,
     dragon_boat_festival_dates,
@@ -74,13 +76,6 @@ establishment_day = Holiday(
     month=7,
     day=1,
     observance=sunday_to_monday,
-)
-
-christmas_eve = Holiday(
-    'Christmas Eve',
-    month=12,
-    day=24,
-    days_of_week=weekdays,
 )
 
 
@@ -123,9 +118,18 @@ class XHKGExchangeCalendar(TradingCalendar):
     """
     name = 'XHKG'
     tz = timezone('Asia/Hong_Kong')
-    open_time = time(9, 31)
-    close_time = time(16)
-    regular_early_close = time(12)
+
+    open_times = (
+        (None, time(10, 1)),
+        (pd.Timestamp('2011-03-07'), time(9, 31)),
+    )
+    close_times = (
+        (None, time(16)),
+    )
+    regular_early_close_times = (
+        (None, time(12, 30)),
+        (pd.Timestamp('2011-03-07'), time(12, 00)),
+    )
 
     def __init__(self, *args, **kwargs):
         super(XHKGExchangeCalendar, self).__init__(*args, **kwargs)
@@ -253,10 +257,25 @@ class XHKGExchangeCalendar(TradingCalendar):
     @property
     def special_closes(self):
         return [
-            (self.regular_early_close, HolidayCalendar([
-                christmas_eve,
-                new_years_eve(days_of_week=weekdays),
-            ])),
+            (
+                time,
+                HolidayCalendar([
+                    new_years_eve(
+                        start_date=start,
+                        end_date=end,
+                        days_of_week=weekdays,
+                    ),
+                    christmas_eve(
+                        start_date=start,
+                        end_date=end,
+                        days_of_week=weekdays
+                    ),
+                ]),
+            )
+            for (start, time), (end, _) in toolz.sliding_window(
+                2,
+                toolz.concatv(self.regular_early_close_times, [(None, None)]),
+            )
         ]
 
     @property
@@ -268,8 +287,24 @@ class XHKGExchangeCalendar(TradingCalendar):
                 chinese_lunar_new_year_dates.weekday,
                 [TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY],
             ) & (chinese_lunar_new_year_dates.year >= 2013)
-        ]
+        ].values
+
+        def selection(arr, start, end):
+            predicates = []
+            if start is not None:
+                predicates.append(start.asm8 <= arr)
+            if end is not None:
+                predicates.append(arr < end.asm8)
+
+            if not predicates:
+                return arr
+
+            return arr[np.all(predicates, axis=0)]
 
         return [
-            (self.regular_early_close, lunar_new_years_eve.values),
+            (time, selection(lunar_new_years_eve, start, end))
+            for (start, time), (end, _) in toolz.sliding_window(
+                2,
+                toolz.concatv(self.regular_early_close_times, [(None, None)]),
+            )
         ]

@@ -52,21 +52,14 @@ from trading_calendars.trading_calendar import (
 
 
 class FakeCalendar(TradingCalendar):
-    @property
-    def name(self):
-        return "DMY"
-
-    @property
-    def tz(self):
-        return "Asia/Ulaanbaatar"
-
-    @property
-    def open_time(self):
-        return time(11, 13)
-
-    @property
-    def close_time(self):
-        return time(11, 49)
+    name = 'DMY'
+    tz = 'Asia/Ulaanbaatar'
+    open_times = (
+        (None, time(11, 13)),
+    )
+    close_times = (
+        (None, time(11, 49)),
+    )
 
 
 class CalendarRegistrationTestCase(TestCase):
@@ -757,6 +750,10 @@ class ExchangeCalendarTestBase(object):
         # make sure there's no weirdness around calculating the next day's
         # session's open time.
 
+        m = dict(self.calendar.open_times)
+        m[pd.Timestamp.min] = m.pop(None)
+        open_times = pd.Series(m)
+
         for date in self.DAYLIGHT_SAVINGS_DATES:
             next_day = pd.Timestamp(date, tz='UTC')
             open_date = next_day + Timedelta(days=self.calendar.open_offset)
@@ -772,13 +769,17 @@ class ExchangeCalendarTestBase(object):
                 (localized_open.year, localized_open.month, localized_open.day)
             )
 
+            open_ix = open_times.index.searchsorted(date, side='r')
+            if open_ix == len(open_times):
+                open_ix -= 1
+
             self.assertEqual(
-                self.calendar.open_time.hour,
+                open_times.iloc[open_ix].hour,
                 localized_open.hour
             )
 
             self.assertEqual(
-                self.calendar.open_time.minute,
+                open_times.iloc[open_ix].minute,
                 localized_open.minute
             )
 

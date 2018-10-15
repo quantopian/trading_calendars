@@ -52,21 +52,17 @@ class CMESExchangeCalendar(TradingCalendar):
     - Good Friday
     - Christmas
     """
-    @property
-    def name(self):
-        return "CME"
+    name = 'CME'
 
-    @property
-    def tz(self):
-        return timezone('America/Chicago')
+    tz = timezone('America/Chicago')
 
-    @property
-    def open_time(self):
-        return time(17, 1)
+    open_times = (
+        (None, time(17, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(17)
+    close_times = (
+        (None, time(17)),
+    )
 
     @property
     def open_offset(self):
