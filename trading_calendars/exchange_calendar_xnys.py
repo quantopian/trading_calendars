@@ -98,21 +98,17 @@ class XNYSExchangeCalendar(TradingCalendar):
 
     regular_early_close = time(13)
 
-    @property
-    def name(self):
-        return "XNYS"
+    name = 'XNYS'
 
-    @property
-    def tz(self):
-        return timezone('US/Eastern')
+    tz = timezone('US/Eastern')
 
-    @property
-    def open_time(self):
-        return time(9, 31)
+    open_times = (
+        (None, time(9, 31)),
+    )
 
-    @property
-    def close_time(self):
-        return time(16)
+    close_times = (
+        (None, time(16)),
+    )
 
     @property
     def regular_holidays(self):

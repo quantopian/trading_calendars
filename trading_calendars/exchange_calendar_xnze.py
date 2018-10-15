@@ -140,21 +140,17 @@ class XNZEExchangeCalendar(TradingCalendar):
     """
     regular_early_close = time(12, 45)
 
-    @property
-    def name(self):
-        return "XNZE"
+    name = 'XNZE'
 
-    @property
-    def tz(self):
-        return timezone('NZ')
+    tz = timezone('NZ')
 
-    @property
-    def open_time(self):
-        return time(10, 1)
+    open_times = (
+        (None, time(10, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(16, 45)
+    close_times = (
+        (None, time(16, 45)),
+    )
 
     @property
     def regular_holidays(self):

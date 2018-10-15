@@ -104,21 +104,17 @@ class XFRAExchangeCalendar(TradingCalendar):
     # TODO: verify the early close time
     regular_early_close = time(12, 30)
 
-    @property
-    def name(self):
-        return "XFRA"
+    name = 'XFRA'
 
-    @property
-    def tz(self):
-        return timezone('CET')
+    tz = timezone('CET')
 
-    @property
-    def open_time(self):
-        return time(9, 1)
+    open_times = (
+        (None, time(9, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(17, 30)
+    close_times = (
+        (None, time(17, 30)),
+    )
 
     @property
     def regular_holidays(self):

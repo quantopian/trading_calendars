@@ -109,21 +109,17 @@ class XASXExchangeCalendar(TradingCalendar):
     """
     regular_early_close = time(14, 10)
 
-    @property
-    def name(self):
-        return 'XASX'
+    name = 'XASX'
 
-    @property
-    def tz(self):
-        return timezone('Australia/Sydney')
+    tz = timezone('Australia/Sydney')
 
-    @property
-    def open_time(self):
-        return time(10, 1)
+    open_times = (
+        (None, time(10, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(16)
+    close_times = (
+        (None, time(16)),
+    )
 
     @property
     def regular_holidays(self):

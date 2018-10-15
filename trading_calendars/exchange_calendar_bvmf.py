@@ -169,21 +169,17 @@ class BVMFExchangeCalendar(TradingCalendar):
     - New Year's Eve (December 31)
     """
 
-    @property
-    def name(self):
-        return "BVMF"
+    name = 'BVMF'
 
-    @property
-    def tz(self):
-        return timezone("America/Sao_Paulo")
+    tz = timezone("America/Sao_Paulo")
 
-    @property
-    def open_time(self):
-        return time(10, 1)
+    open_times = (
+        (None, time(10, 1)),
+    )
 
-    @property
-    def close_time(self):
-        return time(16)
+    close_times = (
+        (None, time(16)),
+    )
 
     @property
     def regular_holidays(self):

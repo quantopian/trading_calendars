@@ -49,25 +49,15 @@ class QuantopianUSFuturesCalendar(TradingCalendar):
                  end=end_default):
         super(QuantopianUSFuturesCalendar, self).__init__(start=start, end=end)
 
-    @property
-    def name(self):
-        return "us_futures"
-
-    @property
-    def tz(self):
-        return timezone('US/Eastern')
-
-    @property
-    def open_time(self):
-        return time(18, 1)
-
-    @property
-    def close_time(self):
-        return time(18)
-
-    @property
-    def open_offset(self):
-        return -1
+    name = 'us_futures'
+    tz = timezone('US/Eastern')
+    open_times = (
+        (None, time(18, 1)),
+    )
+    close_times = (
+        (None, time(18)),
+    )
+    open_offset = -1
 
     def execution_time_from_open(self, open_dates):
         return open_dates + Timedelta(hours=FUTURES_OPEN_TIME_OFFSET)

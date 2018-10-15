@@ -4,7 +4,6 @@ import pandas as pd
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xhkg import XHKGExchangeCalendar
-from trading_calendars.utils.pandas_utils import days_at_time
 
 
 def T(x):

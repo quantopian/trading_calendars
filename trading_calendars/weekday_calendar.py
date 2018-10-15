@@ -8,18 +8,11 @@ class WeekdayCalendar(TradingCalendar):
     A TradingCalendar for an exchange that is open every minute of every
     weekday.
     """
-    @property
-    def name(self):
-        return '24/5'
-
-    @property
-    def tz(self):
-        return 'UTC'
-
-    @property
-    def open_time(self):
-        return time(0)
-
-    @property
-    def close_time(self):
-        return time(23, 59)
+    name = '24/5'
+    tz = 'UTC'
+    open_times = (
+        (None, time(0)),
+    )
+    close_times = (
+        (None, time(23, 59)),
+    )
