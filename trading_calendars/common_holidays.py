@@ -1,5 +1,5 @@
 import pandas as pd
-from pandas.tseries.holiday import Holiday, Easter
+from pandas.tseries.holiday import DateOffset, Easter, FR, Holiday
 from pandas.tseries.offsets import Day
 
 from .trading_calendar import MONDAY, TUESDAY
@@ -35,21 +35,6 @@ def new_years_eve(start_date=None,
     )
 
 
-def anzac_day(start_date=None,
-              end_date=None,
-              observance=None,
-              days_of_week=None):
-    return Holiday(
-        'Anzac Day',
-        month=4,
-        day=25,
-        start_date=start_date,
-        end_date=end_date,
-        observance=observance,
-        days_of_week=days_of_week,
-    )
-
-
 def epiphany(start_date=None,
              end_date=None,
              observance=None,
@@ -58,6 +43,21 @@ def epiphany(start_date=None,
         'Epiphany',
         month=1,
         day=6,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
+def anzac_day(start_date=None,
+              end_date=None,
+              observance=None,
+              days_of_week=None):
+    return Holiday(
+        'Anzac Day',
+        month=4,
+        day=25,
         start_date=start_date,
         end_date=end_date,
         observance=observance,
@@ -80,9 +80,34 @@ def european_labour_day(start_date=None,
     )
 
 
-# Ascension Day, Whit Monday, and Corpus Christi do not take observance as a
-# parameter because they depend on a particular offset, and offset and
-# observance cannot both be passed to a Holiday.
+# Holy Wednesday, Maundy Thursday, Ascension Day, Whit Monday, and Corpus
+# Christi do not take observance as a parameter because they depend on a
+# particular offset, and offset and observance cannot both be passed to a
+# Holiday.
+def holy_wednesday(start_date=None, end_date=None, days_of_week=None):
+    return Holiday(
+        'Holy Wednesday',
+        month=1,
+        day=1,
+        offset=[Easter(), -Day(4)],
+        start_date=start_date,
+        end_date=end_date,
+        days_of_week=days_of_week,
+    )
+
+
+def maundy_thursday(start_date=None, end_date=None, days_of_week=None):
+    return Holiday(
+        'Maundy Thursday',
+        month=1,
+        day=1,
+        offset=[Easter(), -Day(3)],
+        start_date=start_date,
+        end_date=end_date,
+        days_of_week=days_of_week,
+    )
+
+
 def ascension_day(start_date=None, end_date=None):
     return Holiday(
         "Ascension Day",
@@ -111,6 +136,17 @@ def corpus_christi(start_date=None, end_date=None):
         month=1,
         day=1,
         offset=[Easter(), Day(60)],
+        start_date=start_date,
+        end_date=end_date,
+    )
+
+
+def midsummer_eve(start_date=None, end_date=None):
+    return Holiday(
+        'Midsummer Eve',
+        month=6,
+        day=19,
+        offset=DateOffset(weekday=FR(1)),
         start_date=start_date,
         end_date=end_date,
     )

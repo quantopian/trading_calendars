@@ -11,7 +11,9 @@ from .exchange_calendar_xams import XAMSExchangeCalendar
 from .exchange_calendar_xasx import XASXExchangeCalendar
 from .exchange_calendar_xbru import XBRUExchangeCalendar
 from .exchange_calendar_xcbf import XCBFExchangeCalendar
+from .exchange_calendar_xcse import XCSEExchangeCalendar
 from .exchange_calendar_xfra import XFRAExchangeCalendar
+from .exchange_calendar_xhel import XHELExchangeCalendar
 from .exchange_calendar_xhkg import XHKGExchangeCalendar
 from .exchange_calendar_xlis import XLISExchangeCalendar
 from .exchange_calendar_xlon import XLONExchangeCalendar
@@ -19,7 +21,9 @@ from .exchange_calendar_xmad import XMADExchangeCalendar
 from .exchange_calendar_xmil import XMILExchangeCalendar
 from .exchange_calendar_xnys import XNYSExchangeCalendar
 from .exchange_calendar_xnze import XNZEExchangeCalendar
+from .exchange_calendar_xosl import XOSLExchangeCalendar
 from .exchange_calendar_xpar import XPARExchangeCalendar
+from .exchange_calendar_xsto import XSTOExchangeCalendar
 from .exchange_calendar_xswx import XSWXExchangeCalendar
 from .exchange_calendar_xtks import XTKSExchangeCalendar
 from .exchange_calendar_xtse import XTSEExchangeCalendar
@@ -36,7 +40,9 @@ _default_calendar_factories = {
     'XASX': XASXExchangeCalendar,
     'XBRU': XBRUExchangeCalendar,
     'XCBF': XCBFExchangeCalendar,
+    'XCSE': XCSEExchangeCalendar,
     'XFRA': XFRAExchangeCalendar,
+    'XHEL': XHELExchangeCalendar,
     'XHKG': XHKGExchangeCalendar,
     'XLIS': XLISExchangeCalendar,
     'XLON': XLONExchangeCalendar,
@@ -44,7 +50,9 @@ _default_calendar_factories = {
     'XMIL': XMILExchangeCalendar,
     'XNYS': XNYSExchangeCalendar,
     'XNZE': XNZEExchangeCalendar,
+    'XOSL': XOSLExchangeCalendar,
     'XPAR': XPARExchangeCalendar,
+    'XSTO': XSTOExchangeCalendar,
     'XSWX': XSWXExchangeCalendar,
     'XTKS': XTKSExchangeCalendar,
     'XTSE': XTSEExchangeCalendar,
