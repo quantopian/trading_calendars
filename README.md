@@ -1,30 +1,30 @@
 # trading_calendars
-A Python library of securities exchange calendars meant to be used with [Zipline](https://github.com/quantopian/zipline).
+A Python library of exchange calendars meant to be used with [Zipline](https://github.com/quantopian/zipline).
 
-Note that exchange calendars are defined by their [ISO-10383 market identifier code](https://www.iso20022.org/10383/iso-10383-market-identifier-codes).
-
-|Exchange                       |ISO Code|Country    |Version Added|Exchange Website (English)                             |
-|--------------------------------------------------------------------------------------------------------------------------|
-|New York Stock Exchange        |XNYS    |USA        |1.0          |https://www.nyse.com/index                             |
-|CBOE Futures                   |XCBF    |USA        |1.0          |https://markets.cboe.com/us/futures/overview/          |
-|Chicago Mercantile Exchange    |CMES    |USA        |1.0          |https://www.cmegroup.com/                              |
-|ICE US                         |IEPA    |USA        |1.0          |https://www.theice.com/index                           |
-|Toronto Stock Exchange         |XTSE    |Canada     |1.0          |https://www.tsx.com/                                   |
-|BMF Bovespa                    |BVMF    |Brazil     |1.0          |http://www.b3.com.br/en_us/                            |
-|Euronext Amsterdam             |XAMS    |Netherlands|1.2          |https://www.euronext.com/en/regulation/amsterdam       |
-|Euronext Brussels              |XBRU    |Belgium    |1.2          |https://www.euronext.com/en/regulation/brussels        |
-|Euronext Lisbon                |XLIS    |Portugal   |1.2          |https://www.euronext.com/en/regulation/lisbon          |
-|Euronext Paris                 |XPAR    |France     |1.2          |https://www.euronext.com/en/regulation/paris           |
-|Frankfurt Stock Exchange       |XFRA    |Germany    |1.2          |http://en.boerse-frankfurt.de/                         |
-|SIX Swiss Exchange             |XSWX    |Switzerland|1.2          |https://www.six-group.com/exchanges/index.html         |
-|Tokyo Stock Exchange           |XTKS    |Japan      |1.2          |https://www.jpx.co.jp/english/                         |
-|Austrialian Securities Exchange|XASX    |Australia  |1.3*         |https://www.asx.com.au/                                |
-|Bolsa de Madrid                |XMAD    |Spain      |1.3*         |http://www.bolsamadrid.es/ing/aspx/Portada/Portada.aspx|
-|Borsa Italiana                 |XMIL    |Italy      |1.3*         |https://www.borsaitaliana.it/homepage/homepage.en.htm  |
-|New Zealand Exchange           |XNZE    |New Zealand|1.3*         |https://www.nzx.com/                                   |
-|Wiener Borse                   |XWBO    |Austria    |1.3*         |https://www.wienerborse.at/en/                         |
+| Exchange                        | ISO Code | Country     | Version Added | Exchange Website (English)                              |
+| ------------------------------- | -------- | ----------- | ------------- | ------------------------------------------------------- |
+| New York Stock Exchange         | XNYS     | USA         | 1.0           | https://www.nyse.com/index                              |
+| CBOE Futures                    | XCBF     | USA         | 1.0           | https://markets.cboe.com/us/futures/overview/           |
+| Chicago Mercantile Exchange     | CMES     | USA         | 1.0           | https://www.cmegroup.com/                               |
+| ICE US                          | IEPA     | USA         | 1.0           | https://www.theice.com/index                            |
+| Toronto Stock Exchange          | XTSE     | Canada      | 1.0           | https://www.tsx.com/                                    |
+| BMF Bovespa                     | BVMF     | Brazil      | 1.0           | http://www.b3.com.br/en_us/                             |
+| Euronext Amsterdam              | XAMS     | Netherlands | 1.2           | https://www.euronext.com/en/regulation/amsterdam        |
+| Euronext Brussels               | XBRU     | Belgium     | 1.2           | https://www.euronext.com/en/regulation/brussels         |
+| Euronext Lisbon                 | XLIS     | Portugal    | 1.2           | https://www.euronext.com/en/regulation/lisbon           |
+| Euronext Paris                  | XPAR     | France      | 1.2           | https://www.euronext.com/en/regulation/paris            |
+| Frankfurt Stock Exchange        | XFRA     | Germany     | 1.2           | http://en.boerse-frankfurt.de/                          |
+| SIX Swiss Exchange              | XSWX     | Switzerland | 1.2           | https://www.six-group.com/exchanges/index.html          |
+| Tokyo Stock Exchange            | XTKS     | Japan       | 1.2           | https://www.jpx.co.jp/english/                          |
+| Austrialian Securities Exchange | XASX     | Australia   | 1.3*          | https://www.asx.com.au/                                 |
+| Bolsa de Madrid                 | XMAD     | Spain       | 1.3*          | http://www.bolsamadrid.es/ing/aspx/Portada/Portada.aspx |
+| Borsa Italiana                  | XMIL     | Italy       | 1.3*          | https://www.borsaitaliana.it/homepage/homepage.en.htm   |
+| New Zealand Exchange            | XNZE     | New Zealand | 1.3*          | https://www.nzx.com/                                    |
+| Wiener Borse                    | XWBO     | Austria     | 1.3*          | https://www.wienerborse.at/en/                          |
 
 Calendars marked with an asterisk (*) have not yet been released.
+
+Note that exchange calendars are defined by their [ISO-10383 market identifier code](https://www.iso20022.org/10383/iso-10383-market-identifier-codes).
 
 ## Usage
 ```python
