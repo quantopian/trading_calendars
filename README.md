@@ -16,11 +16,12 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Frankfurt Stock Exchange        | XFRA     | Germany     | 1.2           | http://en.boerse-frankfurt.de/                          |
 | SIX Swiss Exchange              | XSWX     | Switzerland | 1.2           | https://www.six-group.com/exchanges/index.html          |
 | Tokyo Stock Exchange            | XTKS     | Japan       | 1.2           | https://www.jpx.co.jp/english/                          |
-| Austrialian Securities Exchange | XASX     | Australia   | 1.3*          | https://www.asx.com.au/                                 |
-| Bolsa de Madrid                 | XMAD     | Spain       | 1.3*          | http://www.bolsamadrid.es/ing/aspx/Portada/Portada.aspx |
-| Borsa Italiana                  | XMIL     | Italy       | 1.3*          | https://www.borsaitaliana.it/homepage/homepage.en.htm   |
-| New Zealand Exchange            | XNZE     | New Zealand | 1.3*          | https://www.nzx.com/                                    |
-| Wiener Borse                    | XWBO     | Austria     | 1.3*          | https://www.wienerborse.at/en/                          |
+| Austrialian Securities Exchange | XASX     | Australia   | 1.3           | https://www.asx.com.au/                                 |
+| Bolsa de Madrid                 | XMAD     | Spain       | 1.3           | http://www.bolsamadrid.es/ing/aspx/Portada/Portada.aspx |
+| Borsa Italiana                  | XMIL     | Italy       | 1.3           | https://www.borsaitaliana.it/homepage/homepage.en.htm   |
+| New Zealand Exchange            | XNZE     | New Zealand | 1.3           | https://www.nzx.com/                                    |
+| Wiener Borse                    | XWBO     | Austria     | 1.3           | https://www.wienerborse.at/en/                          |
+| Hong Kong Stock Exchange        | XHKG     | Hong Kong   | 1.3           | https://www.hkex.com.hk/?sc_lang=en                     |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
