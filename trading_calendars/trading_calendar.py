@@ -964,7 +964,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             return pd.Series([])
 
         result = pd.concat(merged).sort_index()
-        return result[(result >= start_date) & (result <= end_date)]
+        return result.loc[(result >= start_date) & (result <= end_date)]
 
     def _calculate_special_opens(self, start, end):
         return self._special_dates(
