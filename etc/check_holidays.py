@@ -181,7 +181,7 @@ def main(holiday_key_path,
          calendar_column,
          holiday_column,
          date_format,
-         delimiter,
+         sep,
          strip_x_from_cal_name):
 
     check_holidays(
@@ -189,7 +189,7 @@ def main(holiday_key_path,
         calendar_column,
         holiday_column,
         date_format,
-        delimiter,
+        sep,
         strip_x_from_cal_name,
         min_date,
         calendars,
