@@ -40,6 +40,7 @@ def check_holidays(holiday_key_path,
                    date_format,
                    delimiter,
                    strip_x_from_cal_name,
+                   answer_key_calendar_name,
                    min_date,
                    calendars):
     data = pd.read_csv(
@@ -55,8 +56,10 @@ def check_holidays(holiday_key_path,
 
         cal = get_calendar(calendar_name)
 
-        # Convert the calendar name to the format expected in the CSV.
-        if strip_x_from_cal_name:
+        if answer_key_calendar_name:
+            csv_cal_code = answer_key_calendar_name
+        elif strip_x_from_cal_name:
+            # Convert the calendar name to the format expected in the CSV.
             csv_cal_code = calendar_name.lstrip('X')
         else:
             csv_cal_code = calendar_name
@@ -174,6 +177,14 @@ def _check_range(start, end, holidays, cal, calendar_name):
     '--strip-x-from-cal-name/--no-strip-x-from-cal-name',
     help='E.g. "XNYS" is looked up in the key as "NYS".',
     show_default=True)
+@click.option(
+    '--answer-key-calendar-name',
+    default=None,
+    help=(
+        'Use this if a calendar is identified differently in the answer key.'
+        ' Not compatible with passing in multiple calendars in --calendars.'
+    ),
+    show_default=False)
 @click.argument('holiday_key_path', type=click.Path(exists=True))
 def main(holiday_key_path,
          min_date,
@@ -182,7 +193,8 @@ def main(holiday_key_path,
          holiday_column,
          date_format,
          sep,
-         strip_x_from_cal_name):
+         strip_x_from_cal_name,
+         answer_key_calendar_name):
 
     check_holidays(
         holiday_key_path,
@@ -191,6 +203,7 @@ def main(holiday_key_path,
         date_format,
         sep,
         strip_x_from_cal_name,
+        answer_key_calendar_name,
         min_date,
         calendars,
     )

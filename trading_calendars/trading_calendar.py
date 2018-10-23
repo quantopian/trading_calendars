@@ -161,6 +161,10 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.first_trading_session = _all_days[0]
         self.last_trading_session = _all_days[-1]
 
+        self._late_opens = pd.DatetimeIndex(
+            _special_opens.map(self.minute_to_session_label)
+        )
+
         self._early_closes = pd.DatetimeIndex(
             _special_closes.map(self.minute_to_session_label)
         )
@@ -298,6 +302,10 @@ class TradingCalendar(with_metaclass(ABCMeta)):
     @property
     def closes(self):
         return self.schedule.market_close
+
+    @property
+    def late_opens(self):
+        return self._late_opens
 
     @property
     def early_closes(self):
