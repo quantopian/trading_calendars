@@ -5,7 +5,7 @@ from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xwbo import XWBOExchangeCalendar
 
 
-class XWBOCalendarTestBase(ExchangeCalendarTestBase, TestCase):
+class XWBOCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     answer_key_filename = 'xwbo'
     calendar_class = XWBOExchangeCalendar

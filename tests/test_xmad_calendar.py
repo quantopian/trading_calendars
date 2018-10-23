@@ -5,7 +5,7 @@ from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xmad import XMADExchangeCalendar
 
 
-class XMADCalendarTestBase(ExchangeCalendarTestBase, TestCase):
+class XMADCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     answer_key_filename = 'xmad'
     calendar_class = XMADExchangeCalendar
@@ -103,7 +103,7 @@ class XMADCalendarTestBase(ExchangeCalendarTestBase, TestCase):
             (
                 pd.Timestamp('2012-12-31', tz='UTC'),
                 pd.Timestamp('2012-12-31 14:00', tz='Europe/Madrid'),
-            )
+            ),
         ]
 
         for session, expected_close in expected_early_closes:
