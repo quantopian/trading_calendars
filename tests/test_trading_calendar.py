@@ -172,6 +172,10 @@ class ExchangeCalendarTestBase(object):
     # calendars that don't have any early closes.
     HAVE_EARLY_CLOSES = True
 
+    # Affects tests that care about late opens. Since most do not, defaulting
+    # to False.
+    HAVE_LATE_OPENS = False
+
     # Affects test_sanity_check_session_lengths. Should be set to the largest
     # number of hours that ever appear in a single session.
     MAX_SESSION_HOURS = 0
@@ -546,6 +550,20 @@ class ExchangeCalendarTestBase(object):
 
             np.testing.assert_array_equal(
                 minutes_for_early_close,
+                pd.date_range(start=_open, end=_close, freq="min")
+            )
+
+        # late open period
+        if self.HAVE_LATE_OPENS:
+            late_open_session_label = self.calendar.late_opens[0]
+            minutes_for_late_open = \
+                self.calendar.minutes_for_session(late_open_session_label)
+            _open, _close = self.calendar.open_and_close_for_session(
+                late_open_session_label
+            )
+
+            np.testing.assert_array_equal(
+                minutes_for_late_open,
                 pd.date_range(start=_open, end=_close, freq="min")
             )
 

@@ -19,14 +19,15 @@ from pandas.tseries.holiday import (
     Easter,
     Day,
     GoodFriday,
+    previous_friday,
 )
 from pytz import timezone
 
 from .common_holidays import corpus_christi
 from .trading_calendar import (
     TradingCalendar,
-    FRIDAY,
-    HolidayCalendar)
+    HolidayCalendar
+)
 
 # Universal Confraternization (new years day)
 ConfUniversal = Holiday(
@@ -82,7 +83,7 @@ Constitucionalista = Holiday(
     'Constitucionalista',
     month=7,
     day=9,
-    start_date='1997-01-01'
+    start_date='1998-01-01'
 )
 # Independence Day
 Independencia = Holiday(
@@ -132,13 +133,14 @@ AnoNovo = Holiday(
     'Ano Novo',
     month=12,
     day=31,
+    observance=previous_friday,
 )
-# New Year's Eve falls on Saturday
-AnoNovoSabado = Holiday(
-    'Ano Novo Sabado',
-    month=12,
-    day=30,
-    days_of_week=(FRIDAY,),
+# Brazil hosted World Cup and played Croatia (and won 3-1!)
+CopaDoMundo2014 = Holiday(
+    'Copa Do Mundo 2014',
+    month=6,
+    day=12,
+    year=2014
 )
 
 
@@ -147,7 +149,7 @@ class BVMFExchangeCalendar(TradingCalendar):
     Exchange calendar for BM&F BOVESPA (BVMF).
 
     Open Time: 10:00 AM, Brazil/Sao Paulo
-    Close Time: 4:00 PM, Brazil/Sao Paulo
+    Close Time: 5:00 PM, Brazil/Sao Paulo
 
     Regularly-Observed Holidays:
     - Universal Confraternization (New year's day, Jan 1)
@@ -165,8 +167,10 @@ class BVMFExchangeCalendar(TradingCalendar):
     - Proclamation of the Republic (November 15)
     - Day of Black Awareness (November 20 after 2004)
     - Christmas (December 24 and 25)
-    - Day before New Year's Eve (December 30 if NYE falls on a Saturday)
-    - New Year's Eve (December 31)
+    - Business day before New Year's Day
+        - December 29 if NYE falls on a Sunday
+        - December 30 if NYE falls on a Saturday
+        - December 31 if NYE falls on Monday-Friday
     """
 
     name = 'BVMF'
@@ -178,8 +182,12 @@ class BVMFExchangeCalendar(TradingCalendar):
     )
 
     close_times = (
-        (None, time(16)),
+        (None, time(17, 0)),
     )
+
+    @property
+    def adhoc_holidays(self):
+        return [CopaDoMundo2014]
 
     @property
     def regular_holidays(self):
@@ -201,7 +209,6 @@ class BVMFExchangeCalendar(TradingCalendar):
             VesperaNatal,
             Natal,
             AnoNovo,
-            AnoNovoSabado,
         ])
 
     @property
