@@ -22,11 +22,11 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | New Zealand Exchange            | XNZE     | New Zealand | 1.3           | https://www.nzx.com/                                    |
 | Wiener Borse                    | XWBO     | Austria     | 1.3           | https://www.wienerborse.at/en/                          |
 | Hong Kong Stock Exchange        | XHKG     | Hong Kong   | 1.3           | https://www.hkex.com.hk/?sc_lang=en                     |
-| Copenhagen Stock Exchange       | XCSE     | Denmark     | 1.4*          | http://www.nasdaqomxnordic.com/                         |
-| Helsinki Stock Exchange         | XHEL     | Finland     | 1.4*          | http://www.nasdaqomxnordic.com/                         |
-| Stockholm Stock Exchange        | XSTO     | Sweden      | 1.4*          | http://www.nasdaqomxnordic.com/                         |
-| Oslo Stock Exchange             | XOSL     | Norway      | 1.4*          | https://www.oslobors.no/ob_eng/                         |
-| Irish Stock Exchange            | XDUB     | Ireland     | 1.4*          | http://www.ise.ie/                                      |
+| Copenhagen Stock Exchange       | XCSE     | Denmark     | 1.4           | http://www.nasdaqomxnordic.com/                         |
+| Helsinki Stock Exchange         | XHEL     | Finland     | 1.4           | http://www.nasdaqomxnordic.com/                         |
+| Stockholm Stock Exchange        | XSTO     | Sweden      | 1.4           | http://www.nasdaqomxnordic.com/                         |
+| Oslo Stock Exchange             | XOSL     | Norway      | 1.4           | https://www.oslobors.no/ob_eng/                         |
+| Irish Stock Exchange            | XDUB     | Ireland     | 1.4           | http://www.ise.ie/                                      |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
