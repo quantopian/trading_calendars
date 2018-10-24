@@ -12,6 +12,7 @@ from .exchange_calendar_xasx import XASXExchangeCalendar
 from .exchange_calendar_xbru import XBRUExchangeCalendar
 from .exchange_calendar_xcbf import XCBFExchangeCalendar
 from .exchange_calendar_xcse import XCSEExchangeCalendar
+from .exchange_calendar_xdub import XDUBExchangeCalendar
 from .exchange_calendar_xfra import XFRAExchangeCalendar
 from .exchange_calendar_xhel import XHELExchangeCalendar
 from .exchange_calendar_xhkg import XHKGExchangeCalendar
@@ -41,6 +42,7 @@ _default_calendar_factories = {
     'XBRU': XBRUExchangeCalendar,
     'XCBF': XCBFExchangeCalendar,
     'XCSE': XCSEExchangeCalendar,
+    'XDUB': XDUBExchangeCalendar,
     'XFRA': XFRAExchangeCalendar,
     'XHEL': XHELExchangeCalendar,
     'XHKG': XHKGExchangeCalendar,
