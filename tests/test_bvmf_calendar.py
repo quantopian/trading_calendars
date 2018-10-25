@@ -14,7 +14,6 @@ class BVMFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
     MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-05', tz='UTC')
 
     HAVE_EARLY_CLOSES = False
-    HAVE_LATE_OPENS = True
 
     DAYLIGHT_SAVINGS_DATES = ['2017-02-17', '2017-10-16']
 
@@ -52,19 +51,20 @@ class BVMFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         for session_label in other_holidays:
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
-    def test_late_opens(self):
-        # Ash Wednesday, 46 days before Easter Sunday
-        late_opens = [
-            pd.Timestamp("2016-02-10", tz='UTC'),
-            pd.Timestamp("2017-03-01", tz='UTC'),
-            pd.Timestamp("2018-02-14", tz='UTC'),
-        ]
+    # FIXME: add back in later.
+    # def test_late_opens(self):
+    #     # Ash Wednesday, 46 days before Easter Sunday
+    #     late_opens = [
+    #         pd.Timestamp("2016-02-10", tz='UTC'),
+    #         pd.Timestamp("2017-03-01", tz='UTC'),
+    #         pd.Timestamp("2018-02-14", tz='UTC'),
+    #     ]
 
-        for late_open_session_label in late_opens:
-            self.assertIn(
-                late_open_session_label,
-                self.calendar.late_opens,
-            )
+    #     for late_open_session_label in late_opens:
+    #         self.assertIn(
+    #             late_open_session_label,
+    #             self.calendar.late_opens,
+    #         )
 
     def test_special_holidays(self):
         # Constitutionalist Revolution started in 1998
