@@ -211,8 +211,10 @@ class BVMFExchangeCalendar(TradingCalendar):
             AnoNovo,
         ])
 
-    @property
-    def special_opens(self):
-        return [
-            (time(13, 1), HolidayCalendar([QuartaCinzas]))
-        ]
+    # TODO: Add this late open back in later, once we have better
+    # knowledge of how Zipline handles it.
+    # @property
+    # def special_opens(self):
+    #     return [
+    #         (time(13, 1), HolidayCalendar([QuartaCinzas]))
+    #     ]
