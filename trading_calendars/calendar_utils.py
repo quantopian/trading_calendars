@@ -9,6 +9,7 @@ from .exchange_calendar_cmes import CMESExchangeCalendar
 from .exchange_calendar_iepa import IEPAExchangeCalendar
 from .exchange_calendar_xams import XAMSExchangeCalendar
 from .exchange_calendar_xasx import XASXExchangeCalendar
+from .exchange_calendar_xbom import XBOMExchangeCalendar
 from .exchange_calendar_xbru import XBRUExchangeCalendar
 from .exchange_calendar_xcbf import XCBFExchangeCalendar
 from .exchange_calendar_xcse import XCSEExchangeCalendar
@@ -39,6 +40,7 @@ _default_calendar_factories = {
     'IEPA': IEPAExchangeCalendar,
     'XAMS': XAMSExchangeCalendar,
     'XASX': XASXExchangeCalendar,
+    'XBOM': XBOMExchangeCalendar,
     'XBRU': XBRUExchangeCalendar,
     'XCBF': XCBFExchangeCalendar,
     'XCSE': XCSEExchangeCalendar,
