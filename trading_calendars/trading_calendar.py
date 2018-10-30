@@ -187,10 +187,18 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
     @abstractproperty
     def open_times(self):
+        """
+        Returns a list of tuples of (start_date, open_time).  If the open
+        time is constant throughout the calendar, use None for the start_date.
+        """
         raise NotImplementedError()
 
     @abstractproperty
     def close_times(self):
+        """
+        Returns a list of tuples of (start_date, close_time).  If the close
+        time is constant throughout the calendar, use None for the start_date.
+        """
         raise NotImplementedError()
 
     @property
