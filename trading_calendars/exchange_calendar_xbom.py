@@ -1,9 +1,8 @@
 from datetime import time
-import numpy as np
 import pandas as pd
 from pytz import timezone
 
-from .trading_calendar import TradingCalendar
+from .precomputed_trading_calendar import PrecomputedTradingCalendar
 
 precomputed_bse_holidays = pd.to_datetime([
     '1997-01-23',
@@ -317,11 +316,8 @@ precomputed_bse_holidays = pd.to_datetime([
     '2020-12-25',
 ])
 
-XBOM_START_DEFAULT = pd.Timestamp('1997-01-01', tz='UTC')
-XBOM_END_DEFAULT = pd.Timestamp('2020-12-31', tz='UTC')
 
-
-class XBOMExchangeCalendar(TradingCalendar):
+class XBOMExchangeCalendar(PrecomputedTradingCalendar):
     """
     Exchange calendar for the Bombay Stock Exchange (BSE, XBOM).
 
@@ -342,31 +338,6 @@ class XBOMExchangeCalendar(TradingCalendar):
         (None, time(15, 30)),
     )
 
-    def __init__(self, start=XBOM_START_DEFAULT, end=XBOM_END_DEFAULT):
-        super(XBOMExchangeCalendar, self).__init__(start=start, end=end)
-
-        earliest_precomputed_year = np.min(precomputed_bse_holidays).year
-
-        if earliest_precomputed_year > self.first_trading_session.year:
-            raise ValueError(
-                'The BSE holidays are only recorded back to {},'
-                ' cannot instantiate the XBOM calendar back to {}.'.format(
-                    earliest_precomputed_year,
-                    self.first_trading_session.year
-                ),
-            )
-
-        latest_precomputed_year = np.max(precomputed_bse_holidays).year
-
-        if latest_precomputed_year < self.last_trading_session.year:
-            raise ValueError(
-                'The BSE holidays are only recorded to {},'
-                ' cannot instantiate the XBOM calendar for {}.'.format(
-                    latest_precomputed_year,
-                    self.last_trading_session.year
-                ),
-            )
-
     @property
-    def adhoc_holidays(self):
+    def precomputed_holidays(self):
         return precomputed_bse_holidays

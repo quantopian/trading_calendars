@@ -42,7 +42,7 @@ class XBOMCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         self.assertEqual(
             str(e.exception),
             (
-                'The BSE holidays are only recorded back to 1997,'
+                'The XBOM holidays are only recorded back to 1997,'
                 ' cannot instantiate the XBOM calendar back to 1996.'
             )
         )
@@ -53,7 +53,7 @@ class XBOMCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         self.assertEqual(
             str(e.exception),
             (
-                'The BSE holidays are only recorded to 2020,'
+                'The XBOM holidays are only recorded to 2020,'
                 ' cannot instantiate the XBOM calendar for 2021.'
             )
         )
