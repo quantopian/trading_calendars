@@ -35,15 +35,12 @@ from trading_calendars.errors import (
 )
 
 from trading_calendars import (
-    deregister_calendar,
     get_calendar,
-    register_calendar,
 )
 from trading_calendars.calendar_utils import (
     _default_calendar_aliases,
     _default_calendar_factories,
-    register_calendar_type,
-
+    TradingCalendarDispatcher,
 )
 from trading_calendars.trading_calendar import (
     days_at_time,
@@ -65,67 +62,79 @@ class FakeCalendar(TradingCalendar):
 class CalendarRegistrationTestCase(TestCase):
     def setUp(self):
         self.dummy_cal_type = FakeCalendar
+        self.dispatcher = TradingCalendarDispatcher({}, {}, {})
 
     def tearDown(self):
-        deregister_calendar('DMY')
+        self.dispatcher.clear_calendars()
 
     def test_register_calendar(self):
         # Build a fake calendar
         dummy_cal = self.dummy_cal_type()
 
         # Try to register and retrieve the calendar
-        register_calendar('DMY', dummy_cal)
-        retr_cal = get_calendar('DMY')
+        self.dispatcher.register_calendar('DMY', dummy_cal)
+        retr_cal = self.dispatcher.get_calendar('DMY')
         self.assertEqual(dummy_cal, retr_cal)
 
         # Try to register again, expecting a name collision
         with self.assertRaises(CalendarNameCollision):
-            register_calendar('DMY', dummy_cal)
+            self.dispatcher.register_calendar('DMY', dummy_cal)
 
         # Deregister the calendar and ensure that it is removed
-        deregister_calendar('DMY')
+        self.dispatcher.deregister_calendar('DMY')
         with self.assertRaises(InvalidCalendarName):
-            get_calendar('DMY')
+            self.dispatcher.get_calendar('DMY')
 
     def test_register_calendar_type(self):
-        register_calendar_type("DMY", self.dummy_cal_type)
-        retr_cal = get_calendar("DMY")
+        self.dispatcher.register_calendar_type("DMY", self.dummy_cal_type)
+        retr_cal = self.dispatcher.get_calendar("DMY")
         self.assertEqual(self.dummy_cal_type, type(retr_cal))
 
     def test_both_places_are_checked(self):
         dummy_cal = self.dummy_cal_type()
 
         # if instance is registered, can't register type with same name
-        register_calendar('DMY', dummy_cal)
+        self.dispatcher.register_calendar('DMY', dummy_cal)
         with self.assertRaises(CalendarNameCollision):
-            register_calendar_type('DMY', type(dummy_cal))
+            self.dispatcher.register_calendar_type('DMY', type(dummy_cal))
 
-        deregister_calendar('DMY')
+        self.dispatcher.deregister_calendar('DMY')
 
         # if type is registered, can't register instance with same name
-        register_calendar_type('DMY', type(dummy_cal))
+        self.dispatcher.register_calendar_type('DMY', type(dummy_cal))
 
         with self.assertRaises(CalendarNameCollision):
-            register_calendar('DMY', dummy_cal)
+            self.dispatcher.register_calendar('DMY', dummy_cal)
 
     def test_force_registration(self):
-        register_calendar("DMY", self.dummy_cal_type())
-        first_dummy = get_calendar("DMY")
+        self.dispatcher.register_calendar("DMY", self.dummy_cal_type())
+        first_dummy = self.dispatcher.get_calendar("DMY")
 
         # force-register a new instance
-        register_calendar("DMY", self.dummy_cal_type(), force=True)
+        self.dispatcher.register_calendar("DMY", self.dummy_cal_type(),
+                                          force=True)
 
-        second_dummy = get_calendar("DMY")
+        second_dummy = self.dispatcher.get_calendar("DMY")
 
         self.assertNotEqual(first_dummy, second_dummy)
 
 
 class DefaultsTestCase(TestCase):
     def test_default_calendars(self):
-        for name in concat([_default_calendar_factories,
-                            _default_calendar_aliases]):
-            self.assertIsNotNone(get_calendar(name),
+        dispatcher = TradingCalendarDispatcher(
+            calendars={},
+            calendar_factories=_default_calendar_factories,
+            aliases=_default_calendar_aliases,
+        )
+
+        # These are ordered aliases first, so that we can deregister the
+        # canonical factories when we're done with them, and we'll be done with
+        # them after they've been used by all aliases and by canonical name.
+        for name in concat([_default_calendar_aliases,
+                            _default_calendar_factories]):
+            self.assertIsNotNone(dispatcher.get_calendar(name),
                                  "get_calendar(%r) returned None" % name)
+            dispatcher.deregister_calendar(name)
 
 
 class DaysAtTimeTestCase(TestCase):
@@ -227,12 +236,17 @@ class ExchangeCalendarTestBase(object):
         cls.one_minute = pd.Timedelta(minutes=1)
         cls.one_hour = pd.Timedelta(hours=1)
 
+    @classmethod
+    def teardownClass(cls):
+        cls.calendar = None
+        cls.answers = None
+
     def test_sanity_check_session_lengths(self):
         # make sure that no session is longer than self.MAX_SESSION_HOURS hours
         for session in self.calendar.all_sessions:
             o, c = self.calendar.open_and_close_for_session(session)
             delta = c - o
-            self.assertTrue((delta.seconds / 3600) <= self.MAX_SESSION_HOURS)
+            self.assertLessEqual(delta.seconds / 3600, self.MAX_SESSION_HOURS)
 
     def test_calculated_against_csv(self):
         assert_index_equal(self.calendar.schedule.index, self.answers.index)

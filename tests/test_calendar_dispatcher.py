@@ -33,6 +33,13 @@ class CalendarAliasTestCase(TestCase):
             **{k: v.copy() for k, v in self.dispatcher_kwargs.items()}
         )
 
+    def tearDown(self):
+        self.dispatcher = None
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.dispatcher_kwargs = None
+
     def test_follow_alias_chain(self):
         self.assertIs(
             self.dispatcher.get_calendar('IEPA_ALIAS'),

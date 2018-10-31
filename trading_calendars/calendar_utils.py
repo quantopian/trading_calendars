@@ -108,8 +108,8 @@ class TradingCalendarDispatcher(object):
     """
     def __init__(self, calendars, calendar_factories, aliases):
         self._calendars = calendars
-        self._calendar_factories = calendar_factories
-        self._aliases = aliases
+        self._calendar_factories = dict(calendar_factories)
+        self._aliases = dict(aliases)
 
     def get_calendar(self, name):
         """
