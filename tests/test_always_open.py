@@ -22,13 +22,6 @@ class AlwaysOpenTestCase(ExchangeCalendarTestBase, TestCase):
 
     DAYLIGHT_SAVINGS_DATES = ['2016-04-05', '2016-11-01']
 
-    @classmethod
-    def setUpClass(cls):
-        cls.cal = AlwaysOpenCalendar(
-            start=pd.Timestamp('2016', tz='UTC'),
-            end=pd.Timestamp('2016-12-31', tz='UTC'),
-        )
-
     def test_open_every_day(self):
         cal = self.calendar
 

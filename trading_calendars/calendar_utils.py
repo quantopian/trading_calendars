@@ -9,6 +9,7 @@ from .exchange_calendar_cmes import CMESExchangeCalendar
 from .exchange_calendar_iepa import IEPAExchangeCalendar
 from .exchange_calendar_xams import XAMSExchangeCalendar
 from .exchange_calendar_xasx import XASXExchangeCalendar
+from .exchange_calendar_xbom import XBOMExchangeCalendar
 from .exchange_calendar_xbru import XBRUExchangeCalendar
 from .exchange_calendar_xcbf import XCBFExchangeCalendar
 from .exchange_calendar_xcse import XCSEExchangeCalendar
@@ -24,6 +25,8 @@ from .exchange_calendar_xnys import XNYSExchangeCalendar
 from .exchange_calendar_xnze import XNZEExchangeCalendar
 from .exchange_calendar_xosl import XOSLExchangeCalendar
 from .exchange_calendar_xpar import XPARExchangeCalendar
+from .exchange_calendar_xses import XSESExchangeCalendar
+from .exchange_calendar_xshg import XSHGExchangeCalendar
 from .exchange_calendar_xsto import XSTOExchangeCalendar
 from .exchange_calendar_xswx import XSWXExchangeCalendar
 from .exchange_calendar_xtks import XTKSExchangeCalendar
@@ -39,6 +42,7 @@ _default_calendar_factories = {
     'IEPA': IEPAExchangeCalendar,
     'XAMS': XAMSExchangeCalendar,
     'XASX': XASXExchangeCalendar,
+    'XBOM': XBOMExchangeCalendar,
     'XBRU': XBRUExchangeCalendar,
     'XCBF': XCBFExchangeCalendar,
     'XCSE': XCSEExchangeCalendar,
@@ -54,6 +58,8 @@ _default_calendar_factories = {
     'XNZE': XNZEExchangeCalendar,
     'XOSL': XOSLExchangeCalendar,
     'XPAR': XPARExchangeCalendar,
+    'XSES': XSESExchangeCalendar,
+    'XSHG': XSHGExchangeCalendar,
     'XSTO': XSTOExchangeCalendar,
     'XSWX': XSWXExchangeCalendar,
     'XTKS': XTKSExchangeCalendar,
@@ -102,8 +108,8 @@ class TradingCalendarDispatcher(object):
     """
     def __init__(self, calendars, calendar_factories, aliases):
         self._calendars = calendars
-        self._calendar_factories = calendar_factories
-        self._aliases = aliases
+        self._calendar_factories = dict(calendar_factories)
+        self._aliases = dict(aliases)
 
     def get_calendar(self, name):
         """
