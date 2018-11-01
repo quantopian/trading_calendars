@@ -27,6 +27,9 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Stockholm Stock Exchange        | XSTO     | Sweden      | 1.4           | http://www.nasdaqomxnordic.com/                         |
 | Oslo Stock Exchange             | XOSL     | Norway      | 1.4           | https://www.oslobors.no/ob_eng/                         |
 | Irish Stock Exchange            | XDUB     | Ireland     | 1.4           | http://www.ise.ie/                                      |
+| Bombay Stock Exchange           | XBOM     | India       | 1.5           | https://www.bseindia.com                                |
+| Singapore Exchange              | XSES     | Singapore   | 1.5           | https://www.sgx.com                                     |
+| Shanghai Stock Exchange         | XSHG     | China       | 1.5           | http://english.sse.cnn.cn                               |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
