@@ -521,8 +521,26 @@ class XKRXExchangeCalendar(PrecomputedTradingCalendar):
     Open Time: 9:00 AM, KST (Korean Standard Time)
     Close Time: 3:30 PM, KST (Korean Standard Time)
 
+    NOTE: Korea observes Standard Time year-round.
+
     Due to the complexity around the Korean holidays, we are hardcoding
     a list of holidays covering 1986-2019, inclusive.
+
+    Regularly-Observed Holidays:
+    - Seollal (New Year's Day)
+    - Independence Movement Day
+    - Labor Day
+    - Buddha's Birthday
+    - Memorial Day
+    - Provincial Election Day
+    - Liberation Day
+    - Chuseok (Korean Thanksgiving)
+    - National Foundation Day
+    - Christmas Day
+    - End of Year Holiday
+
+    NOTE: Hangeul Day became a national holiday in 2013
+    - Hangeul Proclamation Day
     """
     tz = timezone('Asia/Seoul')
 
