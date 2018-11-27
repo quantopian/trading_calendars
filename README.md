@@ -30,6 +30,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Bombay Stock Exchange           | XBOM     | India       | 1.5           | https://www.bseindia.com                                |
 | Singapore Exchange              | XSES     | Singapore   | 1.5           | https://www.sgx.com                                     |
 | Shanghai Stock Exchange         | XSHG     | China       | 1.5           | http://english.sse.cnn.cn                               |
+| Korea Exchange                  | XKRX     | South Korea | 1.6           | http://global.krx.co.kr                                 |
 
 Calendars marked with an asterisk (*) have not yet been released.
 

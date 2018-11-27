@@ -958,3 +958,13 @@ class OpenDetectionTestCase(TestCase):
 
             exc_str = str(e.exception)
             self.assertIn("First Bad Minute: {}".format(minute), exc_str)
+
+
+class NoDSTExchangeCalendarTestBase(ExchangeCalendarTestBase):
+
+    def test_daylight_savings(self):
+        """
+        Several countries in Africa / Asia do not observe DST
+        so we need to skip over this test for those markets
+        """
+        pass
