@@ -54,6 +54,10 @@ class XNYSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         self.assertNotIn(pd.Period("10/30/2012"), self.calendar.all_sessions)
 
         # various national days of mourning
+
+        # George H.W. - 12/5/2018
+        self.assertNotIn(pd.Period("12/5/2018"), self.calendar.all_sessions)
+
         # Gerald Ford - 1/2/2007
         self.assertNotIn(pd.Period("1/2/2007"), self.calendar.all_sessions)
 
