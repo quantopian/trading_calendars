@@ -72,6 +72,8 @@ if __name__ == '__main__':
         url=URL,
         classifiers=classifiers,
         long_description=LONG_DESCRIPTION,
-        packages=find_packages(include='trading_calendars.*'),
+        packages=find_packages(
+            include=['trading_calendars', 'trading_calendars.*']
+        ),
         install_requires=reqs,
     )
