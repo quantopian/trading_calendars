@@ -21,11 +21,11 @@ environment:
       PANDAS_VERSION: "0.24.1"
       NUMPY_VERSION: "1.15.4"
 
-    - PYTHON_VERSION: "3.5"
+    - PYTHON_VERSION: "3.6"
       PANDAS_VERSION: "0.19.2"
       NUMPY_VERSION: "1.12.1"
 
-    - PYTHON_VERSION: "3.5"
+    - PYTHON_VERSION: "3.6"
       PANDAS_VERSION: "0.24.1"
       NUMPY_VERSION: "1.15.4"
 

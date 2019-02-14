@@ -4,7 +4,7 @@ sudo: false
 
 python:
   - 2.7
-  - 3.5
+  - 3.6
 env:
   - PANDAS_VERSION=0.19.2
     NUMPY_VERSION=1.12.1
