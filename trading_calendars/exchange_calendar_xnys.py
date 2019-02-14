@@ -24,6 +24,7 @@ from pandas.tseries.holiday import (
     USThanksgivingDay,
 )
 from pytz import timezone
+from pytz import UTC
 
 from .trading_calendar import TradingCalendar, HolidayCalendar
 from .us_holidays import (
@@ -160,7 +161,7 @@ class XNYSExchangeCalendar(TradingCalendar):
                         '2003-12-26',
                         '2013-07-03',
                     ],
-                    tz='UTC',
+                    tz=UTC,
                 )
             )
         ]

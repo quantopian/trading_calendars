@@ -1,4 +1,5 @@
 from datetime import time
+from pytz import UTC
 
 from trading_calendars import TradingCalendar
 
@@ -9,7 +10,7 @@ class WeekdayCalendar(TradingCalendar):
     weekday.
     """
     name = '24/5'
-    tz = 'UTC'
+    tz = UTC
     open_times = (
         (None, time(0)),
     )

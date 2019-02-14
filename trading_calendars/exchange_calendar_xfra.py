@@ -22,6 +22,7 @@ from pandas.tseries.holiday import (
     previous_workday
 )
 from pytz import timezone
+from pytz import UTC
 
 from .common_holidays import (
     new_years_day,
@@ -46,7 +47,7 @@ EuropeanLabourDay = european_labour_day()
 
 # Whit Monday observed in 2007, before it became regularly observed
 # starting in 2015.
-WhitMonday2007AdHoc = Timestamp('2007-05-28', tz='UTC')
+WhitMonday2007AdHoc = Timestamp('2007-05-28', tz=UTC)
 
 WhitMonday = whit_monday(start_date='2015-01-01')
 
@@ -58,7 +59,7 @@ DayOfGermanUnity = Holiday(
 )
 
 # Reformation Day was a German national holiday in 2017.
-ReformationDay500thAnniversaryAdHoc = Timestamp('2017-10-31', tz='UTC')
+ReformationDay500thAnniversaryAdHoc = Timestamp('2017-10-31', tz=UTC)
 
 ChristmasEve = christmas_eve()
 

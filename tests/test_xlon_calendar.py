@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xlon import XLONExchangeCalendar
@@ -15,22 +16,22 @@ class XLONCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     def test_2012(self):
         expected_holidays_2012 = [
-            pd.Timestamp("2012-01-02", tz='UTC'),  # New Year's observed
-            pd.Timestamp("2012-04-06", tz='UTC'),  # Good Friday
-            pd.Timestamp("2012-04-09", tz='UTC'),  # Easter Monday
-            pd.Timestamp("2012-05-07", tz='UTC'),  # May Day
-            pd.Timestamp("2012-06-04", tz='UTC'),  # Spring Bank Holiday
-            pd.Timestamp("2012-08-27", tz='UTC'),  # Summer Bank Holiday
-            pd.Timestamp("2012-12-25", tz='UTC'),  # Christmas
-            pd.Timestamp("2012-12-26", tz='UTC'),  # Boxing Day
+            pd.Timestamp("2012-01-02", tz=UTC),  # New Year's observed
+            pd.Timestamp("2012-04-06", tz=UTC),  # Good Friday
+            pd.Timestamp("2012-04-09", tz=UTC),  # Easter Monday
+            pd.Timestamp("2012-05-07", tz=UTC),  # May Day
+            pd.Timestamp("2012-06-04", tz=UTC),  # Spring Bank Holiday
+            pd.Timestamp("2012-08-27", tz=UTC),  # Summer Bank Holiday
+            pd.Timestamp("2012-12-25", tz=UTC),  # Christmas
+            pd.Timestamp("2012-12-26", tz=UTC),  # Boxing Day
         ]
 
         for session_label in expected_holidays_2012:
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
         early_closes_2012 = [
-            pd.Timestamp("2012-12-24", tz='UTC'),  # Christmas Eve
-            pd.Timestamp("2012-12-31", tz='UTC'),  # New Year's Eve
+            pd.Timestamp("2012-12-24", tz=UTC),  # Christmas Eve
+            pd.Timestamp("2012-12-31", tz=UTC),  # New Year's Eve
         ]
 
         for early_close_session_label in early_closes_2012:

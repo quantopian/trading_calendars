@@ -9,6 +9,7 @@ from pandas.tseries.holiday import (
 )
 from pandas import Timestamp
 from pytz import timezone
+from pytz import UTC
 
 from trading_calendars import TradingCalendar
 from trading_calendars.trading_calendar import HolidayCalendar
@@ -65,7 +66,7 @@ class IEPAExchangeCalendar(TradingCalendar):
             USNationalDaysofMourning,
             # ICE was only closed on the first day of the Hurricane Sandy
             # closings (was not closed on 2012-10-30)
-            [Timestamp('2012-10-29', tz='UTC')]
+            [Timestamp('2012-10-29', tz=UTC)]
         ))
 
     @property

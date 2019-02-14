@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xasx import XASXExchangeCalendar
@@ -15,22 +16,22 @@ class XASXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     def test_normal_year(self):
         expected_holidays = [
-            pd.Timestamp('2018-01-01', tz='UTC'),  # New Year's Day
-            pd.Timestamp('2018-01-26', tz='UTC'),  # Australia Day
-            pd.Timestamp('2018-03-30', tz='UTC'),  # Good Friday
-            pd.Timestamp('2018-04-02', tz='UTC'),  # Easter Monday
-            pd.Timestamp('2018-04-25', tz='UTC'),  # Anzac Day
-            pd.Timestamp('2018-06-11', tz='UTC'),  # Queen's Birthday
-            pd.Timestamp('2018-12-25', tz='UTC'),  # Christmas
-            pd.Timestamp('2018-12-26', tz='UTC'),  # Boxing Day
+            pd.Timestamp('2018-01-01', tz=UTC),  # New Year's Day
+            pd.Timestamp('2018-01-26', tz=UTC),  # Australia Day
+            pd.Timestamp('2018-03-30', tz=UTC),  # Good Friday
+            pd.Timestamp('2018-04-02', tz=UTC),  # Easter Monday
+            pd.Timestamp('2018-04-25', tz=UTC),  # Anzac Day
+            pd.Timestamp('2018-06-11', tz=UTC),  # Queen's Birthday
+            pd.Timestamp('2018-12-25', tz=UTC),  # Christmas
+            pd.Timestamp('2018-12-26', tz=UTC),  # Boxing Day
         ]
 
         for session_label in expected_holidays:
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
         early_closes = [
-            pd.Timestamp('2018-12-24', tz='UTC'),  # Day before Christmas
-            pd.Timestamp('2018-12-31', tz='UTC'),  # Day before New Year's
+            pd.Timestamp('2018-12-24', tz=UTC),  # Day before Christmas
+            pd.Timestamp('2018-12-31', tz=UTC),  # Day before New Year's
         ]
 
         for early_close_session_label in early_closes:
@@ -54,17 +55,17 @@ class XASXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         """
         expected_holidays = [
             # New Year's Day on a Sunday, observed on Monday.
-            pd.Timestamp('2017-01-02', tz='UTC'),
+            pd.Timestamp('2017-01-02', tz=UTC),
             # Australia Day on a Sunday, observed on Monday (2010 and after).
-            pd.Timestamp('2014-01-27', tz='UTC'),
+            pd.Timestamp('2014-01-27', tz=UTC),
             # Anzac Day on a Sunday, observed on Monday.
-            pd.Timestamp('2010-04-26', tz='UTC'),
+            pd.Timestamp('2010-04-26', tz=UTC),
             # Christmas on a Sunday, Boxing Day on Monday.
-            pd.Timestamp('2016-12-26', tz='UTC'),
-            pd.Timestamp('2016-12-27', tz='UTC'),
+            pd.Timestamp('2016-12-26', tz=UTC),
+            pd.Timestamp('2016-12-27', tz=UTC),
             # Christmas on a Saturday, Boxing Day on Sunday.
-            pd.Timestamp('2010-12-27', tz='UTC'),
-            pd.Timestamp('2010-12-28', tz='UTC'),
+            pd.Timestamp('2010-12-27', tz=UTC),
+            pd.Timestamp('2010-12-28', tz=UTC),
         ]
 
         for session_label in expected_holidays:
@@ -72,10 +73,10 @@ class XASXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         expected_sessions = [
             # Anzac Day on a Saturday, does not have a make-up.
-            pd.Timestamp('2015-04-27', tz='UTC'),
+            pd.Timestamp('2015-04-27', tz=UTC),
             # Anzac Day on a Saturday, does not have a make-up (prior
             # to 2010).
-            pd.Timestamp('2004-04-26', tz='UTC'),
+            pd.Timestamp('2004-04-26', tz=UTC),
         ]
 
         for session_label in expected_sessions:

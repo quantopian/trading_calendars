@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xtks import XTKSExchangeCalendar
@@ -25,24 +26,24 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     def test_2012(self):
         expected_holidays_2012 = [
-            pd.Timestamp("2012-01-01", tz='UTC'),  # New Year's holiday
-            pd.Timestamp("2012-01-02", tz='UTC'),  # New Year's holiday
-            pd.Timestamp("2012-01-03", tz='UTC'),  # New Year's holiday
-            pd.Timestamp("2012-01-09", tz='UTC'),  # Coming of Age Day
+            pd.Timestamp("2012-01-01", tz=UTC),  # New Year's holiday
+            pd.Timestamp("2012-01-02", tz=UTC),  # New Year's holiday
+            pd.Timestamp("2012-01-03", tz=UTC),  # New Year's holiday
+            pd.Timestamp("2012-01-09", tz=UTC),  # Coming of Age Day
             # National Foundation Day was on a Saturday so it is ignored
-            pd.Timestamp("2012-03-20", tz='UTC'),  # Vernal Equinox
-            pd.Timestamp("2012-04-30", tz='UTC'),  # Showa Day Observed
-            pd.Timestamp("2012-05-03", tz='UTC'),  # Constitution Memorial Day
-            pd.Timestamp("2012-05-04", tz='UTC'),  # Greenery Day
+            pd.Timestamp("2012-03-20", tz=UTC),  # Vernal Equinox
+            pd.Timestamp("2012-04-30", tz=UTC),  # Showa Day Observed
+            pd.Timestamp("2012-05-03", tz=UTC),  # Constitution Memorial Day
+            pd.Timestamp("2012-05-04", tz=UTC),  # Greenery Day
             # Children's Day was on a Saturday so it is ignored
-            pd.Timestamp("2012-07-16", tz='UTC'),  # Marine Day
-            pd.Timestamp("2012-09-17", tz='UTC'),  # Respect for the Aged Day
+            pd.Timestamp("2012-07-16", tz=UTC),  # Marine Day
+            pd.Timestamp("2012-09-17", tz=UTC),  # Respect for the Aged Day
             # The Autumnal Equinox was on a Saturday so it is ignored
-            pd.Timestamp("2012-10-08", tz='UTC'),  # Health and Sports Day
+            pd.Timestamp("2012-10-08", tz=UTC),  # Health and Sports Day
             # Culture Day was on a Saturday so it is ignored
-            pd.Timestamp("2012-11-23", tz='UTC'),  # Labor Thanksgiving Day
-            pd.Timestamp("2012-12-24", tz='UTC'),  # Emperor Birthday Observed
-            pd.Timestamp("2012-12-31", tz='UTC'),  # New Year's holiday
+            pd.Timestamp("2012-11-23", tz=UTC),  # Labor Thanksgiving Day
+            pd.Timestamp("2012-12-24", tz=UTC),  # Emperor Birthday Observed
+            pd.Timestamp("2012-12-31", tz=UTC),  # New Year's holiday
         ]
 
         for session_label in expected_holidays_2012:

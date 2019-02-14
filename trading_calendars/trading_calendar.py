@@ -19,6 +19,7 @@ import warnings
 from operator import attrgetter
 from pandas.tseries.holiday import AbstractHolidayCalendar
 from six import with_metaclass
+from pytz import UTC
 import numpy as np
 from numpy import searchsorted
 import pandas as pd
@@ -41,9 +42,9 @@ from .utils.pandas_utils import days_at_time
 from .utils.preprocess import preprocess, coerce
 
 
-start_default = pd.Timestamp('1990-01-01', tz='UTC')
-end_base = pd.Timestamp('today', tz='UTC')
-# Give an aggressive buffer for logic that needs to use the next trading
+start_default = pd.Timestamp('1990-01-01', tz=UTC)
+end_base = pd.Timestamp('today', tz=UTC)
+# Give an aggressive b tuffer for logic that needs to use the next trading
 # day or minute.
 end_default = end_base + pd.Timedelta(days=365)
 
@@ -56,9 +57,9 @@ WEEKENDS = (SATURDAY, SUNDAY)
 def selection(arr, start, end):
     predicates = []
     if start is not None:
-        predicates.append(start.tz_localize('UTC') <= arr)
+        predicates.append(start.tz_localize(UTC) <= arr)
     if end is not None:
-        predicates.append(arr < end.tz_localize('UTC'))
+        predicates.append(arr < end.tz_localize(UTC))
 
     if not predicates:
         return arr
@@ -105,7 +106,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         # Actually catch and suppress the warning here:
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            _all_days = date_range(start, end, freq=self.day, tz='UTC')
+            _all_days = date_range(start, end, freq=self.day, tz=UTC)
 
         # `DatetimeIndex`s of standard opens/closes for each day.
         self._opens = _group_times(
@@ -370,7 +371,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             The UTC timestamp of the next open.
         """
         idx = next_divider_idx(self.market_opens_nanos, dt.value)
-        return pd.Timestamp(self.market_opens_nanos[idx], tz='UTC')
+        return pd.Timestamp(self.market_opens_nanos[idx], tz=UTC)
 
     def next_close(self, dt):
         """
@@ -387,7 +388,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             The UTC timestamp of the next close.
         """
         idx = next_divider_idx(self.market_closes_nanos, dt.value)
-        return pd.Timestamp(self.market_closes_nanos[idx], tz='UTC')
+        return pd.Timestamp(self.market_closes_nanos[idx], tz=UTC)
 
     def previous_open(self, dt):
         """
@@ -404,7 +405,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             The UTC imestamp of the previous open.
         """
         idx = previous_divider_idx(self.market_opens_nanos, dt.value)
-        return pd.Timestamp(self.market_opens_nanos[idx], tz='UTC')
+        return pd.Timestamp(self.market_opens_nanos[idx], tz=UTC)
 
     def previous_close(self, dt):
         """
@@ -421,7 +422,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             The UTC timestamp of the previous close.
         """
         idx = previous_divider_idx(self.market_closes_nanos, dt.value)
-        return pd.Timestamp(self.market_closes_nanos[idx], tz='UTC')
+        return pd.Timestamp(self.market_closes_nanos[idx], tz=UTC)
 
     def next_minute(self, dt):
         """
@@ -565,7 +566,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
                 minutes(session)
                 for session in self.sessions_in_range(start, stop)
             ]),
-            tz='UTC',
+            tz=UTC,
         )
 
     def minutes_window(self, start_dt, count):
@@ -756,33 +757,33 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         # 0.16.1 does not appear to support this:
         # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         return (
-            sched.at[session_label, 'market_open'].tz_localize('UTC'),
-            sched.at[session_label, 'market_close'].tz_localize('UTC'),
+            sched.at[session_label, 'market_open'].tz_localize(UTC),
+            sched.at[session_label, 'market_close'].tz_localize(UTC),
         )
 
     def session_open(self, session_label):
         return self.schedule.at[
             session_label,
             'market_open'
-        ].tz_localize('UTC')
+        ].tz_localize(UTC)
 
     def session_close(self, session_label):
         return self.schedule.at[
             session_label,
             'market_close'
-        ].tz_localize('UTC')
+        ].tz_localize(UTC)
 
     def session_opens_in_range(self, start_session_label, end_session_label):
         return self.schedule.loc[
             start_session_label:end_session_label,
             'market_open',
-        ].dt.tz_localize('UTC')
+        ].dt.tz_localize(UTC)
 
     def session_closes_in_range(self, start_session_label, end_session_label):
         return self.schedule.loc[
             start_session_label:end_session_label,
             'market_close',
-        ].dt.tz_localize('UTC')
+        ].dt.tz_localize(UTC)
 
     @property
     def all_sessions(self):
@@ -817,7 +818,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
         return DatetimeIndex(
             compute_all_minutes(opens_in_ns, closes_in_ns),
-            tz='utc',
+            tz=UTC,
         )
 
     @preprocess(dt=coerce(pd.Timestamp, attrgetter('value')))
@@ -1007,7 +1008,7 @@ def scheduled_special_times(calendar, start, end, time, tz):
     """
     days = calendar.holidays(start, end)
     return pd.Series(
-        index=pd.DatetimeIndex(days, tz='UTC'),
+        index=pd.DatetimeIndex(days, tz=UTC),
         data=days_at_time(days, time, tz=tz),
     )
 

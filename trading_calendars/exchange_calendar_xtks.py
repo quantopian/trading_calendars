@@ -2,6 +2,7 @@ from datetime import time
 from itertools import chain
 import pandas as pd
 from pytz import timezone
+from pytz import UTC
 
 from .trading_calendar import (
     TradingCalendar,
@@ -37,7 +38,7 @@ from .xtks_holidays import (
 )
 
 
-XTKS_START_DEFAULT = pd.Timestamp('2000-01-01', tz='UTC')
+XTKS_START_DEFAULT = pd.Timestamp('2000-01-01', tz=UTC)
 
 
 class XTKSExchangeCalendar(TradingCalendar):
