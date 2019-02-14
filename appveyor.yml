@@ -14,20 +14,20 @@ environment:
 
   matrix:
     - PYTHON_VERSION: "2.7"
-      PANDAS_VERSION: "0.19.2"
-      NUMPY_VERSION: "1.12.1"
+      PANDAS_VERSION: "0.18.1"
+      NUMPY_VERSION: "1.11.3"
 
     - PYTHON_VERSION: "2.7"
-      PANDAS_VERSION: "0.24.1"
-      NUMPY_VERSION: "1.15.4"
+      PANDAS_VERSION: "0.23.4"
+      NUMPY_VERSION: "1.15.2"
 
-    - PYTHON_VERSION: "3.6"
-      PANDAS_VERSION: "0.19.2"
-      NUMPY_VERSION: "1.12.1"
+    - PYTHON_VERSION: "3.5"
+      PANDAS_VERSION: "0.18.1"
+      NUMPY_VERSION: "1.11.3"
 
-    - PYTHON_VERSION: "3.6"
-      PANDAS_VERSION: "0.24.1"
-      NUMPY_VERSION: "1.15.4"
+    - PYTHON_VERSION: "3.5"
+      PANDAS_VERSION: "0.23.4"
+      NUMPY_VERSION: "1.15.2"
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the PYTHON_ARCH variable (which is used by CMD_IN_ENV).
@@ -69,7 +69,7 @@ install:
   # https://blog.ionelmc.ro/2014/12/21/compiling-python-extensions-on-windows/ for 64bit C compilation
   - ps: copy .\ci\appveyor\vcvars64.bat "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64"
 
-  - conda create -n testenv --yes -q python=%PYTHON_VERSION% numpy=%NUMPY_VERSION% -c quantopian
+  - conda create -n testenv --yes -q python=%PYTHON_VERSION% numpy=%NUMPY_VERSION% pandas=%PANDAS_VERSION% -c quantopian
   - activate testenv
   - python -m pip install -r etc/requirements.txt
   - python -m pip freeze | sort
