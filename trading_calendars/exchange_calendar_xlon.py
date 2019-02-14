@@ -25,6 +25,7 @@ from pandas.tseries.holiday import (
     weekend_to_monday,
 )
 from pytz import timezone
+from pytz import UTC
 
 from .common_holidays import (
     new_years_day,
@@ -112,11 +113,11 @@ NewYearsEve = Holiday(
 
 # Ad Hoc Closes
 # -------------
-SpringBank2002 = Timestamp("2002-06-03", tz="UTC")
-GoldenJubilee = Timestamp("2002-06-04", tz="UTC")
-RoyalWedding = Timestamp("2011-04-29", tz="UTC")
-SpringBank2012 = Timestamp("2012-06-04", tz="UTC")
-DiamondJubilee = Timestamp("2012-06-05", tz="UTC")
+SpringBank2002 = Timestamp("2002-06-03", tz=UTC)
+GoldenJubilee = Timestamp("2002-06-04", tz=UTC)
+RoyalWedding = Timestamp("2011-04-29", tz=UTC)
+SpringBank2012 = Timestamp("2012-06-04", tz=UTC)
+DiamondJubilee = Timestamp("2012-06-05", tz=UTC)
 
 
 class XLONExchangeCalendar(TradingCalendar):

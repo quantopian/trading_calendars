@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xtse import XTSEExchangeCalendar
@@ -14,16 +15,16 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     def test_2012(self):
         expected_holidays_2012 = [
-            pd.Timestamp("2012-01-02", tz='UTC'),  # New Year's observed
-            pd.Timestamp("2012-02-20", tz='UTC'),  # Family Day
-            pd.Timestamp("2012-04-06", tz='UTC'),  # Good Friday
-            pd.Timestamp("2012-05-21", tz='UTC'),  # Victoria Day
-            pd.Timestamp("2012-07-02", tz='UTC'),  # Canada Day
-            pd.Timestamp("2012-08-06", tz='UTC'),  # Civic Holiday
-            pd.Timestamp("2012-09-03", tz='UTC'),  # Labour Day
-            pd.Timestamp("2012-10-08", tz='UTC'),  # Thanksgiving
-            pd.Timestamp("2012-12-25", tz='UTC'),  # Christmas
-            pd.Timestamp("2012-12-26", tz='UTC'),  # Boxing Day
+            pd.Timestamp("2012-01-02", tz=UTC),  # New Year's observed
+            pd.Timestamp("2012-02-20", tz=UTC),  # Family Day
+            pd.Timestamp("2012-04-06", tz=UTC),  # Good Friday
+            pd.Timestamp("2012-05-21", tz=UTC),  # Victoria Day
+            pd.Timestamp("2012-07-02", tz=UTC),  # Canada Day
+            pd.Timestamp("2012-08-06", tz=UTC),  # Civic Holiday
+            pd.Timestamp("2012-09-03", tz=UTC),  # Labour Day
+            pd.Timestamp("2012-10-08", tz=UTC),  # Thanksgiving
+            pd.Timestamp("2012-12-25", tz=UTC),  # Christmas
+            pd.Timestamp("2012-12-26", tz=UTC),  # Boxing Day
         ]
 
         for session_label in expected_holidays_2012:
@@ -31,7 +32,7 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         # early closes we expect:
         early_closes_2012 = [
-            pd.Timestamp("2012-12-24", tz='UTC')
+            pd.Timestamp("2012-12-24", tz=UTC)
         ]
 
         for early_close_session_label in early_closes_2012:
@@ -56,11 +57,11 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # 22 23 24 25 26 27 28
         # 29 30 31
 
-        start_session = pd.Timestamp("2012-01-02", tz='UTC')
-        end_session = pd.Timestamp("2013-12-31", tz='UTC')
+        start_session = pd.Timestamp("2012-01-02", tz=UTC)
+        end_session = pd.Timestamp("2013-12-31", tz=UTC)
         sessions = self.calendar.sessions_in_range(start_session, end_session)
 
-        day_after_new_years_sunday = pd.Timestamp("2012-01-02", tz='UTC')
+        day_after_new_years_sunday = pd.Timestamp("2012-01-02", tz=UTC)
         self.assertNotIn(
             day_after_new_years_sunday,
             sessions,
@@ -69,7 +70,7 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         )
 
         first_trading_day_after_new_years_sunday = pd.Timestamp("2012-01-03",
-                                                                tz='UTC')
+                                                                tz=UTC)
         self.assertIn(
             first_trading_day_after_new_years_sunday,
             sessions,
@@ -87,7 +88,7 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # 20 21 22 23 24 25 26
         # 27 28 29 30 31
 
-        new_years_day = pd.Timestamp("2013-01-01", tz='UTC')
+        new_years_day = pd.Timestamp("2013-01-01", tz=UTC)
         self.assertNotIn(
             new_years_day,
             sessions,
@@ -96,7 +97,7 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         )
 
         first_trading_day_after_new_years = pd.Timestamp("2013-01-02",
-                                                         tz='UTC')
+                                                         tz=UTC)
         self.assertIn(
             first_trading_day_after_new_years,
             sessions,
@@ -162,8 +163,8 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         # In 2015 Christmas fell on a Friday so Boxing Day should
         # be celebrated the following Monday
-        christmas = pd.Timestamp('2015-12-25', tz='UTC')
-        boxing_day_observed = pd.Timestamp('2015-12-28', tz='UTC')
+        christmas = pd.Timestamp('2015-12-25', tz=UTC)
+        boxing_day_observed = pd.Timestamp('2015-12-28', tz=UTC)
 
         self.assertNotIn(christmas, self.calendar.all_sessions)
         self.assertNotIn(boxing_day_observed, self.calendar.all_sessions)
@@ -178,8 +179,8 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         # Christmas fell on a Saturday in 2010, so the following two trading
         # days should be holidays
-        christmas_observed = pd.Timestamp('2016-12-26', tz='UTC')
-        boxing_day_observed = pd.Timestamp('2016-12-27', tz='UTC')
+        christmas_observed = pd.Timestamp('2016-12-26', tz=UTC)
+        boxing_day_observed = pd.Timestamp('2016-12-27', tz=UTC)
 
         self.assertNotIn(christmas, self.calendar.all_sessions)
         self.assertNotIn(boxing_day_observed, self.calendar.all_sessions)
@@ -194,8 +195,8 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         # Christmas fell on a Sunday in 2016, so the 26th and 27th should
         # be holidays
-        christmas_observed = pd.Timestamp('2016-12-26', tz='UTC')
-        boxing_day_observed = pd.Timestamp('2016-12-27', tz='UTC')
+        christmas_observed = pd.Timestamp('2016-12-26', tz=UTC)
+        boxing_day_observed = pd.Timestamp('2016-12-27', tz=UTC)
 
         self.assertNotIn(christmas_observed, self.calendar.all_sessions)
         self.assertNotIn(boxing_day_observed, self.calendar.all_sessions)

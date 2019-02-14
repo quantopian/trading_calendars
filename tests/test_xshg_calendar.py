@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from .test_utils import T
@@ -17,7 +18,7 @@ class XSHGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     HAVE_EARLY_CLOSES = False
 
-    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-07', tz='UTC')
+    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-07', tz=UTC)
 
     def test_normal_year(self):
         expected_holidays_2017 = [

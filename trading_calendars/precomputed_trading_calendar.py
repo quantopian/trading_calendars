@@ -1,4 +1,5 @@
 from abc import abstractproperty
+from pytz import UTC
 import numpy as np
 import pandas as pd
 from .trading_calendar import TradingCalendar
@@ -15,12 +16,12 @@ class PrecomputedTradingCalendar(TradingCalendar):
 
         if start is None:
             start = pd.Timestamp(
-                '{}-01-01'.format(earliest_precomputed_year), tz='UTC'
+                '{}-01-01'.format(earliest_precomputed_year), tz=UTC
             )
 
         if end is None:
             end = pd.Timestamp(
-                '{}-12-31'.format(latest_precomputed_year), tz='UTC'
+                '{}-12-31'.format(latest_precomputed_year), tz=UTC
             )
 
         super(PrecomputedTradingCalendar, self).__init__(start=start, end=end)

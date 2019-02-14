@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_cmes import CMESExchangeCalendar
@@ -17,7 +18,7 @@ class CMESCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # new years (observed): 2016-01-02
         for date in ["2016-03-25", "2016-12-26", "2016-01-02"]:
             self.assertFalse(
-                self.calendar.is_session(pd.Timestamp(date, tz='UTC'))
+                self.calendar.is_session(pd.Timestamp(date, tz=UTC))
             )
 
     def test_2016_early_closes(self):
@@ -29,13 +30,13 @@ class CMESCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # thankgiving: 2016-11-24
         for date in ["2016-01-18", "2016-02-15", "2016-05-30", "2016-07-04",
                      "2016-09-05", "2016-11-24"]:
-            dt = pd.Timestamp(date, tz='UTC')
+            dt = pd.Timestamp(date, tz=UTC)
             self.assertTrue(dt in self.calendar.early_closes)
 
             market_close = self.calendar.schedule.loc[dt].market_close
             self.assertEqual(
                 12,
-                market_close.tz_localize('UTC').tz_convert(
+                market_close.tz_localize(UTC).tz_convert(
                     self.calendar.tz
                 ).hour
             )

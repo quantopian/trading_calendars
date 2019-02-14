@@ -9,6 +9,7 @@ from pandas.tseries.holiday import (
     GoodFriday
 )
 from pytz import timezone
+from pytz import UTC
 
 from .trading_calendar import (
     TradingCalendar,
@@ -92,7 +93,7 @@ BoxingDay = boxing_day()
 
 WeekendBoxingDay = weekend_boxing_day()
 
-September11ClosingsCanada = pd.date_range('2001-09-11', '2001-09-12', tz='UTC')
+September11ClosingsCanada = pd.date_range('2001-09-11', '2001-09-12', tz=UTC)
 
 
 class XTSEExchangeCalendar(TradingCalendar):

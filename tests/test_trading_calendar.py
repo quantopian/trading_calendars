@@ -27,6 +27,7 @@ from pandas import read_csv
 from pandas import Timedelta
 from pandas.util.testing import assert_index_equal
 from pytz import timezone
+from pytz import UTC
 from toolz import concat
 
 from trading_calendars.errors import (
@@ -163,7 +164,7 @@ class DaysAtTimeTestCase(TestCase):
     def test_days_at_time(self, day, day_offset, time_offset, tz, expected):
         days = pd.DatetimeIndex([pd.Timestamp(day, tz=tz)])
         result = days_at_time(days, time_offset, tz, day_offset)[0]
-        expected = pd.Timestamp(expected, tz=tz).tz_convert('UTC')
+        expected = pd.Timestamp(expected, tz=tz).tz_convert(UTC)
         self.assertEqual(result, expected)
 
 
@@ -192,8 +193,8 @@ class ExchangeCalendarTestBase(object):
     # Affects test_minute_index_to_session_labels.
     # Change these if the start/end dates of your test suite don't contain the
     # defaults.
-    MINUTE_INDEX_TO_SESSION_LABELS_START = pd.Timestamp('2011-01-04', tz='UTC')
-    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-04', tz='UTC')
+    MINUTE_INDEX_TO_SESSION_LABELS_START = pd.Timestamp('2011-01-04', tz=UTC)
+    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2011-04-04', tz=UTC)
 
     # Affects tests around daylight savings. If possible, should contain two
     # dates that are not both in the same daylight savings regime.
@@ -201,8 +202,8 @@ class ExchangeCalendarTestBase(object):
 
     # Affects test_start_end. Change these if your calendar start/end
     # dates between 2010-01-03 and 2010-01-10 don't match the defaults.
-    TEST_START_END_EXPECTED_FIRST = pd.Timestamp('2010-01-04', tz='UTC')
-    TEST_START_END_EXPECTED_LAST = pd.Timestamp('2010-01-08', tz='UTC')
+    TEST_START_END_EXPECTED_FIRST = pd.Timestamp('2010-01-04', tz=UTC)
+    TEST_START_END_EXPECTED_LAST = pd.Timestamp('2010-01-08', tz=UTC)
 
     @staticmethod
     def load_answer_key(filename):
@@ -222,7 +223,7 @@ class ExchangeCalendarTestBase(object):
             # the dtype correctly, and passing all reasonable inputs to the
             # dtype kwarg cause read_csv to barf.
             parse_dates=[0, 1, 2],
-            date_parser=lambda x: pd.Timestamp(x, tz='UTC')
+            date_parser=lambda x: pd.Timestamp(x, tz=UTC)
         )
 
     @classmethod
@@ -787,12 +788,12 @@ class ExchangeCalendarTestBase(object):
         open_times = pd.Series(m)
 
         for date in self.DAYLIGHT_SAVINGS_DATES:
-            next_day = pd.Timestamp(date, tz='UTC')
+            next_day = pd.Timestamp(date, tz=UTC)
             open_date = next_day + Timedelta(days=self.calendar.open_offset)
 
             the_open = self.calendar.schedule.loc[next_day].market_open
 
-            localized_open = the_open.tz_localize("UTC").tz_convert(
+            localized_open = the_open.tz_localize(UTC).tz_convert(
                 self.calendar.tz
             )
 
@@ -819,8 +820,8 @@ class ExchangeCalendarTestBase(object):
         """
         Check TradingCalendar with defined start/end dates.
         """
-        start = pd.Timestamp('2010-1-3', tz='UTC')
-        end = pd.Timestamp('2010-1-10', tz='UTC')
+        start = pd.Timestamp('2010-1-3', tz=UTC)
+        end = pd.Timestamp('2010-1-10', tz=UTC)
 
         calendar = self.calendar_class(start=start, end=end)
 
@@ -844,20 +845,20 @@ class EuronextCalendarTestBase(ExchangeCalendarTestBase):
 
     def test_normal_year(self):
         expected_holidays_2014 = [
-            pd.Timestamp('2014-01-01', tz='UTC'),  # New Year's Day
-            pd.Timestamp('2014-04-18', tz='UTC'),  # Good Friday
-            pd.Timestamp('2014-04-21', tz='UTC'),  # Easter Monday
-            pd.Timestamp('2014-05-01', tz='UTC'),  # Labor Day
-            pd.Timestamp('2014-12-25', tz='UTC'),  # Christmas
-            pd.Timestamp('2014-12-26', tz='UTC'),  # Boxing Day
+            pd.Timestamp('2014-01-01', tz=UTC),  # New Year's Day
+            pd.Timestamp('2014-04-18', tz=UTC),  # Good Friday
+            pd.Timestamp('2014-04-21', tz=UTC),  # Easter Monday
+            pd.Timestamp('2014-05-01', tz=UTC),  # Labor Day
+            pd.Timestamp('2014-12-25', tz=UTC),  # Christmas
+            pd.Timestamp('2014-12-26', tz=UTC),  # Boxing Day
         ]
 
         for session_label in expected_holidays_2014:
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
         early_closes_2014 = [
-            pd.Timestamp('2014-12-24', tz='UTC'),  # Christmas Eve
-            pd.Timestamp('2014-12-31', tz='UTC'),  # New Year's Eve
+            pd.Timestamp('2014-12-24', tz=UTC),  # Christmas Eve
+            pd.Timestamp('2014-12-31', tz=UTC),  # New Year's Eve
         ]
 
         for early_close_session_label in early_closes_2014:
@@ -871,13 +872,13 @@ class EuronextCalendarTestBase(ExchangeCalendarTestBase):
         expected_sessions = [
             # In 2010, Labor Day fell on a Saturday, so the market should be
             # open on both the prior Friday and the following Monday.
-            pd.Timestamp('2010-04-30', tz='UTC'),
-            pd.Timestamp('2010-05-03', tz='UTC'),
+            pd.Timestamp('2010-04-30', tz=UTC),
+            pd.Timestamp('2010-05-03', tz=UTC),
             # Christmas also fell on a Saturday, meaning Boxing Day fell on a
             # Sunday. The market should still be open on both the prior Friday
             # and the following Monday.
-            pd.Timestamp('2010-12-24', tz='UTC'),
-            pd.Timestamp('2010-12-27', tz='UTC'),
+            pd.Timestamp('2010-12-24', tz=UTC),
+            pd.Timestamp('2010-12-27', tz=UTC),
         ]
 
         for session_label in expected_sessions:
@@ -922,21 +923,21 @@ class OpenDetectionTestCase(TestCase):
         # calendars because some of our calendars are 24/7, which means there
         # aren't any non-market minutes to find.
         day0 = cal.minutes_for_sessions_in_range(
-            pd.Timestamp('2013-07-03', tz='UTC'),
-            pd.Timestamp('2013-07-03', tz='UTC'),
+            pd.Timestamp('2013-07-03', tz=UTC),
+            pd.Timestamp('2013-07-03', tz=UTC),
         )
         for minute in day0:
             self.assertTrue(cal.is_open_on_minute(minute))
 
         day1 = cal.minutes_for_sessions_in_range(
-            pd.Timestamp('2013-07-05', tz='UTC'),
-            pd.Timestamp('2013-07-05', tz='UTC'),
+            pd.Timestamp('2013-07-05', tz=UTC),
+            pd.Timestamp('2013-07-05', tz=UTC),
         )
         for minute in day1:
             self.assertTrue(cal.is_open_on_minute(minute))
 
         def NYSE_timestamp(s):
-            return pd.Timestamp(s, tz='US/Eastern').tz_convert('UTC')
+            return pd.Timestamp(s, tz='US/Eastern').tz_convert(UTC)
 
         non_market = [
             # After close.

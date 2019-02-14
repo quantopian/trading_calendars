@@ -1,5 +1,6 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xcbf import XCBFExchangeCalendar
@@ -26,16 +27,16 @@ class XCBFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
                     "2016-05-30", "2016-07-04", "2016-09-05", "2016-11-24",
                     "2016-12-26", "2017-01-02"]:
             self.assertFalse(
-                self.calendar.is_session(pd.Timestamp(day, tz='UTC'))
+                self.calendar.is_session(pd.Timestamp(day, tz=UTC))
             )
 
     def test_2016_early_closes(self):
         # only early close is day after thanksgiving: nov 25
-        dt = pd.Timestamp("2016-11-25", tz='UTC')
+        dt = pd.Timestamp("2016-11-25", tz=UTC)
         self.assertTrue(dt in self.calendar.early_closes)
 
         market_close = self.calendar.schedule.loc[dt].market_close
-        market_close = market_close.tz_localize("UTC").tz_convert(
+        market_close = market_close.tz_localize(UTC).tz_convert(
             self.calendar.tz
         )
         self.assertEqual(12, market_close.hour)
@@ -50,5 +51,5 @@ class XCBFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         for day in ["1994-04-27", "2004-06-11", "2007-01-02",
                     "2012-10-29", "2012-10-30"]:
             self.assertFalse(
-                self.calendar.is_session(pd.Timestamp(day, tz='UTC'))
+                self.calendar.is_session(pd.Timestamp(day, tz=UTC))
             )

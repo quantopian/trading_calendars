@@ -1,6 +1,7 @@
 from datetime import time
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from .test_utils import T
@@ -67,8 +68,8 @@ class XHKGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # 23 24 25 26 27 28  1
         #  2
 
-        start_session = pd.Timestamp('2003-01-27', tz='UTC')
-        end_session = pd.Timestamp('2003-02-28', tz='UTC')
+        start_session = pd.Timestamp('2003-01-27', tz=UTC)
+        end_session = pd.Timestamp('2003-02-28', tz=UTC)
         sessions = self.calendar.sessions_in_range(start_session, end_session)
 
         holidays = pd.to_datetime(
@@ -103,8 +104,8 @@ class XHKGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         #  4  5  6  7  8  9 10
         # 11 12 13 14 15 16
 
-        start_session = pd.Timestamp('2018-02-12', tz='UTC')
-        end_session = pd.Timestamp('2018-03-15', tz='UTC')
+        start_session = pd.Timestamp('2018-02-12', tz=UTC)
+        end_session = pd.Timestamp('2018-03-15', tz=UTC)
         closes = self.calendar.session_closes_in_range(
             start_session,
             end_session,
@@ -257,8 +258,8 @@ class XHKGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
             # Christmas Eve and New Year's Eve are both Sunday this year
         ]
 
-        start_session = pd.Timestamp('2017-01-02', tz='UTC')
-        end_session = pd.Timestamp('2017-12-29', tz='UTC')
+        start_session = pd.Timestamp('2017-01-02', tz=UTC)
+        end_session = pd.Timestamp('2017-12-29', tz=UTC)
         closes = self.calendar.session_closes_in_range(
             start_session,
             end_session,

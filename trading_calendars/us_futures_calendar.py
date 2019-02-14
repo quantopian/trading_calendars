@@ -3,6 +3,7 @@ from datetime import time
 from pandas import Timedelta, Timestamp
 from pandas.tseries.holiday import GoodFriday
 from pytz import timezone
+from pytz import UTC
 
 from trading_calendars import TradingCalendar
 from trading_calendars.trading_calendar import (
@@ -45,7 +46,7 @@ class QuantopianUSFuturesCalendar(TradingCalendar):
     # upgrading to pandas 18. This calendar is the most severely affected,
     # since it has the most total minutes of any of the zipline calendars.
     def __init__(self,
-                 start=Timestamp('2000-01-01', tz='UTC'),
+                 start=Timestamp('2000-01-01', tz=UTC),
                  end=end_default):
         super(QuantopianUSFuturesCalendar, self).__init__(start=start, end=end)
 

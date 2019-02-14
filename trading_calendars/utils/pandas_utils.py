@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from pytz import UTC
 
 
 def days_at_time(days, t, tz, day_offset=0):
@@ -35,7 +36,7 @@ def days_at_time(days, t, tz, day_offset=0):
     """
     days = pd.DatetimeIndex(days).tz_localize(None)
     if len(days) == 0:
-        return days.tz_localize('UTC')
+        return days.tz_localize(UTC)
 
     # Offset days without tz to avoid timezone issues.
     delta = pd.Timedelta(
@@ -44,7 +45,7 @@ def days_at_time(days, t, tz, day_offset=0):
         minutes=t.minute,
         seconds=t.second,
     )
-    return (days + delta).tz_localize(tz).tz_convert('UTC')
+    return (days + delta).tz_localize(tz).tz_convert(UTC)
 
 
 def vectorized_sunday_to_monday(dtix):

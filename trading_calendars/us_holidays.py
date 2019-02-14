@@ -3,6 +3,7 @@ from pandas import (
     DateOffset,
     date_range,
 )
+from pytz import UTC
 
 from pandas.tseries.holiday import (
     Holiday,
@@ -128,13 +129,13 @@ BattleOfGettysburg = Holiday(
 
 
 # http://en.wikipedia.org/wiki/Aftermath_of_the_September_11_attacks
-September11Closings = date_range('2001-09-11', '2001-09-16', tz='UTC')
+September11Closings = date_range('2001-09-11', '2001-09-16', tz=UTC)
 
 # http://en.wikipedia.org/wiki/Hurricane_sandy
 HurricaneSandyClosings = date_range(
     '2012-10-29',
     '2012-10-30',
-    tz='UTC'
+    tz=UTC
 )
 
 # National Days of Mourning
@@ -143,8 +144,8 @@ HurricaneSandyClosings = date_range(
 # - President Gerald R. Ford - Jan 2, 2007
 # - President George H.W. Bush - Dec 5, 2018
 USNationalDaysofMourning = [
-    Timestamp('1994-04-27', tz='UTC'),
-    Timestamp('2004-06-11', tz='UTC'),
-    Timestamp('2007-01-02', tz='UTC'),
-    Timestamp('2018-12-05', tz='UTC'),
+    Timestamp('1994-04-27', tz=UTC),
+    Timestamp('2004-06-11', tz=UTC),
+    Timestamp('2007-01-02', tz=UTC),
+    Timestamp('2018-12-05', tz=UTC),
 ]
