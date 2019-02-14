@@ -15,19 +15,19 @@ environment:
   matrix:
     - PYTHON_VERSION: "2.7"
       PANDAS_VERSION: "0.18.1"
-      NUMPY_VERSION: "1.11.1"
+      NUMPY_VERSION: "1.12.1"
 
     - PYTHON_VERSION: "2.7"
-      PANDAS_VERSION: "0.22.0"
-      NUMPY_VERSION: "1.14.1"
+      PANDAS_VERSION: "0.24.1"
+      NUMPY_VERSION: "1.16.1"
 
     - PYTHON_VERSION: "3.5"
       PANDAS_VERSION: "0.18.1"
-      NUMPY_VERSION: "1.11.1"
+      NUMPY_VERSION: "1.12.1"
 
     - PYTHON_VERSION: "3.5"
-      PANDAS_VERSION: "0.22.0"
-      NUMPY_VERSION: "1.14.1"
+      PANDAS_VERSION: "0.24.1"
+      NUMPY_VERSION: "1.16.1"
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the PYTHON_ARCH variable (which is used by CMD_IN_ENV).
