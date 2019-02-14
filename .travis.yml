@@ -9,7 +9,7 @@ env:
   - PANDAS_VERSION=0.19.2
     NUMPY_VERSION=1.12.1
   - PANDAS_VERSION=0.24.1
-    NUMPY_VERSION=1.16.1
+    NUMPY_VERSION=1.15.4
 
 before_install:
   # We do this conditionally because it saves us some downloading if the
