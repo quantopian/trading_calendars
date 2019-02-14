@@ -44,7 +44,7 @@ from .utils.preprocess import preprocess, coerce
 
 start_default = pd.Timestamp('1990-01-01', tz=UTC)
 end_base = pd.Timestamp('today', tz=UTC)
-# Give an aggressive b tuffer for logic that needs to use the next trading
+# Give an aggressive buffer for logic that needs to use the next trading
 # day or minute.
 end_default = end_base + pd.Timedelta(days=365)
 
