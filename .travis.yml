@@ -4,12 +4,13 @@ sudo: false
 
 python:
   - 2.7
+  - 3.5
   - 3.6
 env:
   - PANDAS_VERSION=0.18.1
     NUMPY_VERSION=1.11.3
-  - PANDAS_VERSION=0.24.1
-    NUMPY_VERSION=1.15.4
+  - PANDAS_VERSION=0.23.4
+    NUMPY_VERSION=1.15.2
 
 before_install:
   # We do this conditionally because it saves us some downloading if the
