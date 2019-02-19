@@ -918,7 +918,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             raise ValueError(
                 "{num} non-market minutes in minute_index_to_session_labels:\n"
                 "First Bad Minute: {first_bad}\n"
-                "Previous Session: {prev_open} -> {prev_close}"
+                "Previous Session: {prev_open} -> {prev_close}\n"
                 "Next Session: {next_open} -> {next_close}"
                 .format(
                     num=mismatches.sum(),
