@@ -379,7 +379,7 @@ precomputed_shanghai_holidays = pd.to_datetime([
     "2018-10-03",
     "2018-10-04",
     "2018-10-05",
-    "2018-12-31", #http://www.sse.com.cn/disclosure/announcement/general/c/c_20181220_4696473.shtml
+    "2018-12-31",
     "2019-01-01",
     "2019-02-04",
     "2019-02-05",
