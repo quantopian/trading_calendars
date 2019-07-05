@@ -160,7 +160,7 @@ class XNYSExchangeCalendar(TradingCalendar):
                         '1999-12-31',
                         '2003-12-26',
                         '2013-07-03',
-                        '2019-07-03'
+                        '2019-07-03',
                     ],
                     tz=UTC,
                 )
