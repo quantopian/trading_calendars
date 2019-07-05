@@ -28,7 +28,7 @@ from .trading_calendar import (
 
 
 def july_5th_holiday_observance(datetime_index):
-    return datetime_index[datetime_index.year not in (2013, 2019)]
+    return datetime_index[~datetime_index.year.isin([2013, 2019])]
 
 
 # These have the same definition, but are used in different places because the
