@@ -34,7 +34,7 @@ from .us_holidays import (
     USIndependenceDay,
     Christmas,
     MonTuesThursBeforeIndependenceDay,
-    FridayAfterIndependenceDayExcept2013,
+    FridayAfterIndependenceDayExcept2013and2019,
     USBlackFridayBefore1993,
     USBlackFridayInOrAfter1993,
     September11Closings,
@@ -139,7 +139,7 @@ class XNYSExchangeCalendar(TradingCalendar):
         return [
             (self.regular_early_close, HolidayCalendar([
                 MonTuesThursBeforeIndependenceDay,
-                FridayAfterIndependenceDayExcept2013,
+                FridayAfterIndependenceDayExcept2013and2019,
                 USBlackFridayInOrAfter1993,
                 ChristmasEveInOrAfter1993
             ])),
@@ -160,6 +160,7 @@ class XNYSExchangeCalendar(TradingCalendar):
                         '1999-12-31',
                         '2003-12-26',
                         '2013-07-03',
+                        '2019-07-03',
                     ],
                     tz=UTC,
                 )

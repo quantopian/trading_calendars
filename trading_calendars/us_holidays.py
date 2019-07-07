@@ -28,7 +28,9 @@ from .trading_calendar import (
 
 
 def july_5th_holiday_observance(datetime_index):
-    return datetime_index[datetime_index.year != 2013]
+    return datetime_index[
+        (datetime_index.year != 2013) & (datetime_index.year != 2019)
+    ]
 
 
 # These have the same definition, but are used in different places because the
@@ -92,10 +94,11 @@ MonTuesThursBeforeIndependenceDay = Holiday(
     days_of_week=(MONDAY, TUESDAY, THURSDAY),
     start_date=Timestamp("1995-01-01"),
 )
-FridayAfterIndependenceDayExcept2013 = Holiday(
+FridayAfterIndependenceDayExcept2013and2019 = Holiday(
     # When July 4th is a Thursday, the next day is a half day (except in 2013,
-    # when, for no explicable reason, Wednesday was a half day instead).
-    "Fridays after Independence Day that aren't in 2013",
+    # and 2019 when, for no explicable reason, Wednesday was a half day
+    # instead).
+    "Fridays after Independence Day that aren't in 2013,2019",
     month=7,
     day=5,
     days_of_week=(FRIDAY,),
