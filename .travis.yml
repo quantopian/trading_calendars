@@ -19,7 +19,7 @@ before_install:
   - conda config --set always_yes yes --set changeps1 no
 
 install:
-  - conda create -n testenv --yes -c quantopian pip python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION pandas=$PANDAS_VERSION
+  - conda create -n testenv pip python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION pandas=$PANDAS_VERSION
   - source activate testenv
   - python -m pip install --upgrade pip coveralls
   - python -m pip install -r etc/requirements.txt
