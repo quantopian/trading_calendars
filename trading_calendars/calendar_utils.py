@@ -23,6 +23,7 @@ from .exchange_calendar_xlis import XLISExchangeCalendar
 from .exchange_calendar_xlon import XLONExchangeCalendar
 from .exchange_calendar_xmad import XMADExchangeCalendar
 from .exchange_calendar_xmil import XMILExchangeCalendar
+from .exchange_calendar_xnse import XNSExchangeCalendar
 from .exchange_calendar_xnys import XNYSExchangeCalendar
 from .exchange_calendar_xnze import XNZEExchangeCalendar
 from .exchange_calendar_xosl import XOSLExchangeCalendar
@@ -58,6 +59,7 @@ _default_calendar_factories = {
     'XLON': XLONExchangeCalendar,
     'XMAD': XMADExchangeCalendar,
     'XMIL': XMILExchangeCalendar,
+    'XNSE': XNSExchangeCalendar,
     'XNYS': XNYSExchangeCalendar,
     'XNZE': XNZEExchangeCalendar,
     'XOSL': XOSLExchangeCalendar,
