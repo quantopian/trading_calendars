@@ -18,8 +18,12 @@ class XNSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
     def test_normal_year(self):
         expected_holidays_2019 = [
             T('2019-01-26'),
+            T('2019-02-13'),
+            T('2019-02-14'),
+            T('2019-03-02'),
             T('2019-03-04'),
             T('2019-03-21'),
+            T('2019-03-29'),
             T('2019-04-04'),
             T('2019-04-13'),
             T('2019-04-14'),
