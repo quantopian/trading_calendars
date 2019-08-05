@@ -33,6 +33,7 @@ from .exchange_calendar_xsto import XSTOExchangeCalendar
 from .exchange_calendar_xswx import XSWXExchangeCalendar
 from .exchange_calendar_xtks import XTKSExchangeCalendar
 from .exchange_calendar_xtse import XTSEExchangeCalendar
+from .exchange_calendar_xwar import XWARExchangeCalendar
 from .exchange_calendar_xwbo import XWBOExchangeCalendar
 from .us_futures_calendar import QuantopianUSFuturesCalendar
 from .weekday_calendar import WeekdayCalendar
@@ -68,6 +69,7 @@ _default_calendar_factories = {
     'XSWX': XSWXExchangeCalendar,
     'XTKS': XTKSExchangeCalendar,
     'XTSE': XTSEExchangeCalendar,
+    'XWAR': XWARExchangeCalendar,
     'XWBO': XWBOExchangeCalendar,
     # Miscellaneous calendars.
     'us_futures': QuantopianUSFuturesCalendar,
