@@ -129,7 +129,7 @@ class XTSEExchangeCalendar(TradingCalendar):
 
     name = 'XTSE'
 
-    tz = timezone('Canada/Atlantic')
+    tz = timezone('America/Toronto')
 
     open_times = (
         (None, time(9, 31)),

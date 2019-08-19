@@ -119,15 +119,15 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
         christmas_eve09 = pd.Timestamp('2009-12-24')
         christmas_eve09_close = self.calendar.next_close(christmas_eve09)
         self.assertEqual(
-            christmas_eve09_close.tz_convert('Canada/Atlantic'),
-            pd.Timestamp('2009-12-24 4:00 PM', tz='Canada/Atlantic')
+            christmas_eve09_close.tz_convert('America/Toronto'),
+            pd.Timestamp('2009-12-24 4:00 PM', tz='America/Toronto')
         )
 
         christmas_eve10 = pd.Timestamp('2010-12-24')
         christmas_eve10_close = self.calendar.next_close(christmas_eve10)
         self.assertEqual(
-            christmas_eve10_close.tz_convert('Canada/Atlantic'),
-            pd.Timestamp('2010-12-24 1:00 PM', tz='Canada/Atlantic')
+            christmas_eve10_close.tz_convert('America/Toronto'),
+            pd.Timestamp('2010-12-24 1:00 PM', tz='America/Toronto')
         )
 
         #    December 2012
@@ -147,9 +147,9 @@ class XTSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             christmas_eve_close = self.calendar.next_close(christmas_eve)
 
             self.assertEqual(
-                christmas_eve_close.tz_convert("Canada/Atlantic"),
+                christmas_eve_close.tz_convert("America/Toronto"),
                 pd.Timestamp('{}-12-24 1:00 PM'.format(year),
-                             tz="Canada/Atlantic"),
+                             tz="America/Toronto"),
             )
 
     def test_christmas(self):
