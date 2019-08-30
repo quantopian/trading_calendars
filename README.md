@@ -9,6 +9,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | ICE US                          | IEPA     | USA         | 1.0           | https://www.theice.com/index                            |
 | Toronto Stock Exchange          | XTSE     | Canada      | 1.0           | https://www.tsx.com/                                    |
 | BMF Bovespa                     | BVMF     | Brazil      | 1.0           | http://www.b3.com.br/en_us/                             |
+| London Stock Exchange           | XLON     | England     | 1.0           | https://www.londonstockexchange.com/home/homepage.htm   |
 | Euronext Amsterdam              | XAMS     | Netherlands | 1.2           | https://www.euronext.com/en/regulation/amsterdam        |
 | Euronext Brussels               | XBRU     | Belgium     | 1.2           | https://www.euronext.com/en/regulation/brussels         |
 | Euronext Lisbon                 | XLIS     | Portugal    | 1.2           | https://www.euronext.com/en/regulation/lisbon           |
@@ -31,8 +32,8 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Singapore Exchange              | XSES     | Singapore   | 1.5           | https://www.sgx.com                                     |
 | Shanghai Stock Exchange         | XSHG     | China       | 1.5           | http://english.sse.com.cn                               |
 | Korea Exchange                  | XKRX     | South Korea | 1.6           | http://global.krx.co.kr                                 |
-| Iceland Stock Exchange          | XICE     | Iceland     | 1.7           | http://www.nasdaqomxnordic.com/  
-| Poland Stock Exchange		  | XWAR     | Poland      | *		   | http://www.gpw.pl
+| Iceland Stock Exchange          | XICE     | Iceland     | 1.7           | http://www.nasdaqomxnordic.com/                         |
+| Poland Stock Exchange           | XWAR     | Poland      | *             | http://www.gpw.pl                                       |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
