@@ -132,21 +132,51 @@ BattleOfGettysburg = Holiday(
 
 
 # http://en.wikipedia.org/wiki/Aftermath_of_the_September_11_attacks
-September11Closings = date_range('2001-09-11', '2001-09-16', tz=UTC)
+# Jevons Global: use list for consistency in returning ad-hoc dates
+September11Closings = [
+    Timestamp('2001-09-11', tz=UTC),
+    Timestamp('2001-09-12', tz=UTC),
+    Timestamp('2001-09-13', tz=UTC),
+    Timestamp('2001-09-14', tz=UTC)
+]
 
 # http://en.wikipedia.org/wiki/Hurricane_sandy
-HurricaneSandyClosings = date_range(
-    '2012-10-29',
-    '2012-10-30',
-    tz=UTC
-)
+# Jevons Global: use list for consistency in returning ad-hoc dates
+HurricaneSandyClosings = [
+    Timestamp('2012-10-29', tz=UTC),
+    Timestamp('2012-10-30', tz=UTC)
+]
+
+# Jevons Global: add Hurricane Gloria closing
+# use singleton list as must be iterable type
+HurricaneGloriaClosing = [
+    Timestamp('1985-09-27', tz=UTC) 
+] 
+
+# Jevons Global: add New York Blackout closing
+# use singleton list as must be iterable type
+NewYorkBlackout  = [
+    Timestamp('1977-07-14', tz=UTC) 
+] 
+
+# Jevons Global: add closings for pre-1980 Presidential Election Day closings
+PresidentialElectionDays = [
+    Timestamp('1972-11-07', tz=UTC),
+    Timestamp('1976-11-02', tz=UTC),
+    Timestamp('1980-11-04', tz=UTC)
+]
 
 # National Days of Mourning
+# - President Harry S. Truman - December 28, 1972
+# - President Lyndon B. Johnson - January 25, 1973
 # - President Richard Nixon - April 27, 1994
 # - President Ronald W. Reagan - June 11, 2004
 # - President Gerald R. Ford - Jan 2, 2007
 # - President George H.W. Bush - Dec 5, 2018
+# Jevons Global: added Truman and Johnson to go back to 1970
 USNationalDaysofMourning = [
+    Timestamp('1972-12-28', tz=UTC),
+    Timestamp('1973-01-25', tz=UTC),
     Timestamp('1994-04-27', tz=UTC),
     Timestamp('2004-06-11', tz=UTC),
     Timestamp('2007-01-02', tz=UTC),
