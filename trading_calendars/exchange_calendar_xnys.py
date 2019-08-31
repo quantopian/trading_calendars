@@ -39,6 +39,9 @@ from .us_holidays import (
     USBlackFridayInOrAfter1993,
     September11Closings,
     HurricaneSandyClosings,
+    HurricaneGloriaClosing,
+    NewYorkBlackout,
+    PresidentialElectionDays,
     USNationalDaysofMourning,
     ChristmasEveBefore1993,
     ChristmasEveInOrAfter1993,
@@ -131,6 +134,9 @@ class XNYSExchangeCalendar(TradingCalendar):
         return list(chain(
             September11Closings,
             HurricaneSandyClosings,
+            HurricaneGloriaClosing,
+            NewYorkBlackout,
+            PresidentialElectionDays,
             USNationalDaysofMourning,
         ))
 
