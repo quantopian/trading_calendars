@@ -114,6 +114,20 @@ BusinessDayPriorToNewYearsDay = Holiday(
     start_date="2011-01-01",
 )
 
+# Jevons Global: further ad-hoc holidays and closures
+XMAS22DEC86 = Timestamp('1986-12-22', tz=UTC)
+XMAS23DEC86 = Timestamp('1986-12-23', tz=UTC)
+XMAS24DEC86 = Timestamp('1986-12-24', tz=UTC)
+XMAS29DEC86 = Timestamp('1986-12-29', tz=UTC)
+XMAS30DEC86 = Timestamp('1986-12-30', tz=UTC)
+XMAS31DEC86 = Timestamp('1986-12-31', tz=UTC)
+XMAS24DEC90 = Timestamp('1990-12-24', tz=UTC)
+XMAS31DEC90 = Timestamp('1990-12-31', tz=UTC)
+XMAS27DEC91 = Timestamp('1991-12-27', tz=UTC)
+NYDX03JAN92 = Timestamp('1992-01-03', tz=UTC)
+XMAS31DEC99 = Timestamp('1999-12-31', tz=UTC)
+
+
 
 class XNZEExchangeCalendar(TradingCalendar):
     """
@@ -168,6 +182,12 @@ class XNZEExchangeCalendar(TradingCalendar):
             Christmas,
             BoxingDay,
         ])
+    
+    # Jevons Global: add extra ad-hoc holidays
+    @property
+    def adhoc_holidays(self):
+        return [XMAS22DEC86, XMAS23DEC86, XMAS24DEC86, XMAS29DEC86, XMAS30DEC86, XMAS31DEC86, XMAS24DEC90, XMAS31DEC90, XMAS27DEC91, NYDX03JAN92, XMAS31DEC99]
+
 
     @property
     def special_closes(self):
