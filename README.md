@@ -1,9 +1,9 @@
-# jevons global addditions in this fork
+# jevons global changes
 
 Forked 31-Aug-2019 to fix some holiday omissions for XASX, XNZE and extend all exchanges back to 1-Jan-1970
 
 * XASX back to 1-Jan-1970 done... fixed some errors in the original Quantopian calendar for the 1990s
-* XNZE back to 1-Jan-1970 done... 
+* XNZE back to 1-Jan-1970 done... added some extra fill-in holidays around Xmas and New Year
 * XNYS back to 1-Jan-1970 done... added some missing holidays and market closures prior to 1990
 
 # trading_calendars
