@@ -17,7 +17,8 @@ cal_name = sys.argv[1]
 cal = get_calendar(cal_name)
 
 df = pd.DataFrame(
-    {'market_open': cal.opens, 'market_close': cal.closes},
+    list(zip(cal.opens, cal.closes)),
+    columns=['market_open', 'market_close'],
     index=cal.closes.index,
 )
 df.index = df.index.date
@@ -25,7 +26,7 @@ df.index = df.index.date
 destination = normpath(
     join(
         abspath(dirname(__file__)),
-        '../tests/resources/{}.csv'.format(cal_name),
+        '../tests/resources/{}.csv'.format(cal_name.lower()),
     ),
 )
 print('Writing test CSV file to {}'.format(destination))
