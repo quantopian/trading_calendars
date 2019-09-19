@@ -258,6 +258,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
     @property
     def adhoc_holidays(self):
+        """
+        Returns
+        -------
+        list : A list of timestamps representing unplanned closes.
+        """
         return []
 
     @property

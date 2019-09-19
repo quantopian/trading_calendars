@@ -28,6 +28,7 @@ from .exchange_calendar_xnze import XNZEExchangeCalendar
 from .exchange_calendar_xosl import XOSLExchangeCalendar
 from .exchange_calendar_xpar import XPARExchangeCalendar
 from .exchange_calendar_xses import XSESExchangeCalendar
+from .exchange_calendar_xsgo import XSGOExchangeCalendar
 from .exchange_calendar_xshg import XSHGExchangeCalendar
 from .exchange_calendar_xsto import XSTOExchangeCalendar
 from .exchange_calendar_xswx import XSWXExchangeCalendar
@@ -64,6 +65,7 @@ _default_calendar_factories = {
     'XOSL': XOSLExchangeCalendar,
     'XPAR': XPARExchangeCalendar,
     'XSES': XSESExchangeCalendar,
+    'XSGO': XSGOExchangeCalendar,
     'XSHG': XSHGExchangeCalendar,
     'XSTO': XSTOExchangeCalendar,
     'XSWX': XSWXExchangeCalendar,

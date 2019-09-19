@@ -168,7 +168,6 @@ def _check_range(start, end, holidays, cal, calendar_name):
 )
 @click.option(
     '--delimiter',
-    '--sep',
     default=',',
     help='Delimiter to use when parsing the key.',
     show_default=True,
@@ -192,7 +191,7 @@ def main(holiday_key_path,
          calendar_column,
          holiday_column,
          date_format,
-         sep,
+         delimiter,
          strip_x_from_cal_name,
          answer_key_calendar_name):
 
@@ -201,7 +200,7 @@ def main(holiday_key_path,
         calendar_column,
         holiday_column,
         date_format,
-        sep,
+        delimiter,
         strip_x_from_cal_name,
         answer_key_calendar_name,
         min_date,
