@@ -14,7 +14,7 @@ from trading_calendars import get_calendar
 
 
 cal_name = sys.argv[1]
-cal = get_calendar(cal_name)
+cal = get_calendar(cal_name.upper())
 
 df = pd.DataFrame(
     list(zip(cal.opens, cal.closes)),

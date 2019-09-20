@@ -106,29 +106,21 @@ def _check_range(start, end, holidays, cal, calendar_name):
     unexpected_sessions = actual_sessions.difference(expected_sessions)
     unexpected_holidays = expected_sessions.difference(actual_sessions)
 
-    for session in unexpected_sessions:
-        click.secho(
-            (
-                '{} is in the holiday key, but is a valid'
-                ' session in the {} trading calendar.'
-            ).format(
-                session.date(),
-                calendar_name,
-            ),
-            fg='red',
+    if unexpected_sessions.size:
+        click.echo(
+            '\nThese dates are holidays in the given key, but trading days in '
+            'the {} trading calendar:'.format(calendar_name)
         )
+        for session in unexpected_sessions:
+            click.secho(str(session.date()), fg='red')
 
-    for holiday in unexpected_holidays:
-        click.secho(
-            (
-                '{} is not in the holiday key, but is not a'
-                ' valid session in the {} trading calendar.'
-            ).format(
-                holiday.date(),
-                calendar_name,
-            ),
-            fg='red',
+    if unexpected_holidays.size:
+        click.echo(
+            '\nThese dates are trading days in the given key, but holidays in '
+            'the {} trading calendar:'.format(calendar_name)
         )
+        for holiday in unexpected_holidays:
+            click.secho(str(holiday.date()), fg='red')
 
     if not unexpected_sessions.size and not unexpected_holidays.size:
         click.secho(
