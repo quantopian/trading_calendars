@@ -24,6 +24,7 @@ from .common_holidays import (
     new_years_day,
     maundy_thursday,
     european_labour_day,
+    saint_peter_and_saint_paul_day,
     assumption_day,
     all_saints_day,
     immaculate_conception,
@@ -97,10 +98,7 @@ LabourDay = european_labour_day()
 
 NavyDay = Holiday('Navy Day', month=5, day=21)
 
-SaintPeterAndSaintPaulDay = Holiday(
-    'Saint Peter and Saint Paul Day',
-    month=6,
-    day=29,
+SaintPeterAndSaintPaulDay = saint_peter_and_saint_paul_day(
     observance=nearest_monday,
 )
 

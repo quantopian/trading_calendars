@@ -152,6 +152,21 @@ def midsummer_eve(start_date=None, end_date=None):
     )
 
 
+def saint_peter_and_saint_paul_day(start_date=None,
+                                   end_date=None,
+                                   observance=None,
+                                   days_of_week=None):
+    return Holiday(
+        'Saint Peter and Saint Paul Day',
+        month=6,
+        day=29,
+        start_date=start_date,
+        end_date=end_date,
+        observance=observance,
+        days_of_week=days_of_week,
+    )
+
+
 def assumption_day(start_date=None,
                    end_date=None,
                    observance=None,
