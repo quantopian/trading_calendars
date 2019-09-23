@@ -38,6 +38,7 @@ from .trading_calendar import (
 
 NewYearsDay = new_years_day()
 
+# Need custom start year so can't use pandas GoodFriday
 GoodFriday = Holiday(
     "Good Friday",
     month=1,
@@ -114,6 +115,7 @@ class XPRAExchangeCalendar(TradingCalendar):
     - Jan Hus Day (Jul 6)
     - Czech Statehood Day (Sep 28)
     - Independence Day (Oct 28)
+    - Struggle for Freedom and Democracy Day (Nov 17)
     - Christmas Eve
     - Christmas Day
     - Second Day of Christmas (Dec 26)
