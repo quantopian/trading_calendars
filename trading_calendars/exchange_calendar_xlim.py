@@ -117,7 +117,7 @@ class XLIMExchangeCalendar(TradingCalendar):
     tz = timezone('America/Lima')
 
     open_times = (
-        (None, time(9)),
+        (None, time(9, 1)),
     )
     close_times = (
         (None, time(16)),

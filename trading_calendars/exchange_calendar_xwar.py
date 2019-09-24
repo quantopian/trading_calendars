@@ -1,4 +1,6 @@
 #
+# Copyright 2019 Quantopian, Inc.
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -12,92 +14,139 @@
 # limitations under the License.
 
 from datetime import time
+
+import pandas as pd
 from pandas.tseries.holiday import (
     Holiday,
     GoodFriday,
-    EasterMonday
+    EasterMonday,
 )
-from pytz import timezone
+from pytz import timezone, UTC
+
 from .common_holidays import (
     new_years_day,
+    epiphany,
     european_labour_day,
     corpus_christi,
     all_saints_day,
-    boxing_day,
-    christmas,
     christmas_eve,
-    new_years_eve
+    christmas,
+    boxing_day,
+    new_years_eve,
 )
-from .trading_calendar import (
-    TradingCalendar,
-    HolidayCalendar
-)
+from .trading_calendar import HolidayCalendar, TradingCalendar
+
+
+def not_2004(datetime_index):
+    """
+    Christmas Eve is a holiday every year except for whatever reason it was a
+    trading day in 2004.
+    """
+    return datetime_index[datetime_index.year != 2004]
+
+
+NewYearsDay = new_years_day()
+
+Epiphany = epiphany(start_date='2011')
+
+LabourDay = european_labour_day()
 
 May3ConstitutionDay = Holiday(
-    "Celabration of declaration of the Constitution of 3 May",
+    "Celabration of Declaration of the Constitution of 3 May",
     month=5,
-    day=3
+    day=3,
 )
+
+CorpusChristi = corpus_christi()
+
 ArmedForcesDay = Holiday(
     "Armed Forces Day",
     month=8,
-    day=15
+    day=15,
 )
+
+AllSaintsDay = all_saints_day()
+
 IndependenceDay = Holiday(
     "National Independence Day",
     month=11,
-    day=11
+    day=11,
 )
+
+ChristmasEve = christmas_eve(observance=not_2004)
+Christmas = christmas()
+BoxingDay = boxing_day()
+
+NewYearsEve = new_years_eve(start_date='2011')
 
 
 class XWARExchangeCalendar(TradingCalendar):
     """
-        Exchange calendar for the Warsaw Stock Exchange (WSE).
+    Exchange calendar for the Warsaw Stock Exchange (WSE).
 
-        Open Time: 9:00 AM, CET
-        Close Time: 5:30 PM, CET
+    Open Time: 9:00 AM, Central European Time (CET)
+    Close Time: 5:00 PM, Central European Time (CET)
 
-        Regularly-Observed Holidays:
-        - New Years Day
-        - Good Friday
-        - Easter Monday
-        - Labour Day
-        - May 3 Constitution Day
-        - Corpus Christi
-        - Armed Forces Day
-        - All Saints Day
-        - Independence Day
-        - Christmas Eve
-        - Christmas Day
-        - Boxing Day
-        - New Years Eve
-        """
+    Regularly-Observed Holidays:
+      - New Year's Day
+      - Epiphany
+      - Good Friday
+      - Easter Monday
+      - Labour Day
+      - Constitution Day
+      - Corpus Christi
+      - Armed Forces Day
+      - All Saints' Day
+      - Independence Day
+      - Christmas Eve
+      - Christmas Day
+      - Boxing Day
+      - New Year's Eve
+
+    Holidays No Longer Observed:
+      - None
+
+    Early Closes:
+      - None
+    """
     name = 'XWAR'
 
-    tz = timezone('CET')
+    tz = timezone('Europe/Warsaw')
 
     open_times = (
-        (None, time(8, 30)),
+        (None, time(9, 1)),
     )
-
     close_times = (
-        (None, time(17, 5)),
+        (None, time(17)),
     )
 
     @property
     def regular_holidays(self):
         return HolidayCalendar([
-            new_years_day,
+            NewYearsDay,
+            Epiphany,
             GoodFriday,
             EasterMonday,
-            european_labour_day,
+            LabourDay,
             May3ConstitutionDay,
-            corpus_christi,
+            CorpusChristi,
             ArmedForcesDay,
-            all_saints_day,
+            AllSaintsDay,
             IndependenceDay,
-            boxing_day,
-            christmas,
-            christmas_eve,
-            new_years_eve
+            ChristmasEve,
+            Christmas,
+            BoxingDay,
+            NewYearsEve,
         ])
+
+    @property
+    def adhoc_holidays(self):
+        return [
+            pd.Timestamp('2005-04-08', tz=UTC),  # Pope's Funeral.
+            pd.Timestamp('2007-12-31', tz=UTC),  # New Year's Eve (adhoc).
+            pd.Timestamp('2008-05-02', tz=UTC),  # Exchange Holiday.
+            pd.Timestamp('2009-01-02', tz=UTC),  # Exchange Holiday.
+            pd.Timestamp('2013-04-16', tz=UTC),  # Exchange Holiday.
+            pd.Timestamp('2018-01-02', tz=UTC),  # Exchange Holiday.
+            pd.Timestamp('2018-11-12', tz=UTC),  # Independence Holiday.
+        ]
