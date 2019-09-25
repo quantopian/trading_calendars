@@ -33,12 +33,13 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Shanghai Stock Exchange         | XSHG     | China          | 1.5           | http://english.sse.com.cn                                    |
 | Korea Exchange                  | XKRX     | South Korea    | 1.6           | http://global.krx.co.kr                                      |
 | Iceland Stock Exchange          | XICE     | Iceland        | 1.7           | http://www.nasdaqomxnordic.com/                              |
-| Poland Stock Exchange           | XWAR     | Poland         | *             | http://www.gpw.pl                                            |
-| Santiago Stock Exchange         | XSGO     | Chile          | *             | http://inter.bolsadesantiago.com/sitios/en/Paginas/home.aspx |
-| Colombia Securities Exchange    | XBOG     | Colombia       | *             | https://www.bvc.com.co/nueva/index_en.html                   |
-| Mexican Stock Exchange          | XMEX     | Mexico         | *             | https://www.bmv.com.mx                                       |
-| Lima Stock Exchange             | XLIM     | Peru           | *             | https://www.bvl.com.pe                                       |
-| Prague Stock Exchange           | XPRA     | Czech Republic | *             | https://www.pse.cz/en/                                       |
+| Poland Stock Exchange           | XWAR     | Poland         | 1.9           | http://www.gpw.pl                                            |
+| Santiago Stock Exchange         | XSGO     | Chile          | 1.9           | http://inter.bolsadesantiago.com/sitios/en/Paginas/home.aspx |
+| Colombia Securities Exchange    | XBOG     | Colombia       | 1.9           | https://www.bvc.com.co/nueva/index_en.html                   |
+| Mexican Stock Exchange          | XMEX     | Mexico         | 1.9           | https://www.bmv.com.mx                                       |
+| Lima Stock Exchange             | XLIM     | Peru           | 1.9           | https://www.bvl.com.pe                                       |
+| Prague Stock Exchange           | XPRA     | Czech Republic | 1.9           | https://www.pse.cz/en/                                       |
+| Budapest Stock Exchange         | XBUD     | Hungary        | *             | https://bse.hu/                                              |
 
 Calendars marked with an asterisk (*) have not yet been released.
 

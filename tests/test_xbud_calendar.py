@@ -3,6 +3,12 @@ import pandas as pd
 from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
+from trading_calendars.trading_calendar import (
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+)
 from trading_calendars.exchange_calendar_xbud import XBUDExchangeCalendar
 
 
@@ -141,7 +147,8 @@ class XBUDCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         four day weekend rule)
         """
         all_sessions = self.calendar.all_sessions
-        session_days = (1, 2, 3, 4)
+        session_days = (TUESDAY, WEDNESDAY, THURSDAY, FRIDAY)
+
         for year in range(2000, 2011):
             ts = pd.Timestamp('{}-12-31'.format(year), tz=UTC)
             if ts.weekday() in session_days:
