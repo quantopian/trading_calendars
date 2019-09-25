@@ -21,6 +21,7 @@ from .exchange_calendar_xfra import XFRAExchangeCalendar
 from .exchange_calendar_xhel import XHELExchangeCalendar
 from .exchange_calendar_xhkg import XHKGExchangeCalendar
 from .exchange_calendar_xice import XICEExchangeCalendar
+from .exchange_calendar_xjse import XJSEExchangeCalendar
 from .exchange_calendar_xkrx import XKRXExchangeCalendar
 from .exchange_calendar_xlim import XLIMExchangeCalendar
 from .exchange_calendar_xlis import XLISExchangeCalendar
@@ -64,6 +65,7 @@ _default_calendar_factories = {
     'XHEL': XHELExchangeCalendar,
     'XHKG': XHKGExchangeCalendar,
     'XICE': XICEExchangeCalendar,
+    'XJSE': XJSEExchangeCalendar,
     'XKRX': XKRXExchangeCalendar,
     'XLIM': XLIMExchangeCalendar,
     'XLIS': XLISExchangeCalendar,
