@@ -42,7 +42,8 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Budapest Stock Exchange         | XBUD     | Hungary        | *             | https://bse.hu/                                              |
 | Athens Stock Exchange           | ASEX     | Greece         | *             | http://www.helex.gr/                                         |
 | Istanbul Stock Exchange         | XIST     | Turkey         | *             | https://www.borsaistanbul.com/en/                            |
-
+| Johannesburg Stock Exchange     | XJSE     | South Africa   | *             | https://www.jse.co.za/z
+                                       |
 Calendars marked with an asterisk (*) have not yet been released.
 
 Note that exchange calendars are defined by their [ISO-10383 market identifier code](https://www.iso20022.org/10383/iso-10383-market-identifier-codes).
