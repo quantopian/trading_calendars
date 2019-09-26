@@ -145,15 +145,6 @@ class ASEXExchangeCalendar(TradingCalendar):
         ])
 
     @property
-    def precomputed_holidays(self):
-        return list(chain(
-            list(OrthodoxGoodFriday),
-            list(OrthodoxEasterMonday),
-            list(OrthodoxWhitMonday),
-            list(OrthodoxAshMonday),
-        ))
-
-    @property
     def adhoc_holidays(self):
         debt_crisis = pd.date_range('2015-06-29', '2015-07-31', freq='B')
 
@@ -180,4 +171,8 @@ class ASEXExchangeCalendar(TradingCalendar):
         return list(chain(
             debt_crisis_holidays,
             misc_adhoc_holidays,
+            OrthodoxGoodFriday,
+            OrthodoxEasterMonday,
+            OrthodoxWhitMonday,
+            OrthodoxAshMonday,
         ))
