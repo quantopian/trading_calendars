@@ -1,8 +1,6 @@
-from dateutil.easter import easter, EASTER_ORTHODOX
 import pandas as pd
 from pandas.tseries.holiday import DateOffset, Easter, FR, Holiday
 from pandas.tseries.offsets import Day
-from pytz import UTC
 
 from .trading_calendar import MONDAY, TUESDAY
 
@@ -775,15 +773,3 @@ double_ninth_festival_dates = pd.to_datetime([
     '2048-10-16',
     '2049-10-05',
 ])
-
-
-def orthodox_easter(start_date='1980', end_date='2021'):
-    """
-    Some countries observe Orthodox Easter, and have many holidays
-    that are relative to Orthodox Easter.  This function gives a
-    DatetimeIndex of Orthodox Easter dates from start_date to end_date
-    """
-    return pd.to_datetime([
-        easter(year, method=EASTER_ORTHODOX)
-        for year in range(int(start_date), int(end_date))
-    ]).tz_localize(UTC)

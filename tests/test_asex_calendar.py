@@ -136,18 +136,14 @@ class ASEXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         all_sessions = self.calendar.all_sessions
         closed_dates = pd.date_range('2015-06-29', '2015-07-31')
 
-        expected_closures = [
-            pd.Timestamp(str(date), tz=UTC) for date in closed_dates
-        ]
-
-        for closure_label in expected_closures:
-            self.assertNotIn(closure_label, all_sessions)
+        for date in closed_dates:
+            self.assertNotIn(date, all_sessions)
 
     def test_adhoc_holidays(self):
         all_sessions = self.calendar.all_sessions
 
         expected_holidays = [
-            pd.Timestamp('2002-05-07', tz=UTC),  # Unknown closure
+            pd.Timestamp('2002-05-07', tz=UTC),  # Market Holiday
             pd.Timestamp('2004-08-13', tz=UTC),  # Assumption Day makeup
             pd.Timestamp('2008-03-04', tz=UTC),  # Worker strikes
             pd.Timestamp('2008-03-05', tz=UTC),  # Worker strikes

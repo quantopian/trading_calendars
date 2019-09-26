@@ -14,6 +14,7 @@
 # limitations under the License.
 
 from datetime import time, timedelta
+from dateutil.easter import easter, EASTER_ORTHODOX
 from itertools import chain
 import pandas as pd
 from pandas.tseries.holiday import (
@@ -30,12 +31,23 @@ from .common_holidays import (
     epiphany,
     european_labour_day,
     new_years_day,
-    orthodox_easter,
 )
 from .trading_calendar import (
     TradingCalendar,
     HolidayCalendar,
 )
+
+
+def orthodox_easter(start_date='1980', end_date='2021'):
+    """
+    ASEX observes Orthodox Easter, and has many holidays
+    that are relative to Orthodox Easter.  This function gives a
+    DatetimeIndex of Orthodox Easter dates from start_date to end_date
+    """
+    return pd.to_datetime([
+        easter(year, method=EASTER_ORTHODOX)
+        for year in range(int(start_date), int(end_date))
+    ]).tz_localize(UTC)
 
 
 NewYearsDay = new_years_day()
@@ -71,7 +83,7 @@ ChristmasEve = christmas_eve(start_date='2009')
 ChristmasDay = christmas()
 
 SecondDayOfChristmas = Holiday(
-    'Second Day of Christmas (w/ no added Friday off)',
+    'Second Day of Christmas',
     month=12,
     day=26,
 )
@@ -133,6 +145,15 @@ class ASEXExchangeCalendar(TradingCalendar):
         ])
 
     @property
+    def precomputed_holidays(self):
+        return list(chain(
+            list(OrthodoxGoodFriday),
+            list(OrthodoxEasterMonday),
+            list(OrthodoxWhitMonday),
+            list(OrthodoxAshMonday),
+        ))
+
+    @property
     def adhoc_holidays(self):
         debt_crisis = pd.date_range('2015-06-29', '2015-07-31', freq='B')
 
@@ -159,8 +180,4 @@ class ASEXExchangeCalendar(TradingCalendar):
         return list(chain(
             debt_crisis_holidays,
             misc_adhoc_holidays,
-            list(OrthodoxGoodFriday),
-            list(OrthodoxEasterMonday),
-            list(OrthodoxWhitMonday),
-            list(OrthodoxAshMonday),
         ))
