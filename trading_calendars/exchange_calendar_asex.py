@@ -156,13 +156,11 @@ class ASEXExchangeCalendar(TradingCalendar):
             pd.Timestamp('2016-05-03', tz=UTC),
         ]
 
-        all_manually_computed = [
+        return list(chain(
             debt_crisis_holidays,
             misc_adhoc_holidays,
             list(OrthodoxGoodFriday),
             list(OrthodoxEasterMonday),
             list(OrthodoxWhitMonday),
             list(OrthodoxAshMonday),
-        ]
-
-        return list(chain(*all_manually_computed))
+        ))
