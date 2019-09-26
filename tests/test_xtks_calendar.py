@@ -188,3 +188,15 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2019-08-12'),
             self.calendar.all_sessions,
         )
+
+    def test_2019_adhocs(self):
+        # Check if adhoc holidays in 2019 are observed
+        expected_holidays = [
+            pd.Timestamp('2019-04-30', tz=UTC),  # Abdication Day
+            pd.Timestamp('2019-05-01', tz=UTC),  # Accession Day
+            pd.Timestamp('2019-05-02', tz=UTC),  # Citizen's Holiday
+            pd.Timestamp('2019-10-22', tz=UTC),  # Enthronment Ceremony
+        ]
+
+        for holiday_label in expected_holidays:
+            self.assertNotIn(holiday_label, self.calendar.all_sessions)
