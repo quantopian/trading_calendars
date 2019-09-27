@@ -4,6 +4,7 @@ from .errors import (
     CyclicCalendarAlias,
     InvalidCalendarName,
 )
+from .exchange_calendar_asex import ASEXExchangeCalendar
 from .exchange_calendar_bvmf import BVMFExchangeCalendar
 from .exchange_calendar_cmes import CMESExchangeCalendar
 from .exchange_calendar_iepa import IEPAExchangeCalendar
@@ -46,6 +47,7 @@ from .weekday_calendar import WeekdayCalendar
 
 _default_calendar_factories = {
     # Exchange calendars.
+    'ASEX': ASEXExchangeCalendar,
     'BVMF': BVMFExchangeCalendar,
     'CMES': CMESExchangeCalendar,
     'IEPA': IEPAExchangeCalendar,
