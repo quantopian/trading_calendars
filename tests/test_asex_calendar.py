@@ -11,7 +11,7 @@ class ASEXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
     answer_key_filename = 'asex'
     calendar_class = ASEXExchangeCalendar
 
-    # The ASEX is open from 10:00 to 5:25PM
+    # The ASEX is open from 10:00 to 5:20PM on its longest trading day
     MAX_SESSION_HOURS = 7.33
 
     HAVE_EARLY_CLOSES = False

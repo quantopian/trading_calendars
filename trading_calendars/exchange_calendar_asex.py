@@ -94,7 +94,8 @@ class ASEXExchangeCalendar(TradingCalendar):
     Exchange calendar for the Athens Stock Exchange (ASEX).
 
     Open Time: 10:00 AM, EEST
-    Close Time: 5:25 PM, EEST
+    Close Time: 5:00 PM, EEST (until 2008-09-29)
+                5:20 PM, EEST (starting 2008-09-29)
 
     Regularly-Observed Holidays:
     - New Year's Day
