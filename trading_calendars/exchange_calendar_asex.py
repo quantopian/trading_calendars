@@ -126,7 +126,7 @@ class ASEXExchangeCalendar(TradingCalendar):
 
     close_times = (
         (None, time(17, 00)),
-        ('2008-09-29', time(17, 20))
+        (pd.Timestamp('2008-09-29'), time(17, 20))
     )
 
     @property
