@@ -12,7 +12,7 @@ class ASEXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
     calendar_class = ASEXExchangeCalendar
 
     # The ASEX is open from 10:00 to 5:25PM
-    MAX_SESSION_HOURS = 7.42
+    MAX_SESSION_HOURS = 7.33
 
     HAVE_EARLY_CLOSES = False
 
@@ -154,3 +154,25 @@ class ASEXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         for holiday_label in expected_holidays:
             self.assertNotIn(holiday_label, all_sessions)
+
+    def test_close_time_change(self):
+        """
+        On Sept 29, 2008, the ASEX decided to push its close time back
+        from 5:00PM to 5:20PM to close the time gap with Wall Street.
+        """
+        self.assertEqual(
+            self.calendar.session_close(pd.Timestamp('2006-09-29', tz=UTC)),
+            pd.Timestamp('2006-09-29 17:00', tz='Europe/Athens'),
+        )
+        self.assertEqual(
+            self.calendar.session_close(pd.Timestamp('2008-09-26', tz=UTC)),
+            pd.Timestamp('2008-09-26 17:00', tz='Europe/Athens'),
+        )
+        self.assertEqual(
+            self.calendar.session_close(pd.Timestamp('2008-09-29', tz=UTC)),
+            pd.Timestamp('2008-09-29 17:20', tz='Europe/Athens'),
+        )
+        self.assertEqual(
+            self.calendar.session_close(pd.Timestamp('2008-09-30', tz=UTC)),
+            pd.Timestamp('2008-09-30 17:20', tz='Europe/Athens'),
+        )

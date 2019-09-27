@@ -125,7 +125,8 @@ class ASEXExchangeCalendar(TradingCalendar):
     )
 
     close_times = (
-        (None, time(17, 25)),
+        (None, time(17, 00)),
+        ('2008-09-29', time(17, 20))
     )
 
     @property
@@ -171,6 +172,7 @@ class ASEXExchangeCalendar(TradingCalendar):
         return list(chain(
             debt_crisis_holidays,
             misc_adhoc_holidays,
+            # TODO: Investigate making orthodox easter adhocs actual holidays
             OrthodoxGoodFriday,
             OrthodoxEasterMonday,
             OrthodoxWhitMonday,
