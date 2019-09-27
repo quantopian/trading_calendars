@@ -285,3 +285,10 @@ NewYearsHolidayDec31 = Holiday(
     month=12,
     day=31,
 )
+
+Misc2019Holidays = [
+    Timestamp('2019-04-30'),  # Abdication Day
+    Timestamp('2019-05-01'),  # Accession Day
+    Timestamp('2019-05-02'),  # Citizen's Holiday
+    Timestamp('2019-10-22'),  # Enthronement Ceremony
+]

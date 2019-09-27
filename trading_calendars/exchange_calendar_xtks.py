@@ -35,6 +35,7 @@ from .xtks_holidays import (
     LaborThanksgivingDay,
     EmperorAkihitoBirthday,
     EmperorNaruhitoBirthday,
+    Misc2019Holidays
 )
 
 
@@ -121,4 +122,5 @@ class XTKSExchangeCalendar(TradingCalendar):
             VernalEquinoxes,
             AutumnalEquinoxes,
             CitizensHolidaySilverWeek,
+            Misc2019Holidays,
         ))
