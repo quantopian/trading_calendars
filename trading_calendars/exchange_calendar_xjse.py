@@ -31,6 +31,30 @@ from .trading_calendar import HolidayCalendar, TradingCalendar
 class XJSEExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for the Johannesburg Stock Exchange (XJSE).
+
+    Open Time: 09:00, SAST
+    Close Time: 17:00, SAST
+
+    Regularly-Observed Holidays:
+    - New Year's Day (Jan 1)
+    - Human Rights Day (Mar 31)
+    - Good Friday (Friday before Easter)
+    - Family Day (Monday after Easter)
+    - Freedom Day (Apr 27)
+    - Workers' Day (a.k.a. Labour Day, May 1)
+    - Youth Day (Jun 16)
+    - National Women's Day (Aug 19)
+    - Heritage Day (Sep 24)
+    - Day of Reconciliation (Dec 19)
+    - Christmas (Dec 25)
+    - Day of Goodwill (Dec 26)
+
+    If a holiday falls on a Saturday, it is not observed.
+    If a holiday falls on a Sunday, it is observed on Monday.
+
+    If two holiday observations occur on the same trading day, the
+    following trading day may or may not be declared a holiday: if so,
+    it should be added to ``adhoc_holidays``.
     """
     name = 'XJSE'
 
