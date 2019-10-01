@@ -34,7 +34,7 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             '2019-03-21',  # Human Rights Day
             '2019-04-19',  # Good Friday
             '2019-04-22',  # Family Day
-            '2019-04-27',  # Freedom Day  (falls on Saturday, not made up)
+            '2019-04-27',  # Freedom Day (falls on Saturday, not made up)
             '2019-05-01',  # Workers' Day
             '2019-05-08',  # Election Day (ad-hoc)
             '2019-06-16',  # Youth Day
