@@ -19,6 +19,7 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     # Johannesburg does not use daylight savings time: South Africa
     # Standard Time (SAST) is observed all year.
+    DAYLIGHT_SAVINGS_DATES = []
 
     def test_no_weekend_sessions(self):
         for session in self.calendar.all_sessions:
