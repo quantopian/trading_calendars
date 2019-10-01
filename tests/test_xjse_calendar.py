@@ -60,6 +60,23 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             '2018-12-25',  # Christmas
             '2018-12-26',  # Day of Goodwill
         ]),
+        ('2016-01-01', '2016-12-31', [
+            '2016-01-01',  # New Year's Day
+            '2016-03-21',  # Human Rights Day
+            '2016-03-25',  # Good Friday
+            '2016-03-28',  # Family Day
+            '2016-04-27',  # Freedom Day
+            '2016-05-01',  # Workers' Day
+            '2016-05-02',  # Workers' Day (Monday make-up)
+            '2016-06-16',  # Youth Day
+            '2016-08-03',  # Election Day
+            '2016-08-09',  # National Women's Day
+            '2016-09-24',  # Heritage Day (falls on Saturday, not made up)
+            '2016-12-16',  # Day of Reconciliation
+            '2016-12-25',  # Christmas
+            '2016-12-26',  # Christmas (Monday make-up)
+            '2016-12-27',  # Day of Goodwill (Ad-hoc make-up observance)
+        ]),
     ])
     def test_holidays_in_date_range(self, start, end, holiday_dates):
         holidays = {pd.Timestamp(d, tz=UTC) for d in holiday_dates}
