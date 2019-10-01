@@ -131,7 +131,7 @@ class XISTExchangeCalendar(TradingCalendar):
     tz = timezone('Europe/Istanbul')
 
     open_times = (
-        (None, time(10, 00)),
+        (None, time(10, 1)),
     )
 
     close_times = (
