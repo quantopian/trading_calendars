@@ -25,8 +25,8 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     def test_no_weekend_sessions(self):
         for session in self.calendar.all_sessions:
-            self.assertNotIn(session.dayofweek, WEEKENDS)
-            self.assertTrue(self.calendar.is_session(session))
+            self.assertNotIn(session.dayofweek, WEEKENDS, session)
+            self.assertTrue(self.calendar.is_session(session), session)
 
     @parameterized.expand([
         ('2019-01-01', '2019-12-31', [
@@ -67,7 +67,7 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         for holiday in holidays:
             self.assertIn(holiday, date_range)
-            self.assertFalse(self.calendar.is_session(holiday))
+            self.assertFalse(self.calendar.is_session(holiday), holiday)
 
         for session in self.calendar.all_sessions:
             self.assertNotIn(session, holidays)
@@ -78,4 +78,4 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             is_weekend = day.dayofweek in WEEKENDS
             should_be_session = not is_holiday and not is_weekend
             is_session = self.calendar.is_session(day)
-            self.assertEqual(should_be_session, is_session)
+            self.assertEqual(should_be_session, is_session, day)
