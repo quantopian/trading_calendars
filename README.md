@@ -40,6 +40,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Lima Stock Exchange             | XLIM     | Peru           | 1.9           | https://www.bvl.com.pe                                       |
 | Prague Stock Exchange           | XPRA     | Czech Republic | 1.9           | https://www.pse.cz/en/                                       |
 | Budapest Stock Exchange         | XBUD     | Hungary        | *             | https://bse.hu/                                              |
+| Istanbul Stock Exchange         | XIST     | Turkey         | *             | https://www.borsaistanbul.com/en/                            |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
