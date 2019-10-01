@@ -1,6 +1,8 @@
 from unittest import TestCase
+
 import pandas as pd
 from pytz import UTC
+from nose_parameterized import parameterized
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.trading_calendar import WEEKENDS
@@ -26,8 +28,8 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             self.assertNotIn(session.dayofweek, WEEKENDS)
             self.assertTrue(self.calendar.is_session(session))
 
-    def test_2019_holidays(self):
-        holidays = {pd.Timestamp(d, tz=UTC) for d in [
+    @parameterized.expand([
+        ('2019-01-01', '2019-12-31', [
             '2019-01-01',  # New Year's Day
             '2019-03-21',  # Human Rights Day
             '2019-04-19',  # Good Friday
@@ -42,19 +44,21 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             '2019-12-16',  # Day of Reconciliation
             '2019-12-25',  # Christmas
             '2019-12-26',  # Day of Goodwill
-        ]}
-
-        year_2019 = pd.date_range(start='2019', end='2019-12-31', tz='UTC')
+        ]),
+    ])
+    def test_holidays_in_date_range(self, start, end, holiday_dates):
+        holidays = {pd.Timestamp(d, tz=UTC) for d in holiday_dates}
+        date_range = pd.date_range(start=start, end=end, tz='UTC')
 
         for holiday in holidays:
-            self.assertIn(holiday, year_2019)
+            self.assertIn(holiday, date_range)
             self.assertFalse(self.calendar.is_session(holiday))
 
         for session in self.calendar.all_sessions:
             self.assertNotIn(session, holidays)
 
         # Make sure we caught all the holidays.
-        for day in year_2019:
+        for day in date_range:
             is_holiday = day in holidays
             is_weekend = day.dayofweek in WEEKENDS
             should_be_session = not is_holiday and not is_weekend
