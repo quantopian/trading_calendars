@@ -41,6 +41,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Prague Stock Exchange           | XPRA     | Czech Republic | 1.9           | https://www.pse.cz/en/                                       |
 | Budapest Stock Exchange         | XBUD     | Hungary        | *             | https://bse.hu/                                              |
 | Athens Stock Exchange           | ASEX     | Greece         | *             | http://www.helex.gr/                                         |
+| Istanbul Stock Exchange         | XIST     | Turkey         | *             | https://www.borsaistanbul.com/en/                            |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
