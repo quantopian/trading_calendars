@@ -5,19 +5,16 @@ from pytz import UTC
 
 from trading_calendars.exchange_calendar_xist import XISTExchangeCalendar
 
-from .test_trading_calendar import ExchangeCalendarTestBase
+from .test_trading_calendar import NoDSTExchangeCalendarTestBase
 
 
-class XISTCalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XISTCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
 
     answer_key_filename = 'xist'
     calendar_class = XISTExchangeCalendar
 
     # The XIST is open from 10:00 am to 6:00 pm
     MAX_SESSION_HOURS = 8.0
-
-    # Daylight savings stopped being observed in 2017 in Turkey
-    DAYLIGHT_SAVINGS_DATES = []
 
     def test_regular_holidays(self):
         all_sessions = self.calendar.all_sessions
