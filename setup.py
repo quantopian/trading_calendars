@@ -63,6 +63,11 @@ reqs = [
 if __name__ == '__main__':
     setup(
         name=DISTNAME,
+        entry_points={
+            'console_scripts': [
+                'tcal = trading_calendars.tcal:main',
+            ],
+        },
         cmdclass=versioneer.get_cmdclass(),
         version=versioneer.get_version(),
         author=AUTHOR,
