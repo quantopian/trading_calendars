@@ -44,43 +44,43 @@ from .trading_calendar import (
 )
 
 
-def nearest_monday(datetime_index):
+def nearest_monday(dt):
     """
     If the holiday falls on a Saturday, Sunday or Monday then the date is
     unchanged (Sat/Sun observances are not made up), otherwise use the closest
     Monday to the date.
     """
-    day = datetime_index.weekday()
+    day = dt.weekday()
 
     if day in (TUESDAY, WEDNESDAY, THURSDAY):
-        return datetime_index - timedelta(day - MONDAY)
+        return dt - timedelta(day - MONDAY)
     elif day == FRIDAY:
-        return datetime_index + timedelta(3)
-    return datetime_index
+        return dt + timedelta(3)
+    return dt
 
 
-def tuesday_and_wednesday_to_friday(datetime_index):
+def tuesday_and_wednesday_to_friday(dt):
     """
     If Evangelical Church Day (Halloween) falls on a Tuesday, it is observed
     the preceding Friday. If it falls on a Wednesday, it is observed the next
     Friday. If it falls on Thu, Fri, Sat, Sun, or Mon the date is unchanged.
     """
-    day = datetime_index.weekday()
+    day = dt.weekday()
 
     if day == TUESDAY:
-        return datetime_index - timedelta(4)
+        return dt - timedelta(4)
     elif day == WEDNESDAY:
-        return datetime_index + timedelta(2)
-    return datetime_index
+        return dt + timedelta(2)
+    return dt
 
 
-def not_2010(datetime_index):
+def not_2010(holidays):
     """
     In 2010 Independence Day fell on a Saturday. Normally this would mean that
     Friday is a half day, but instead it is a full day off, so we need to
     exclude it from the usual half day rules.
     """
-    return datetime_index[datetime_index.year != 2010]
+    return holidays[holidays.year != 2010]
 
 
 NewYearsDay = new_years_day()
