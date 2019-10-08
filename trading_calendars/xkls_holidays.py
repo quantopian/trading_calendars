@@ -11,10 +11,7 @@ from .common_holidays import (
     chinese_lunar_new_year_dates,
     christmas,
 )
-from .trading_calendar import (
-    WEEKENDS,
-    SUNDAY,
-)
+from .trading_calendar import WEEKENDS
 
 # In Malaysia, Nuzul Al'Quran is the 17th day of Ramadan
 #   Starts 2014
