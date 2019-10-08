@@ -445,8 +445,10 @@ FederalTerritoryDay = Holiday(
     observance=sunday_to_monday,
 )
 
-ChineseNewYear = chinese_lunar_new_year_dates.map(
-    lambda d: sunday_to_monday(d)
+ChineseNewYear = pd.to_datetime(
+    chinese_lunar_new_year_dates.map(
+        lambda d: sunday_to_monday(d)
+    )
 )
 
 ChineseNewYearDay2 = (ChineseNewYear + timedelta(1)).map(
@@ -461,8 +463,10 @@ NuzulAlQuran = malaysia_nuzul_al_quran.map(
     lambda d: sunday_to_monday(d)
 )
 
-EidAlFitrDay1 = malaysia_eid_al_fitr_first_day.map(
-    lambda d: sunday_to_monday(d)
+EidAlFitrDay1 = pd.to_datetime(
+    malaysia_eid_al_fitr_first_day.map(
+        lambda d: sunday_to_monday(d)
+    )
 )
 
 EidAlFitrDay2 = (EidAlFitrDay1 + timedelta(1)).map(
