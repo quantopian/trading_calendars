@@ -39,11 +39,12 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Mexican Stock Exchange          | XMEX     | Mexico         | 1.9           | https://www.bmv.com.mx                                       |
 | Lima Stock Exchange             | XLIM     | Peru           | 1.9           | https://www.bvl.com.pe                                       |
 | Prague Stock Exchange           | XPRA     | Czech Republic | 1.9           | https://www.pse.cz/en/                                       |
-| Budapest Stock Exchange         | XBUD     | Hungary        | *             | https://bse.hu/                                              |
-| Athens Stock Exchange           | ASEX     | Greece         | *             | http://www.helex.gr/                                         |
-| Istanbul Stock Exchange         | XIST     | Turkey         | *             | https://www.borsaistanbul.com/en/                            |
-| Johannesburg Stock Exchange     | XJSE     | South Africa   | *             | https://www.jse.co.za/z
-                                       |
+| Budapest Stock Exchange         | XBUD     | Hungary        | 1.10          | https://bse.hu/                                              |
+| Athens Stock Exchange           | ASEX     | Greece         | 1.10          | http://www.helex.gr/                                         |
+| Istanbul Stock Exchange         | XIST     | Turkey         | 1.10          | https://www.borsaistanbul.com/en/                            |
+| Johannesburg Stock Exchange     | XJSE     | South Africa   | 1.10          | https://www.jse.co.za/z                                      |
+| Malaysia Stock Exchange         | XKLS     | Malaysia       | *             | http://www.bursamalaysia.com/market/                         |
+
 Calendars marked with an asterisk (*) have not yet been released.
 
 Note that exchange calendars are defined by their [ISO-10383 market identifier code](https://www.iso20022.org/10383/iso-10383-market-identifier-codes).
