@@ -437,17 +437,6 @@ misc_adhoc = pd.to_datetime([
 ])
 
 
-def manual_sunday_to_monday(holidays):
-    '''
-    Holidays that fall on Sunday are made up on Monday.  This
-    function implements this rule for hard-coded holidays.
-    '''
-    return pd.to_datetime([
-        day if day.weekday() != SUNDAY else day + timedelta(1)
-        for day in holidays
-    ])
-
-
 NewYearsDay = new_years_day(observance=sunday_to_monday)
 
 Thaipusam = thaipusam
@@ -459,21 +448,33 @@ FederalTerritoryDay = Holiday(
     observance=sunday_to_monday,
 )
 
-ChineseNewYear = manual_sunday_to_monday(chinese_lunar_new_year_dates)
+ChineseNewYear = chinese_lunar_new_year_dates.map(
+    lambda d: sunday_to_monday(d)
+)
 
-ChineseNewYearDay2 = manual_sunday_to_monday(ChineseNewYear + timedelta(1))
+ChineseNewYearDay2 = (ChineseNewYear + timedelta(1)).map(
+    lambda d: sunday_to_monday(d)
+)
 
 LabourDay = european_labour_day(observance=sunday_to_monday)
 
 WesakDay = wesak_day
 
-NuzulAlQuran = manual_sunday_to_monday(malaysia_nuzul_al_quran)
+NuzulAlQuran = malaysia_nuzul_al_quran.map(
+    lambda d: sunday_to_monday(d)
+)
 
-EidAlFitrDay1 = manual_sunday_to_monday(malaysia_eid_al_fitr_first_day)
+EidAlFitrDay1 = malaysia_eid_al_fitr_first_day.map(
+    lambda d: sunday_to_monday(d)
+)
 
-EidAlFitrDay2 = manual_sunday_to_monday(EidAlFitrDay1 + timedelta(1))
+EidAlFitrDay2 = (EidAlFitrDay1 + timedelta(1)).map(
+    lambda d: sunday_to_monday(d)
+)
 
-EidAlAdha = manual_sunday_to_monday(malaysia_eid_al_adha)
+EidAlAdha = malaysia_eid_al_adha.map(
+    lambda d: sunday_to_monday(d)
+)
 
 NationalDay = Holiday(
     'National Day',
@@ -482,7 +483,9 @@ NationalDay = Holiday(
     observance=sunday_to_monday,
 )
 
-Muharram = manual_sunday_to_monday(muharram)
+Muharram = muharram.map(
+    lambda d: sunday_to_monday(d)
+)
 
 MalaysiaDay = Holiday(
     'Malaysia Day',
@@ -494,7 +497,9 @@ MalaysiaDay = Holiday(
 
 Deepavali = deepavali
 
-MuhammadBirthday = manual_sunday_to_monday(muhammad_birthday)
+MuhammadBirthday = muhammad_birthday.map(
+    lambda d: sunday_to_monday(d)
+)
 
 ChristmasDay = christmas(observance=sunday_to_monday)
 
