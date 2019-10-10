@@ -17,8 +17,10 @@ from datetime import time, timedelta
 from itertools import chain
 import pandas as pd
 from pandas.tseries.holiday import (
-    Holiday,
+    DateOffset,
     GoodFriday,
+    Holiday,
+    MO,
 )
 from pytz import timezone
 
@@ -47,15 +49,6 @@ def only_friday(dt):
     when falling on a Thursday.
     """
     return dt[dt.weekday == FRIDAY]
-
-
-def previous_monday(dt):
-    """
-    Returns previous monday on or before the given date.
-    """
-    while dt.weekday() != MONDAY:
-        dt -= timedelta(days=1)
-    return dt
 
 
 # All pre-2011 holidays are pre-computed, so we define Holidays starting
@@ -96,7 +89,7 @@ NationalHeroesDay = Holiday(
     'National Heroes Day',
     month=8,
     day=31,
-    observance=previous_monday,
+    offset=DateOffset(weekday=MO(-1)),
     start_date='2011'
 )
 
