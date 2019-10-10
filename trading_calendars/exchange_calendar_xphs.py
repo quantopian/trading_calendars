@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from datetime import time, timedelta
+from datetime import time
 from itertools import chain
 import pandas as pd
 from pandas.tseries.holiday import (
@@ -37,7 +37,6 @@ from .common_holidays import (
 from .trading_calendar import (
     TradingCalendar,
     HolidayCalendar,
-    MONDAY,
     FRIDAY,
 )
 
