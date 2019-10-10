@@ -202,6 +202,8 @@ class ExchangeCalendarTestBase(object):
 
     # Affects test_start_end. Change these if your calendar start/end
     # dates between 2010-01-03 and 2010-01-10 don't match the defaults.
+    TEST_START_END_FIRST = pd.Timestamp('2010-01-03', tz=UTC)
+    TEST_START_END_LAST = pd.Timestamp('2010-01-10', tz=UTC)
     TEST_START_END_EXPECTED_FIRST = pd.Timestamp('2010-01-04', tz=UTC)
     TEST_START_END_EXPECTED_LAST = pd.Timestamp('2010-01-08', tz=UTC)
 
@@ -820,10 +822,10 @@ class ExchangeCalendarTestBase(object):
         """
         Check TradingCalendar with defined start/end dates.
         """
-        start = pd.Timestamp('2010-1-3', tz=UTC)
-        end = pd.Timestamp('2010-1-10', tz=UTC)
-
-        calendar = self.calendar_class(start=start, end=end)
+        calendar = self.calendar_class(
+            start=self.TEST_START_END_FIRST,
+            end=self.TEST_START_END_LAST,
+        )
 
         self.assertEqual(
             calendar.first_trading_session,
