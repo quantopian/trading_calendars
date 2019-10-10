@@ -45,6 +45,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Johannesburg Stock Exchange     | XJSE     | South Africa   | 1.10          | https://www.jse.co.za/z                                      |
 | Malaysia Stock Exchange         | XKLS     | Malaysia       | *             | http://www.bursamalaysia.com/market/                         |
 | Moscow Exchange                 | XMOS     | Russia         | *             | https://www.moex.com/en/                                     |
+| Philippine Stock Exchange       | XPHS     | Philippines    | *             | https://www.pse.com.ph/stockMarket/home.html                 |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
