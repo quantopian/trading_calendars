@@ -16,12 +16,12 @@
 from datetime import time
 from itertools import chain
 
-from pandas import Timestamp
+import pandas as pd
 from pandas.tseries.holiday import (
     GoodFriday,
     Holiday,
 )
-from pytz import timezone, UTC
+from pytz import timezone
 
 from .common_holidays import (
     ascension_day,
@@ -113,7 +113,7 @@ class XIDXExchangeCalendar(TradingCalendar):
         chinese_lunar_new_year_dates.year >= 2002
     ]
 
-    common_leave = [
+    common_leave = pd.to_datetime([
         # Indonesia sometimes observes additional "common leave" days
         # around the usual observed dates of holidays.
 
@@ -155,9 +155,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2018-12-24',
         '2019-12-24',
         '2020-12-24',
-    ]
+    ])
 
-    islamic_new_year = [
+    islamic_new_year = pd.to_datetime([
         # Islamic/Hijri/Hijriyah New Year.
         # Includes common leave.
         '2002-03-15',
@@ -177,9 +177,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2017-09-21',
         '2018-09-11',
         '2020-08-20',
-    ]
+    ])
 
-    eid_al_fitr = [
+    eid_al_fitr = pd.to_datetime([
         # Eid al-Fitr (Festival of Breaking the Fast).
         # Includes common leave.
         '2002-12-05',
@@ -289,9 +289,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2020-05-25',
         '2020-05-26',
         '2020-05-27',
-    ]
+    ])
 
-    eid_al_adha = [
+    eid_al_adha = pd.to_datetime([
         # Eid al-Adha (Festival of the Sacrifice).
         # Includes common leave.
         '2002-02-22',
@@ -317,9 +317,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2017-09-01',
         '2018-08-22',
         '2020-07-31',
-    ]
+    ])
 
-    isra_mikraj = [
+    isra_mikraj = pd.to_datetime([
         # Isra and Mi'raj (Ascension of the Prophet Muhammad).
         # Called "Isra Mikraj" in Indonesia.
         #
@@ -345,9 +345,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2016-05-06',
         '2017-04-24',
         '2019-04-03',
-    ]
+    ])
 
-    birth_of_prophet_muhammad = [
+    birth_of_prophet_muhammad = pd.to_datetime([
         # Birth of the Prophet Muhammad.
         # Includes common leave.
         '2003-05-15',
@@ -365,9 +365,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2017-12-01',
         '2018-11-20',
         '2020-10-29',
-    ]
+    ])
 
-    vesak_day = [
+    vesak_day = pd.to_datetime([
         # Vesak Day (Buddha's Birthday).
         # Sometimes called "Hari Raya Waisak" in Indonesia.
         # Includes common leave.
@@ -383,9 +383,9 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2017-05-11',
         '2018-05-29',
         '2020-05-07',
-    ]
+    ])
 
-    hindu_saka_new_year = [
+    hindu_saka_new_year = pd.to_datetime([
         # Hindu Saka New Year (also called Nyepi, or Balinese Day of Silence).
         # Includes common leave.
         '2003-04-02',
@@ -404,15 +404,15 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2017-03-28',
         '2019-03-07',
         '2020-03-25',
-    ]
+    ])
 
-    spontaneous_closures = [
+    spontaneous_closures = pd.to_datetime([
         # Trading suspension due to global financial crisis.
         '2008-10-09',
         '2008-10-10',
-    ]
+    ])
 
-    election_holidays = [
+    election_holidays = pd.to_datetime([
         # Local and gubernatorial election holidays.
         '2004-04-05',
         '2004-07-05',
@@ -425,23 +425,20 @@ class XIDXExchangeCalendar(TradingCalendar):
         '2017-02-15',
         '2017-04-19',
         '2019-04-17',
-    ]
+    ])
 
     @property
     def adhoc_holidays(self):
-        return [
-            Timestamp(date, tz=UTC)
-            for date in chain(
-                self.chinese_new_year,
-                self.common_leave,
-                self.islamic_new_year,
-                self.eid_al_fitr,
-                self.eid_al_adha,
-                self.isra_mikraj,
-                self.birth_of_prophet_muhammad,
-                self.vesak_day,
-                self.hindu_saka_new_year,
-                self.spontaneous_closures,
-                self.election_holidays,
-            )
-        ]
+        return list(chain(
+            self.chinese_new_year,
+            self.common_leave,
+            self.islamic_new_year,
+            self.eid_al_fitr,
+            self.eid_al_adha,
+            self.isra_mikraj,
+            self.birth_of_prophet_muhammad,
+            self.vesak_day,
+            self.hindu_saka_new_year,
+            self.spontaneous_closures,
+            self.election_holidays,
+        ))
