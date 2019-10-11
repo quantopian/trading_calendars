@@ -50,6 +50,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Indonesia Stock Exchange        | XIDX     | Indonesia      | *             | https://www.idx.co.id/                                       |
 | Taiwan Stock Exchange Corp.     | XTAI     | Taiwan         | *             | https://www.twse.com.tw/en/                                  |
 | Buenos Aires Stock Exchange     | XBUE     | Argentina      | *             | https://www.bcba.sba.com.ar/                                 |
+| Pakistan Stock Exchange         | XKAR     | Pakistan       | *             | https://www.psx.com.pk/                                      |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
