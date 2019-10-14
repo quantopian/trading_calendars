@@ -47,6 +47,7 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Moscow Exchange                 | XMOS     | Russia         | *             | https://www.moex.com/en/                                     |
 | Philippine Stock Exchange       | XPHS     | Philippines    | *             | https://www.pse.com.ph/stockMarket/home.html                 |
 | Stock Exchange of Thailand      | XBKK     | Thailand       | *             | https://www.set.or.th/set/mainpage.do?language=en&country=US |
+| Taiwan Stock Exchange Corp.     | XTAI     | Taiwan         | *             | https://www.twse.com.tw/en/                                  |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
