@@ -22,6 +22,7 @@ from .exchange_calendar_xfra import XFRAExchangeCalendar
 from .exchange_calendar_xhel import XHELExchangeCalendar
 from .exchange_calendar_xhkg import XHKGExchangeCalendar
 from .exchange_calendar_xice import XICEExchangeCalendar
+from .exchange_calendar_xidx import XIDXExchangeCalendar
 from .exchange_calendar_xist import XISTExchangeCalendar
 from .exchange_calendar_xjse import XJSEExchangeCalendar
 from .exchange_calendar_xkls import XKLSExchangeCalendar
@@ -72,6 +73,7 @@ _default_calendar_factories = {
     'XHEL': XHELExchangeCalendar,
     'XHKG': XHKGExchangeCalendar,
     'XICE': XICEExchangeCalendar,
+    'XIDX': XIDXExchangeCalendar,
     'XIST': XISTExchangeCalendar,
     'XJSE': XJSEExchangeCalendar,
     'XKLS': XKLSExchangeCalendar,
@@ -120,6 +122,7 @@ _default_calendar_aliases = {
     'ICEUS': 'IEPA',
     'NYFE': 'IEPA',
     'CFE': 'XCBF',
+    'JKT': 'XIDX',
 }
 default_calendar_names = sorted(_default_calendar_factories.keys())
 
