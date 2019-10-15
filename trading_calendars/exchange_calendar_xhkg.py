@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from datetime import time
+from datetime import time, timedelta
 from itertools import chain
 
 import numpy as np
@@ -44,7 +44,7 @@ from .common_holidays import (
     chinese_lunar_new_year_dates,
     christmas,
     christmas_eve,
-    day_after_mid_autumn_festival_dates,
+    mid_autumn_festival_dates,
     double_ninth_festival_dates,
     dragon_boat_festival_dates,
     chinese_national_day,
@@ -77,6 +77,8 @@ establishment_day = Holiday(
     day=1,
     observance=sunday_to_monday,
 )
+
+day_after_mid_autumn_festival_dates = mid_autumn_festival_dates + timedelta(1)
 
 
 def boxing_day_obs(dt):

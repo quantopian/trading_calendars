@@ -624,7 +624,7 @@ dragon_boat_festival_dates = pd.to_datetime([
 # See Also
 # --------
 # trading_calendars/etc/lunisolar mid-autumn-festival
-day_after_mid_autumn_festival_dates = pd.to_datetime([
+mid_autumn_festival_dates = pd.to_datetime([
     '1981-09-12',
     '1982-10-01',
     '1983-09-21',
@@ -694,7 +694,7 @@ day_after_mid_autumn_festival_dates = pd.to_datetime([
     '2047-10-04',
     '2048-09-22',
     '2049-09-11',
-]) + pd.Timedelta(days=1)
+])
 
 
 # Precomputed Double Ninth Festival (Chung Yeung Festival) dates.
