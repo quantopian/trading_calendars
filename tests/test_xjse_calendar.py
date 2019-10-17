@@ -4,12 +4,12 @@ import pandas as pd
 from pytz import UTC
 from nose_parameterized import parameterized
 
-from .test_trading_calendar import ExchangeCalendarTestBase
+from .test_trading_calendar import NoDSTExchangeCalendarTestBase
 from trading_calendars.trading_calendar import WEEKENDS
 from trading_calendars.exchange_calendar_xjse import XJSEExchangeCalendar
 
 
-class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XJSECalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
 
     answer_key_filename = 'xjse'
     calendar_class = XJSEExchangeCalendar
@@ -18,10 +18,6 @@ class XJSECalendarTestCase(ExchangeCalendarTestBase, TestCase):
     MAX_SESSION_HOURS = 8
 
     HAVE_EARLY_CLOSES = False
-
-    # Johannesburg does not use daylight savings time: South Africa
-    # Standard Time (SAST) is observed all year.
-    DAYLIGHT_SAVINGS_DATES = []
 
     def test_no_weekend_sessions(self):
         for session in self.calendar.all_sessions:
