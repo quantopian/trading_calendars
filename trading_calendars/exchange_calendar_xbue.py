@@ -67,7 +67,7 @@ def cultural_diversity_observance(holidays):
     in 2012).
     """
     holidays = pd.to_datetime(
-        holidays.map(lambda d: nearest_monday(d))
+        holidays.map(nearest_monday)
     )
     return holidays[holidays.year != 2012]
 
@@ -187,8 +187,8 @@ BankHoliday = Holiday(
     observance=not_2018,
 )
 
-DayOfNationalSovereigntyTo2016 = Holiday(
-    'Day of National Sovereignty (2010-2016)',
+DayOfNationalSovereigntyTo2014 = Holiday(
+    'Day of National Sovereignty (2010-2014)',
     month=11,
     day=1,
     start_date='2010',
@@ -292,7 +292,7 @@ class XBUEExchangeCalendar(TradingCalendar):
             SanMartinsDayFrom2012,
             DayOfRespectForCulturalDiversity,
             BankHoliday,
-            DayOfNationalSovereigntyTo2016,
+            DayOfNationalSovereigntyTo2014,
             DayOfNationalSovereigntyFrom2017,
             ImmaculateConception,
             ChristmasDay,

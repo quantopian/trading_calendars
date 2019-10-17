@@ -2,17 +2,20 @@ from unittest import TestCase
 import pandas as pd
 from pytz import UTC
 
-from .test_trading_calendar import NoDSTExchangeCalendarTestBase
+from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xbue import XBUEExchangeCalendar
 
 
-class XBUECalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
+class XBUECalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     answer_key_filename = 'xbue'
     calendar_class = XBUEExchangeCalendar
 
     # The XBUE is open from 11:00AM to 5:00PM
     MAX_SESSION_HOURS = 6
+
+    # Daylight Savings was observed in Buenos Aires from 2007-2009
+    DAYLIGHT_SAVINGS_DATES = ['2008-10-20', '2008-03-17']
 
     # TODO: Verify Christmas Eve, NYE early closes
     HAVE_EARLY_CLOSES = True
@@ -71,9 +74,9 @@ class XBUECalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             # National Flag Day on Saturday, Jun 20th.
             pd.Timestamp('2015-06-19', tz=UTC),
             pd.Timestamp('2015-06-22', tz=UTC),
-            # Independence Day on Saturday, Jul 9th.
-            pd.Timestamp('2016-07-07', tz=UTC),
-            pd.Timestamp('2016-07-11', tz=UTC),
+            # Independence Day on Sunday, Jul 9th.
+            pd.Timestamp('2017-07-07', tz=UTC),
+            pd.Timestamp('2017-07-10', tz=UTC),
             # Bank Holiday on Sunday, Nov 6th.
             pd.Timestamp('2016-11-04', tz=UTC),
             pd.Timestamp('2016-11-07', tz=UTC),
@@ -104,6 +107,7 @@ class XBUECalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2015-10-12', tz=UTC),  # Falls on Monday
             pd.Timestamp('2014-10-13', tz=UTC),  # Falls on Sunday
             pd.Timestamp('2013-10-14', tz=UTC),  # Falls on Saturday
+            pd.Timestamp('2010-10-11', tz=UTC),  # Falls on Tuesday
         ]
 
         for holiday_label in expected_holidays:
