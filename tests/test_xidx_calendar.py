@@ -4,12 +4,12 @@ import pandas as pd
 from pytz import UTC
 from nose_parameterized import parameterized
 
-from .test_trading_calendar import ExchangeCalendarTestBase
+from .test_trading_calendar import NoDSTExchangeCalendarTestBase
 from trading_calendars.trading_calendar import WEEKENDS
 from trading_calendars.exchange_calendar_xidx import XIDXExchangeCalendar
 
 
-class XIDXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
+class XIDXCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
 
     answer_key_filename = 'xidx'
     calendar_class = XIDXExchangeCalendar
@@ -17,11 +17,6 @@ class XIDXCalendarTestCase(ExchangeCalendarTestBase, TestCase):
     MAX_SESSION_HOURS = 6.833
 
     HAVE_EARLY_CLOSES = False
-
-    # Indonesia Stock Exchange follows the Asia/Jakarta timezone which
-    # does not observe Daylight Saving Time. The timezone offset is
-    # GMT+07:00 for the entire year.
-    DAYLIGHT_SAVINGS_DATES = []
 
     def test_trading_days(self):
         # Data obtained from https://www.idx.co.id/en-us/news/trading-holiday/
