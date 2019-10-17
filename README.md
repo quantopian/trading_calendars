@@ -43,14 +43,14 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Athens Stock Exchange           | ASEX     | Greece         | 1.10          | http://www.helex.gr/                                         |
 | Istanbul Stock Exchange         | XIST     | Turkey         | 1.10          | https://www.borsaistanbul.com/en/                            |
 | Johannesburg Stock Exchange     | XJSE     | South Africa   | 1.10          | https://www.jse.co.za/z                                      |
-| Malaysia Stock Exchange         | XKLS     | Malaysia       | *             | http://www.bursamalaysia.com/market/                         |
-| Moscow Exchange                 | XMOS     | Russia         | *             | https://www.moex.com/en/                                     |
-| Philippine Stock Exchange       | XPHS     | Philippines    | *             | https://www.pse.com.ph/stockMarket/home.html                 |
-| Stock Exchange of Thailand      | XBKK     | Thailand       | *             | https://www.set.or.th/set/mainpage.do?language=en&country=US |
-| Indonesia Stock Exchange        | XIDX     | Indonesia      | *             | https://www.idx.co.id/                                       |
-| Taiwan Stock Exchange Corp.     | XTAI     | Taiwan         | *             | https://www.twse.com.tw/en/                                  |
-| Buenos Aires Stock Exchange     | XBUE     | Argentina      | *             | https://www.bcba.sba.com.ar/                                 |
-| Pakistan Stock Exchange         | XKAR     | Pakistan       | *             | https://www.psx.com.pk/                                      |
+| Malaysia Stock Exchange         | XKLS     | Malaysia       | 1.11          | http://www.bursamalaysia.com/market/                         |
+| Moscow Exchange                 | XMOS     | Russia         | 1.11          | https://www.moex.com/en/                                     |
+| Philippine Stock Exchange       | XPHS     | Philippines    | 1.11          | https://www.pse.com.ph/stockMarket/home.html                 |
+| Stock Exchange of Thailand      | XBKK     | Thailand       | 1.11          | https://www.set.or.th/set/mainpage.do?language=en&country=US |
+| Indonesia Stock Exchange        | XIDX     | Indonesia      | 1.11          | https://www.idx.co.id/                                       |
+| Taiwan Stock Exchange Corp.     | XTAI     | Taiwan         | 1.11          | https://www.twse.com.tw/en/                                  |
+| Buenos Aires Stock Exchange     | XBUE     | Argentina      | 1.11          | https://www.bcba.sba.com.ar/                                 |
+| Pakistan Stock Exchange         | XKAR     | Pakistan       | 1.11          | https://www.psx.com.pk/                                      |
 
 Calendars marked with an asterisk (*) have not yet been released.
 
