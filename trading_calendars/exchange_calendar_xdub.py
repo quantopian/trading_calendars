@@ -31,6 +31,7 @@ from .common_holidays import (
     new_years_day,
     european_labour_day,
     christmas,
+    christmas_eve,
     weekend_christmas,
     boxing_day,
     weekend_boxing_day,
@@ -47,18 +48,29 @@ StPatricksDay = Holiday(
     observance=weekend_to_monday,
 )
 
-LabourDay = european_labour_day(end_date='2010', observance=weekend_to_monday)
+LabourDayTo2009 = european_labour_day(
+    start_date='2008',
+    end_date='2010',
+    observance=weekend_to_monday,
+)
+
+LabourDayFrom2019 = european_labour_day(
+    start_date='2019',
+    observance=weekend_to_monday,
+)
 
 MayBankHoliday = Holiday(
     'May Bank Holiday',
     month=5,
     day=1,
+    end_date='2019',
     offset=DateOffset(weekday=MO(1)),
 )
 JuneBankHoliday = Holiday(
     'June Bank Holiday',
     month=6,
     day=1,
+    end_date='2019',
     offset=DateOffset(weekday=MO(1)),
 )
 
@@ -69,6 +81,8 @@ LastTradingDayBeforeChristmas = Holiday(
     start_date='2010',
     observance=previous_friday,
 )
+
+ChristmasEve = christmas_eve(end_date='2005')
 Christmas = christmas()
 WeekendChristmas = weekend_christmas()
 BoxingDay = boxing_day()
@@ -128,9 +142,11 @@ class XDUBExchangeCalendar(TradingCalendar):
             StPatricksDay,
             GoodFriday,
             EasterMonday,
-            LabourDay,
+            LabourDayTo2009,
+            LabourDayFrom2019,
             MayBankHoliday,
             JuneBankHoliday,
+            ChristmasEve,
             Christmas,
             WeekendChristmas,
             BoxingDay,
