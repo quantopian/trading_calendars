@@ -109,7 +109,7 @@ def local_cmp(f, arr):
     -------
     ix : np.ndarray[int64]
         An array of indices where ``f(arr[i], arr[i + 1])`` and
-        ``f(arr[i], arr[i + 1])`` are true. index 0 and -1 are considered
+        ``f(arr[i], arr[i - 1])`` are true. index 0 and -1 are considered
         False.
 
     Examples
