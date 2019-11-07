@@ -14,6 +14,8 @@
 # limitations under the License.
 
 from datetime import time
+
+import pandas as pd
 from pandas.tseries.holiday import (
     Holiday,
     Easter,
@@ -149,7 +151,9 @@ class BVMFExchangeCalendar(TradingCalendar):
     Exchange calendar for BM&F BOVESPA (BVMF).
 
     Open Time: 10:00 AM, Brazil/Sao Paulo
-    Close Time: 5:00 PM, Brazil/Sao Paulo
+    Close Time:
+    - Until 2019-11-01: 5:00 PM, Brazil/Sao Paulo
+    - Starting from 2019-11-04: 6:00 PM, Brazil/Sao Paulo
 
     Regularly-Observed Holidays:
     - Universal Confraternization (New year's day, Jan 1)
@@ -183,6 +187,7 @@ class BVMFExchangeCalendar(TradingCalendar):
 
     close_times = (
         (None, time(17, 0)),
+        (pd.Timestamp('2019-11-04'), time(18, 0)),
     )
 
     @property
