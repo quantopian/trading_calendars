@@ -228,6 +228,7 @@ makha_bucha = pd.to_datetime([
     '2017-02-13',
     '2018-03-01',
     '2019-02-19',
+    '2020-02-10',
 ])
 
 # Vesak (also known as Buddha Day) is celebrated on the day of the Full Moon of
@@ -272,6 +273,7 @@ vesak = pd.to_datetime([
     '2017-05-10',
     '2018-05-29',
     '2019-05-20',
+    '2020-05-06',
 ])
 
 # Asanha Bucha (also known as Asalha Puja) is celebrated on the day of the Full
@@ -316,4 +318,5 @@ asanha_bucha = pd.to_datetime([
     '2017-07-10',
     '2018-07-27',
     '2019-07-16',
+    '2020-07-06',
 ])

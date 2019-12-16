@@ -406,6 +406,7 @@ wesak_day = pd.to_datetime([
     '2017-05-10',
     '2018-05-29',
     '2019-05-20',
+    '2020-05-07',
 ])
 
 misc_adhoc = pd.to_datetime([

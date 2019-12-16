@@ -40,15 +40,42 @@ class XLONCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
     def test_special_holidays(self):
         # Spring Bank 2002
-        self.assertNotIn(pd.Period("2002-06-03"), self.calendar.all_sessions)
+        self.assertNotIn(
+            pd.Timestamp("2002-06-03", tz=UTC),
+            self.calendar.all_sessions,
+        )
         # Golden Jubilee
-        self.assertNotIn(pd.Period("2002-06-04"), self.calendar.all_sessions)
+        self.assertNotIn(
+            pd.Timestamp("2002-06-04", tz=UTC),
+            self.calendar.all_sessions,
+        )
         # Royal Wedding
-        self.assertNotIn(pd.Period("2011-04-29"), self.calendar.all_sessions)
+        self.assertNotIn(
+            pd.Timestamp("2011-04-29", tz=UTC),
+            self.calendar.all_sessions,
+        )
         # Spring Bank 2012
-        self.assertNotIn(pd.Period("2012-06-04"), self.calendar.all_sessions)
+        self.assertNotIn(
+            pd.Timestamp("2012-06-04", tz=UTC),
+            self.calendar.all_sessions,
+        )
         # DiamondJubilee
-        self.assertNotIn(pd.Period("2012-06-05"), self.calendar.all_sessions)
+        self.assertNotIn(
+            pd.Timestamp("2012-06-05", tz=UTC),
+            self.calendar.all_sessions,
+        )
+        # VE Day
+        self.assertNotIn(
+            pd.Timestamp("2020-05-08", tz=UTC),
+            self.calendar.all_sessions
+        )
+
+    def test_special_non_holidays(self):
+        # May Bank Holiday 2020
+        self.assertIn(
+            pd.Timestamp("2020-05-04", tz=UTC),
+            self.calendar.all_sessions,
+        )
 
     def test_half_days(self):
 

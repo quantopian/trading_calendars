@@ -184,7 +184,7 @@ BankHoliday = Holiday(
     'Bank Holiday',
     month=11,
     day=6,
-    observance=not_2018,
+    end_date='2017',
 )
 
 DayOfNationalSovereigntyTo2014 = Holiday(
