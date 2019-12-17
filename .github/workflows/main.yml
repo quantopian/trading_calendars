@@ -10,8 +10,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        numpy: 1.17.4
-        pandas: 0.25.3
+        numpy: [1.17.4]
+        pandas: [0.25.3]
         python-version: [3.7, 3.8]
         include:
           - os: ubuntu-latest
