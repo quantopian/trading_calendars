@@ -63,7 +63,7 @@ PeoplePowerRevolution = Holiday(
     'People Power Revolution',
     month=2,
     day=25,
-    start_date=2016,
+    start_date='2016',
 )
 
 ArawNgKagitingan = Holiday(
@@ -208,6 +208,7 @@ class XPHSExchangeCalendar(TradingCalendar):
     def regular_holidays(self):
         return HolidayCalendar([
             NewYearsDay,
+            PeoplePowerRevolution,
             ArawNgKagitingan,
             MaundyThursday,
             GoodFriday,

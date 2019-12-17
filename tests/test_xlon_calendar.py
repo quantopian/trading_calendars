@@ -71,7 +71,8 @@ class XLONCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         )
 
     def test_special_non_holidays(self):
-        # May Bank Holiday 2020
+        # May Bank Holiday was instead observed on VE Day
+        # in 2020.
         self.assertIn(
             pd.Timestamp("2020-05-04", tz=UTC),
             self.calendar.all_sessions,
