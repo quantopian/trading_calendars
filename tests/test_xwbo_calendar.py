@@ -43,6 +43,23 @@ class XWBOCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         for session_label in expected_holidays:
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
+    def test_normal_holidays_after_2018(self):
+        expected_holidays = [
+            pd.Timestamp('2019-01-01', tz=UTC),  # New Year's Day
+            pd.Timestamp('2019-04-19', tz=UTC),  # Good Friday
+            pd.Timestamp('2019-04-22', tz=UTC),  # Easter Monday
+            pd.Timestamp('2019-05-01', tz=UTC),  # Labour Day
+            pd.Timestamp('2019-06-10', tz=UTC),  # Whit Monday
+            pd.Timestamp('2019-10-26', tz=UTC),  # National Day (Weekend)
+            pd.Timestamp('2019-12-24', tz=UTC),  # Christmas Eve
+            pd.Timestamp('2019-12-25', tz=UTC),  # Christmas Day
+            pd.Timestamp('2019-12-26', tz=UTC),  # St. Stephen's Day
+            pd.Timestamp('2019-12-31', tz=UTC),  # New Year's Eve
+        ]
+
+        for session_label in expected_holidays:
+            self.assertNotIn(session_label, self.calendar.all_sessions)
+
     def test_holidays_fall_on_weekend(self):
         # Holidays falling on a weekend should generally not be made up
         # during the week, so test that the Fridays and Mondays surrounding

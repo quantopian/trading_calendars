@@ -124,6 +124,7 @@ class XKARExchangeCalendar(TradingCalendar):
         '2017-06-23',
         '2018-06-08',
         '2019-05-31',
+        '2020-05-22',
     ])
 
     eid_ul_fitr = pd.to_datetime([
@@ -195,6 +196,10 @@ class XKARExchangeCalendar(TradingCalendar):
         '2019-06-05',
         '2019-06-06',
         '2019-06-07',
+
+        '2020-05-25',  # Monday
+        '2020-05-26',
+        '2020-05-27',
     ])
 
     eid_ul_azha = pd.to_datetime([
@@ -268,6 +273,9 @@ class XKARExchangeCalendar(TradingCalendar):
 
         '2019-08-12',
         '2019-08-13',
+        '2019-08-15',
+
+        '2020-07-31',
     ])
 
     ashura = pd.to_datetime([
@@ -327,6 +335,7 @@ class XKARExchangeCalendar(TradingCalendar):
         '2016-12-12',
         '2017-12-01',
         '2018-11-21',
+        '2020-10-30',
     ])
 
     new_years_day = pd.to_datetime([

@@ -72,6 +72,9 @@ class XKLSCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             # Christmas Day on Saturday, Dec 25th.
             pd.Timestamp('2010-12-24', tz=UTC),
             pd.Timestamp('2010-12-27', tz=UTC),
+            # Thaipusam on Saturday, Feb 8th.
+            pd.Timestamp('2020-02-07', tz=UTC),
+            pd.Timestamp('2020-02-10', tz=UTC),
         ]
 
         for session_label in expected_sessions:
@@ -89,6 +92,7 @@ class XKLSCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2014-09-01', tz=UTC),  # National Day
             pd.Timestamp('2012-09-17', tz=UTC),  # Malaysia Day
             pd.Timestamp('2016-12-26', tz=UTC),  # Christmas Day
+            pd.Timestamp('2020-05-25', tz=UTC),  # Eid al Fitr
         ]
 
         for holiday_label in expected_holidays:

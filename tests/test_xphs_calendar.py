@@ -27,6 +27,7 @@ class XPHSCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2019-05-01', tz=UTC),  # Labour Day
             pd.Timestamp('2019-06-05', tz=UTC),  # Eid al-Fitr
             pd.Timestamp('2019-06-12', tz=UTC),  # Independence Day
+            pd.Timestamp('2019-08-12', tz=UTC),  # Eid al-Adha
             pd.Timestamp('2019-08-21', tz=UTC),  # Ninoy Aquino Day
             pd.Timestamp('2019-08-26', tz=UTC),  # National Heroes Day
             pd.Timestamp('2017-09-01', tz=UTC),  # Eid al-Adha

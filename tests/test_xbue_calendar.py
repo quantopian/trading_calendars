@@ -38,7 +38,6 @@ class XBUECalendarTestCase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp('2019-07-09', tz=UTC),  # Independence Day
             pd.Timestamp('2019-08-19', tz=UTC),  # San Martin's Day
             pd.Timestamp('2019-10-14', tz=UTC),  # Cultural Diversity Day
-            pd.Timestamp('2019-11-06', tz=UTC),  # Bank Holiday
             pd.Timestamp('2019-11-18', tz=UTC),  # Day of Natl Sovereignty
             pd.Timestamp('2017-12-08', tz=UTC),  # Immaculate Conception
             pd.Timestamp('2019-12-25', tz=UTC),  # Christmas Day

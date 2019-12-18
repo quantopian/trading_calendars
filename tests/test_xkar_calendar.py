@@ -33,6 +33,7 @@ class XKARCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             '2019-08-12',  # Eid-ul-Azha
             '2019-08-13',  # Eid-ul-Azha
             '2019-08-14',  # Independence Day
+            '2019-08-15',  # Eid-ul-Azha
             '2019-09-09',  # Muharram (Ashura)
             '2019-09-10',  # Muharram (Ashura)
             '2019-11-10',  # Eid Milad-un-Nabi (SAW)

@@ -59,6 +59,13 @@ ChineseNewYear = chinese_lunar_new_year_dates
 
 ChineseNewYearAfter2011 = ChineseNewYear[ChineseNewYear.year > 2011]
 
+PeoplePowerRevolution = Holiday(
+    'People Power Revolution',
+    month=2,
+    day=25,
+    start_date='2016',
+)
+
 ArawNgKagitingan = Holiday(
     'Araw Ng Kagitingan',
     month=4,
@@ -151,7 +158,7 @@ philippines_eid_al_adha = pd.to_datetime([
     '2016-09-12',
     '2017-09-01',
     '2018-08-21',
-    '2019-08-11',
+    '2019-08-12',
 ])
 
 
@@ -201,6 +208,7 @@ class XPHSExchangeCalendar(TradingCalendar):
     def regular_holidays(self):
         return HolidayCalendar([
             NewYearsDay,
+            PeoplePowerRevolution,
             ArawNgKagitingan,
             MaundyThursday,
             GoodFriday,
@@ -228,9 +236,6 @@ class XPHSExchangeCalendar(TradingCalendar):
             '2013-08-20',
             '2013-10-28',
             '2011-06-20',
-            # Edsa People Power Revolution
-            '2019-02-25',
-            '2016-02-25',
             # Election Day
             '2019-05-13',
             '2018-05-14',

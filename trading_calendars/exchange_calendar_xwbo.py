@@ -41,21 +41,21 @@ from .trading_calendar import HolidayCalendar, TradingCalendar
 
 NewYearsDay = new_years_day()
 
-Epiphany = epiphany()
+Epiphany = epiphany(end_date='2019')
 
-AscensionDay = ascension_day()
+AscensionDay = ascension_day(end_date='2019')
 WhitMonday = whit_monday()
-CorpusChristi = corpus_christi()
+CorpusChristi = corpus_christi(end_date='2019')
 
 LabourDay = european_labour_day()
 
-AssumptionDay = assumption_day()
+AssumptionDay = assumption_day(end_date='2019')
 
 NationalHoliday = Holiday('National Holiday', month=10, day=26)
 
-AllSaintsDay = all_saints_day()
+AllSaintsDay = all_saints_day(end_date='2019')
 
-ImmaculateConception = immaculate_conception()
+ImmaculateConception = immaculate_conception(end_date='2019')
 
 ChristmasEve = christmas_eve()
 Christmas = christmas()
