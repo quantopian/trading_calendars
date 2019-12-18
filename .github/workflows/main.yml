@@ -10,19 +10,20 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        numpy: [1.11.3, 1.17.4]
-        pandas: [0.18.1, 0.25.3]
         python-version: [2.7, 3.5, 3.7, 3.8]
-        exclude:
+        include:
           - python-version: 2.7
+            pandas: 0.18.1
+            numpy: 1.11.3
+          - python-version: 3.5
+            pandas: 0.18.1
+            numpy: 1.11.3
+          - python-version: 3.7
             pandas: 0.25.3
             numpy: 1.17.4
-          - python-version: 3.7
-            pandas: 0.18.1
-            numpy: 1.11.3
           - python-version: 3.8
-            pandas: 0.18.1
-            numpy: 1.11.3
+            pandas: 0.25.3
+            numpy: 1.17.4
 
     steps:
     - uses: actions/checkout@v1
