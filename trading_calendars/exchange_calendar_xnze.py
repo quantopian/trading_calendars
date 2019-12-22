@@ -18,8 +18,8 @@
 # http://www.TeAra.govt.nz/en/public-holidays/print (accessed 22 December 2019)
 
 from datetime import time
-
-from pandas import DateOffset, Timestamp
+from pytz import UTC
+from pandas import Timestamp
 
 from pandas.tseries.holiday import (
     DateOffset,
@@ -121,7 +121,7 @@ BusinessDayPriorToNewYearsDay = Holiday(
     start_date="2011-01-01",
 )
 
-# Further ad-hoc holidays and closures sourced from non-trading days in price series
+# Further ad-hoc holidays and closures sourced from gaps in index series
 XMAS22DEC86 = Timestamp('1986-12-22', tz=UTC)
 XMAS23DEC86 = Timestamp('1986-12-23', tz=UTC)
 XMAS24DEC86 = Timestamp('1986-12-24', tz=UTC)
@@ -133,8 +133,6 @@ XMAS31DEC90 = Timestamp('1990-12-31', tz=UTC)
 XMAS27DEC91 = Timestamp('1991-12-27', tz=UTC)
 NYDX03JAN92 = Timestamp('1992-01-03', tz=UTC)
 XMAS31DEC99 = Timestamp('1999-12-31', tz=UTC)
-
-
 
 class XNZEExchangeCalendar(TradingCalendar):
     """
@@ -189,12 +187,13 @@ class XNZEExchangeCalendar(TradingCalendar):
             Christmas,
             BoxingDay,
         ])
-    
+ 
     # add extra ad-hoc holidays
     @property
     def adhoc_holidays(self):
-        return [XMAS22DEC86, XMAS23DEC86, XMAS24DEC86, XMAS29DEC86, XMAS30DEC86, XMAS31DEC86, XMAS24DEC90, XMAS31DEC90, XMAS27DEC91, NYDX03JAN92, XMAS31DEC99]
-
+        return [XMAS22DEC86, XMAS23DEC86, XMAS24DEC86, XMAS29DEC86,
+                XMAS30DEC86, XMAS31DEC86, XMAS24DEC90, XMAS31DEC90,
+                XMAS27DEC91, NYDX03JAN92, XMAS31DEC99]
 
     @property
     def special_closes(self):
