@@ -134,6 +134,7 @@ XMAS27DEC91 = Timestamp('1991-12-27', tz=UTC)
 NYDX03JAN92 = Timestamp('1992-01-03', tz=UTC)
 XMAS31DEC99 = Timestamp('1999-12-31', tz=UTC)
 
+
 class XNZEExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for the New Zealand Exchange (NZX).
@@ -187,7 +188,7 @@ class XNZEExchangeCalendar(TradingCalendar):
             Christmas,
             BoxingDay,
         ])
- 
+
     # add extra ad-hoc holidays
     @property
     def adhoc_holidays(self):
