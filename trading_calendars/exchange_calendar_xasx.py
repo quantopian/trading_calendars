@@ -42,7 +42,7 @@ NewYearsDay = new_years_day(observance=weekend_to_monday)
 
 # "Celebrating Australia: A history of Australia Day" Elizabeth Kwan
 # https://www.australiaday.org.au/storage/celebratingaustralia.pdf
-# present rule follows the 1994 agreement between the States to 
+# present rule follows the 1994 agreement between the States to
 # synchronize the holiday with weekends mondayized
 AustraliaDay = Holiday(
     'Australia Day',
@@ -52,29 +52,29 @@ AustraliaDay = Holiday(
     observance=weekend_to_monday,
 )
 
-# prior to 1993 the holiday was observed on the Monday 
+# prior to 1993 the holiday was observed on the Monday
 # following, or on, the 26th of January
-AustraliaDayPre88 = Holiday('Australia Day', month=1, day=26, 
-                            start_date=Timestamp('1960-01-01'), 
-                            end_date=Timestamp('1987-12-31'), 
+AustraliaDayPre88 = Holiday('Australia Day', month=1, day=26,
+                            start_date=Timestamp('1960-01-01'),
+                            end_date=Timestamp('1987-12-31'),
                             offset=DateOffset(weekday=MO(1)))
-# The 1988 Bi-Centennial celebrations saw an extra holiday 
+# The 1988 Bi-Centennial celebrations saw an extra holiday
 # and Australia Day observed on the actual date
-AustraliaDay1988 = Holiday('Australia Day', month=1, day=26, 
-                           start_date=Timestamp('1988-01-01'), 
+AustraliaDay1988 = Holiday('Australia Day', month=1, day=26,
+                           start_date=Timestamp('1988-01-01'),
                            end_date=Timestamp('1988-12-31'))
-# ASX did not close for Australia Day in 1993 since 
+# ASX did not close for Australia Day in 1993 since
 # States observed different dates prior to 1994
-AustraliaDayPost88Pre93 = Holiday('Australia Day', month=1, day=26, 
-                                  start_date=Timestamp('1989-01-01'), 
-                                  end_date=Timestamp('1992-12-31'), 
+AustraliaDayPost88Pre93 = Holiday('Australia Day', month=1, day=26,
+                                  start_date=Timestamp('1989-01-01'),
+                                  end_date=Timestamp('1992-12-31'),
                                   offset=DateOffset(weekday=MO(1)))
 
 # Anzac Day was observed on Monday when it fell on a Sunday in
 # 2010 but that does not appear to have been the case previously.
 # Jevons GLobal: ANZAC Day observance was a special case in 2010
 AnzacDayNonMondayized = anzac_day(end_date='2010')
-AnzacDay2010 = anzac_day(observance=sunday_to_monday, 
+AnzacDay2010 = anzac_day(observance=sunday_to_monday,
                          start_date='2010', end_date='2011')
 AnzacDay = anzac_day(start_date='2011')
 
@@ -175,7 +175,7 @@ class XASXExchangeCalendar(TradingCalendar):
 
     @property
     def adhoc_holidays(self):
-        return [EasterTuesday2011AdHoc, NYEMonday1984AdHoc, 
+        return [EasterTuesday2011AdHoc, NYEMonday1984AdHoc,
                 NYEMonday1990AdHoc, Bicentennial1988, Y2KTesting]
 
     @property
