@@ -54,6 +54,19 @@ class XNYSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         self.assertNotIn(pd.Period("10/29/2012"), self.calendar.all_sessions)
         self.assertNotIn(pd.Period("10/30/2012"), self.calendar.all_sessions)
 
+        # Hurricane Gloria
+        # Sep 27 1985
+        self.assertNotIn(pd.Period("09/27/1985"), self.calendar.all_sessions)
+        
+        # New York Blackout
+        # Jul 14 1977
+        self.assertNotIn(pd.Period("07/14/1977"), self.calendar.all_sessions)
+        
+        # closings for pre-1980 Presidential Election Days
+        self.assertNotIn(pd.Period("11/7/1972"), self.calendar.all_sessions)
+        self.assertNotIn(pd.Period("11/2/1976"), self.calendar.all_sessions)
+        self.assertNotIn(pd.Period("11/4/1980"), self.calendar.all_sessions)
+        
         # various national days of mourning
 
         # George H.W. - 12/5/2018
@@ -67,6 +80,12 @@ class XNYSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         # Richard Nixon - 4/27/1994
         self.assertNotIn(pd.Period("4/27/1994"), self.calendar.all_sessions)
+        
+        # Lyndon B. Johnson - 1/25/1973
+        self.assertNotIn(pd.Period("1/25/1973"), self.calendar.all_sessions)
+        
+        # Harry S. Truman - 12/28/1972
+        self.assertNotIn(pd.Period("12/28/1972"), self.calendar.all_sessions)
 
     def test_new_years(self):
         """
