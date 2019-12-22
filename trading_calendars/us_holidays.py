@@ -1,7 +1,6 @@
 from pandas import (
     Timestamp,
     DateOffset,
-    date_range,
 )
 from pytz import UTC
 
@@ -150,14 +149,14 @@ HurricaneSandyClosings = [
 # Jevons Global: add Hurricane Gloria closing
 # use singleton list as must be iterable type
 HurricaneGloriaClosing = [
-    Timestamp('1985-09-27', tz=UTC) 
-] 
+    Timestamp('1985-09-27', tz=UTC)
+]
 
 # Jevons Global: add New York Blackout closing
 # use singleton list as must be iterable type
-NewYorkBlackout  = [
-    Timestamp('1977-07-14', tz=UTC) 
-] 
+NewYorkBlackout = [
+    Timestamp('1977-07-14', tz=UTC)
+]
 
 # Jevons Global: add closings for pre-1980 Presidential Election Day closings
 PresidentialElectionDays = [
