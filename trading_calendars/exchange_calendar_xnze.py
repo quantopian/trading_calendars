@@ -13,7 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Useful source for the history of New Zealand public holidays:
+# Nancy Swarbrick, 'Public holidays', Te Ara - the Encyclopedia of New Zealand
+# http://www.TeAra.govt.nz/en/public-holidays/print (accessed 22 December 2019)
+
 from datetime import time
+
+from pandas import DateOffset, Timestamp
+
 from pandas.tseries.holiday import (
     DateOffset,
     EasterMonday,
@@ -114,7 +121,7 @@ BusinessDayPriorToNewYearsDay = Holiday(
     start_date="2011-01-01",
 )
 
-# Jevons Global: further ad-hoc holidays and closures
+# Further ad-hoc holidays and closures sourced from non-trading days in price series
 XMAS22DEC86 = Timestamp('1986-12-22', tz=UTC)
 XMAS23DEC86 = Timestamp('1986-12-23', tz=UTC)
 XMAS24DEC86 = Timestamp('1986-12-24', tz=UTC)
@@ -183,7 +190,7 @@ class XNZEExchangeCalendar(TradingCalendar):
             BoxingDay,
         ])
     
-    # Jevons Global: add extra ad-hoc holidays
+    # add extra ad-hoc holidays
     @property
     def adhoc_holidays(self):
         return [XMAS22DEC86, XMAS23DEC86, XMAS24DEC86, XMAS29DEC86, XMAS30DEC86, XMAS31DEC86, XMAS24DEC90, XMAS31DEC90, XMAS27DEC91, NYDX03JAN92, XMAS31DEC99]
