@@ -131,7 +131,7 @@ BattleOfGettysburg = Holiday(
 
 
 # http://en.wikipedia.org/wiki/Aftermath_of_the_September_11_attacks
-# Jevons Global: use list for consistency in returning ad-hoc dates
+# use list for consistency in returning ad-hoc dates
 September11Closings = [
     Timestamp('2001-09-11', tz=UTC),
     Timestamp('2001-09-12', tz=UTC),
@@ -140,25 +140,28 @@ September11Closings = [
 ]
 
 # http://en.wikipedia.org/wiki/Hurricane_sandy
-# Jevons Global: use list for consistency in returning ad-hoc dates
+# use list for consistency in returning ad-hoc dates
 HurricaneSandyClosings = [
     Timestamp('2012-10-29', tz=UTC),
     Timestamp('2012-10-30', tz=UTC)
 ]
 
-# Jevons Global: add Hurricane Gloria closing
+# add Hurricane Gloria closing
+# http://s3.amazonaws.com/armstrongeconomics-wp/2013/07/NYSE-Closings.pdf
 # use singleton list as must be iterable type
 HurricaneGloriaClosing = [
     Timestamp('1985-09-27', tz=UTC)
 ]
 
-# Jevons Global: add New York Blackout closing
+# add New York Blackout closing
+# http://s3.amazonaws.com/armstrongeconomics-wp/2013/07/NYSE-Closings.pdf
 # use singleton list as must be iterable type
 NewYorkBlackout = [
     Timestamp('1977-07-14', tz=UTC)
 ]
 
-# Jevons Global: add closings for pre-1980 Presidential Election Day closings
+# add closings for pre-1980 Presidential Election Day closings
+# http://s3.amazonaws.com/armstrongeconomics-wp/2013/07/NYSE-Closings.pdf
 PresidentialElectionDays = [
     Timestamp('1972-11-07', tz=UTC),
     Timestamp('1976-11-02', tz=UTC),
@@ -172,7 +175,8 @@ PresidentialElectionDays = [
 # - President Ronald W. Reagan - June 11, 2004
 # - President Gerald R. Ford - Jan 2, 2007
 # - President George H.W. Bush - Dec 5, 2018
-# Jevons Global: added Truman and Johnson to go back to 1970
+# added Truman and Johnson to go back to 1970
+# http://s3.amazonaws.com/armstrongeconomics-wp/2013/07/NYSE-Closings.pdf
 USNationalDaysofMourning = [
     Timestamp('1972-12-28', tz=UTC),
     Timestamp('1973-01-25', tz=UTC),
