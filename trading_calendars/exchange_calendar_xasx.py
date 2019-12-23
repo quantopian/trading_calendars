@@ -72,7 +72,7 @@ AustraliaDayPost88Pre93 = Holiday('Australia Day', month=1, day=26,
 
 # Anzac Day was observed on Monday when it fell on a Sunday in
 # 2010 but that does not appear to have been the case previously.
-# Jevons GLobal: ANZAC Day observance was a special case in 2010
+# ANZAC Day observance was a special case in 2010
 AnzacDayNonMondayized = anzac_day(end_date='2010')
 AnzacDay2010 = anzac_day(observance=sunday_to_monday,
                          start_date='2010', end_date='2011')
@@ -111,7 +111,7 @@ LastTradingDayOfCalendarYear = Holiday(
     observance=previous_friday,
 )
 
-# Jevons Global: additional ad-hoc holidays
+# additional ad-hoc holidays
 NYEMonday1984AdHoc = Timestamp('1984-12-31', tz=UTC)
 NYEMonday1990AdHoc = Timestamp('1990-12-31', tz=UTC)
 Bicentennial1988 = Timestamp('1988-01-25', tz=UTC)
