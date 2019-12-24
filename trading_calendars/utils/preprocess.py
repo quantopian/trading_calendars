@@ -12,13 +12,17 @@ from inspect import getargspec
 from uuid import uuid4
 
 from toolz.curried.operator import getitem
-from six import viewkeys, exec_, PY3
+from six import viewkeys, exec_
 
 from trading_calendars.utils.compat import wraps
 
 
 _code_argorder = (
-    ('co_argcount', 'co_kwonlyargcount') if PY3 else ('co_argcount',)
+    ('co_argcount',)
+) + (
+    ('co_kwonlyargcount', ) if hasattr(CodeType, 'co_kwonlyargcount') else ()
+) + (
+    ('co_posonlyargcount', ) if hasattr(CodeType, 'co_posonlyargcount') else ()
 ) + (
     'co_nlocals',
     'co_stacksize',
