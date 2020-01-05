@@ -40,7 +40,7 @@ class XKRXCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
             self.assertNotIn(session_label, self.calendar.all_sessions)
 
     def test_constrain_construction_dates(self):
-        # the XKRX calendar currently goes from 1986 to 2019, inclusive.
+        # the XKRX calendar currently goes from 1986 to 2020, inclusive.
         with self.assertRaises(ValueError) as e:
             self.calendar_class(T('1985-12-31'), T('2005-01-01'))
 
@@ -53,13 +53,13 @@ class XKRXCalendarTestCase(NoDSTExchangeCalendarTestBase, TestCase):
         )
 
         with self.assertRaises(ValueError) as e:
-            self.calendar_class(T('2005-01-01'), T('2020-01-01'))
+            self.calendar_class(T('2005-01-01'), T('2021-01-01'))
 
         self.assertEqual(
             str(e.exception),
             (
-                'The XKRX holidays are only recorded to 2019,'
-                ' cannot instantiate the XKRX calendar for 2020.'
+                'The XKRX holidays are only recorded to 2020,'
+                ' cannot instantiate the XKRX calendar for 2021.'
             )
         )
 
