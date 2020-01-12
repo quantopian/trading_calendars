@@ -1,4 +1,7 @@
 # trading_calendars
+
+[![Build Status](https://travis-ci.org/quantopian/trading_calendars.svg?branch=master)](https://travis-ci.org/quantopian/trading_calendars)
+
 A Python library of exchange calendars meant to be used with [Zipline](https://github.com/quantopian/zipline).
 
 | Exchange                        | ISO Code | Country        | Version Added | Exchange Website (English)                                   |
@@ -52,12 +55,17 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Buenos Aires Stock Exchange     | XBUE     | Argentina      | 1.11          | https://www.bcba.sba.com.ar/                                 |
 | Pakistan Stock Exchange         | XKAR     | Pakistan       | 1.11          | https://www.psx.com.pk/                                      |
 
-Calendars marked with an asterisk (*) have not yet been released.
+> Note that exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/10383/iso-10383-market-identifier-codes) market identifier code.
 
-Note that exchange calendars are defined by their [ISO-10383 market identifier code](https://www.iso20022.org/10383/iso-10383-market-identifier-codes).
+## Installation
+
+``` bash
+$ pip install trading-calendars
+```
 
 ## Usage
-```python
+
+``` python
 from trading_calendars import get_calendar
 
 # US Stock Exchanges (includes NASDAQ)
