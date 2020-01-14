@@ -21,16 +21,12 @@ before_install:
 install:
   - conda create -n testenv pip python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION pandas=$PANDAS_VERSION
   - source activate testenv
-  - python -m pip install --upgrade pip coveralls
   - python -m pip install -r etc/requirements.txt
   - python -m pip freeze | sort
 
 script:
   - flake8 trading_calendars tests
   - nosetests tests
-
-after_success:
-  - coveralls
 
 notifications:
   email: false
