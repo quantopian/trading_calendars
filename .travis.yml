@@ -1,6 +1,5 @@
 language: python
 cache: pip
-sudo: false
 
 python:
   - 2.7
@@ -22,10 +21,9 @@ install:
   - conda create -n testenv pip python=$TRAVIS_PYTHON_VERSION numpy=$NUMPY_VERSION pandas=$PANDAS_VERSION
   - source activate testenv
   - python -m pip install -r etc/requirements.txt
-  - python -m pip freeze | sort
 
 script:
-  - flake8 trading_calendars tests
+  - flake8
   - nosetests tests
 
 notifications:
