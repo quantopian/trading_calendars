@@ -51,7 +51,7 @@ reqs = [
     "toolz",
 ]
 
-with open('README.md', encoding='utf-8') as f:
+with open('README.md') as f:
     LONG_DESCRIPTION = f.read()
 
 if __name__ == '__main__':
