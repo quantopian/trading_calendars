@@ -856,9 +856,9 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
         idx = searchsorted(self.market_closes_nanos, dt)
         current_or_next_session = self.schedule.index[idx]
-        self._minute_to_session_label_cache = (dt, current_or_next_session)
 
         if direction == "next":
+            self._minute_to_session_label_cache = (dt, current_or_next_session)
             return current_or_next_session
         elif direction == "previous":
             if not is_open(self.market_opens_nanos, self.market_closes_nanos,
