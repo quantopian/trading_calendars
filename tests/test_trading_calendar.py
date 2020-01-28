@@ -486,7 +486,7 @@ class ExchangeCalendarTestBase(object):
             self.assertEqual(
                 minutes_that_resolve_to_different_sessions,
                 [next_session_label,
-                 previous_session_label,
+                 session_label,
                  next_session_label]
             )
 
