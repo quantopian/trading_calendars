@@ -473,6 +473,23 @@ class ExchangeCalendarTestBase(object):
                 previous_session_label
             )
 
+            # Make sure we use the cache correctly
+            minutes_that_resolve_to_different_sessions = [
+                self.calendar.minute_to_session_label(minute_after_session,
+                                                      direction="next"),
+                self.calendar.minute_to_session_label(minute_after_session,
+                                                      direction="previous"),
+                self.calendar.minute_to_session_label(minute_after_session,
+                                                      direction="next"),
+            ]
+
+            self.assertEqual(
+                minutes_that_resolve_to_different_sessions,
+                [next_session_label,
+                 previous_session_label,
+                 next_session_label]
+            )
+
             # make sure that exceptions are raised at the right time
             with self.assertRaises(ValueError):
                 self.calendar.minute_to_session_label(open_minute, "asdf")
