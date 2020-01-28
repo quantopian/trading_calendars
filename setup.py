@@ -54,7 +54,6 @@ classifiers = [
 
 
 reqs = [
-    "lru-dict",
     "numpy",
     "pandas",
     "pytz",
