@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from abc import ABCMeta, abstractproperty
-from lru import LRU
 import warnings
 
 from operator import attrgetter
@@ -148,7 +147,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         # "next" mode. Analysis of current zipline code paths show that
         # `minute_to_session_label` is often called consecutively with the same
         # inputs.
-        self._minute_to_session_label_cache = LRU(1)
+        self._minute_to_session_label_cache = (None, None)
 
         self.market_opens_nanos = self.schedule.market_open.values.\
             astype(np.int64)
@@ -852,16 +851,14 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             The label of the containing session.
         """
         if direction == "next":
-            try:
-                return self._minute_to_session_label_cache[dt]
-            except KeyError:
-                pass
+            if self._minute_to_session_label_cache[0] == dt:
+                return self._minute_to_session_label_cache[1]
 
         idx = searchsorted(self.market_closes_nanos, dt)
         current_or_next_session = self.schedule.index[idx]
-        self._minute_to_session_label_cache[dt] = current_or_next_session
 
         if direction == "next":
+            self._minute_to_session_label_cache = (dt, current_or_next_session)
             return current_or_next_session
         elif direction == "previous":
             if not is_open(self.market_opens_nanos, self.market_closes_nanos,
