@@ -1,6 +1,6 @@
 # trading_calendars
 
-[![Build Status](https://travis-ci.org/quantopian/trading_calendars.svg?branch=master)](https://travis-ci.org/quantopian/trading_calendars)
+![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)
 
 A Python library of exchange calendars meant to be used with [Zipline](https://github.com/quantopian/zipline).
 
