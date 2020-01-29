@@ -44,13 +44,23 @@ from .trading_calendar import (
 # New Year's Day
 LSENewYearsDay = new_years_day(observance=weekend_to_monday)
 
-# Early May bank holiday
-MayBank = Holiday(
+# Early May bank holiday (was moved in 2020 to align with VE Day).
+MayBankBefore2020 = Holiday(
     "Early May Bank Holiday",
     month=5,
     offset=DateOffset(weekday=MO(1)),
     day=1,
+    end_date='2020',
 )
+
+MayBankAfter2020 = Holiday(
+    "Early May Bank Holiday",
+    month=5,
+    offset=DateOffset(weekday=MO(1)),
+    day=1,
+    start_date='2021',
+)
+
 # Spring bank holiday is the last Monday in May except:
 # - in 2002, it was moved to June 3
 # - in 2012, it was moved to June 4
@@ -118,6 +128,7 @@ GoldenJubilee = Timestamp("2002-06-04", tz=UTC)
 RoyalWedding = Timestamp("2011-04-29", tz=UTC)
 SpringBank2012 = Timestamp("2012-06-04", tz=UTC)
 DiamondJubilee = Timestamp("2012-06-05", tz=UTC)
+VEDay2020 = Timestamp("2020-05-08", tz=UTC)
 
 
 class XLONExchangeCalendar(TradingCalendar):
@@ -163,7 +174,8 @@ class XLONExchangeCalendar(TradingCalendar):
             LSENewYearsDay,
             GoodFriday,
             EasterMonday,
-            MayBank,
+            MayBankBefore2020,
+            MayBankAfter2020,
             SpringBankBefore2002,
             SpringBank2002To2012,
             SpringBank2013Onwards,
@@ -182,6 +194,7 @@ class XLONExchangeCalendar(TradingCalendar):
             RoyalWedding,
             SpringBank2012,
             DiamondJubilee,
+            VEDay2020,
         ]
 
     @property

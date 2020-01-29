@@ -217,10 +217,13 @@ chinese_new_year_extras = pd.to_datetime([
     '2018-02-13',
     '2019-01-31',
     '2019-02-08',
+    '2020-01-21',
+    '2020-01-22',
 ])
 
 # Some abnormal observances of regularly observed holidays.
 extra_holidays = pd.to_datetime([
+    '2020-04-02',  # Tomb Sweeping Day
     '2016-04-05',  # Tomb Sweeping Day
     '2012-12-31',  # New Year's Eve
     '2012-02-27',  # Peace Memorial Day
@@ -230,6 +233,8 @@ extra_holidays = pd.to_datetime([
 ])
 
 typhoons = pd.to_datetime([
+    '2019-09-30',
+    '2019-08-09',
     '2016-09-28',
     '2016-09-27',
     '2016-07-08',
