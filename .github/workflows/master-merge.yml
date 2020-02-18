@@ -7,7 +7,7 @@ on:
 
 jobs:
   draft-release-publish:
-    name: Draft a new release, publish it, and test PyPI
+    name: Draft a new release
     runs-on: ubuntu-latest
     steps:
       # Drafts your next Release notes as Pull Requests are merged into "master"
@@ -16,24 +16,3 @@ jobs:
           config-name: release-drafter-config.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/checkout@master
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
-
-      - name: Build sdist
-        run: python setup.py sdist
-
-      - name: Publish distribution 📦 to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.test_pypi_password }}
-          repository_url: https://test.pypi.org/legacy/
-
-      - name: Install from test and test running
-        run: |
-          python -m pip install --upgrade pip
-          pip install --extra-index-url https://test.pypi.org/simple trading-calendars
-          python -c 'import trading_calendars;print(trading_calendars.__version__)'
