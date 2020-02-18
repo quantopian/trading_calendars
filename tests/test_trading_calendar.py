@@ -517,9 +517,8 @@ class ExchangeCalendarTestBase(object):
         minutes = minutes[range(offset, len(minutes), interval)]
 
         np.testing.assert_array_equal(
-            np.array(minutes.map(self.calendar.minute_to_session_label),
-                     dtype='datetime64[ns]'),
-            self.calendar.minute_index_to_session_labels(minutes)
+            minutes.map(self.calendar.minute_to_session_label),
+            self.calendar.minute_index_to_session_labels(minutes),
         )
 
     def test_next_prev_session(self):
@@ -824,7 +823,8 @@ class ExchangeCalendarTestBase(object):
                 (localized_open.year, localized_open.month, localized_open.day)
             )
 
-            open_ix = open_times.index.searchsorted(date, side='r')
+            open_ix = open_times.index.searchsorted(pd.Timestamp(date),
+                                                    side='r')
             if open_ix == len(open_times):
                 open_ix -= 1
 
