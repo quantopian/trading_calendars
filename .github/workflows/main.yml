@@ -1,19 +1,15 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [2.7, 3.5, 3.7, 3.8]
@@ -25,11 +21,11 @@ jobs:
             pandas: 0.18.1
             numpy: 1.11.3
           - python-version: 3.7
-            pandas: 0.25.3
-            numpy: 1.17.4
+            pandas: 1.0.1
+            numpy: 1.18.1
           - python-version: 3.8
-            pandas: 0.25.3
-            numpy: 1.17.4
+            pandas: 1.0.1
+            numpy: 1.18.1
 
     steps:
     - uses: actions/checkout@v1
