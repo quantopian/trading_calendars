@@ -28,7 +28,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install --extra-index-url https://test.pypi.org/simple trading-calendars
         python -c 'import trading_calendars;print(trading_calendars.__version__)'
-        pip uninstall trading-calendars
+        pip uninstall -y trading-calendars
 
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@master
