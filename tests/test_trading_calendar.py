@@ -517,7 +517,9 @@ class ExchangeCalendarTestBase(object):
         minutes = minutes[range(offset, len(minutes), interval)]
 
         np.testing.assert_array_equal(
-            minutes.map(self.calendar.minute_to_session_label),
+            pd.DatetimeIndex(
+                minutes.map(self.calendar.minute_to_session_label)
+            ),
             self.calendar.minute_index_to_session_labels(minutes),
         )
 
