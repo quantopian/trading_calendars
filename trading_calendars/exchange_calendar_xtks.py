@@ -53,7 +53,7 @@ class XTKSExchangeCalendar(TradingCalendar):
     NOTE: we are treating the two sessions per day as one session for now,
     because we will not be handling minutely data in the immediate future.
 
-    Regularly-Observed Holidays (see tse_holidays.py for more info):
+    Regularly-Observed Holidays (see xtks_holidays.py for more info):
     - New Year's Holidays (Dec. 31 - Jan. 3)
     - Coming of Age Day (second Monday of January)
     - National Foundation Day (Feb. 11)
