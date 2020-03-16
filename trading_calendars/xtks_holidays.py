@@ -176,19 +176,53 @@ MarineDayThrough2002 = Holiday(
     observance=sunday_to_monday,
 )
 
-MarineDay2003Onwards = Holiday(
-    "Marine Day (2003 onwards)",
+MarineDay2003OnwardsThrough2019 = Holiday(
+    "Marine Day (2003 - 2019)",
     month=7,
     day=1,
     offset=DateOffset(weekday=MO(3)),
     start_date='2003-01-01',
+    end_date='2020-01-01',
 )
 
-MountainDay = Holiday(
-    "Mountain Day",
+# Changed due to Tokyo Olympics
+MarineDay2020 = Holiday(
+    "Marine Day (2020)",
+    month=7,
+    day=23,
+    year=2020,
+)
+
+MarineDay2021Onwards = Holiday(
+    "Marine Day (2021 onwards)",
+    month=7,
+    day=1,
+    offset=DateOffset(weekday=MO(3)),
+    start_date='2021-01-01',
+)
+
+MountainDayThrough2019 = Holiday(
+    "Mountain Day (through 2019)",
     month=8,
     day=11,
     start_date='2016-01-01',
+    end_date='2020-01-01',
+    observance=sunday_to_monday,
+)
+
+# Changed due to Tokyo Olympics
+MountainDay2020 = Holiday(
+    "Mountain Day (2020)",
+    month=8,
+    day=10,
+    year=2020,
+)
+
+MountainDay2021Onwards = Holiday(
+    "Mountain Day (2021 onwards)",
+    month=8,
+    day=11,
+    start_date="2021-01-01",
     observance=sunday_to_monday,
 )
 
@@ -242,11 +276,28 @@ RespectForTheAgedDay2003Onwards = Holiday(
     start_date='2003-01-01',
 )
 
-HealthAndSportsDay = Holiday(
-    "Health and Sports Day",
+HealthAndSportsDayThrough2019 = Holiday(
+    "Health and Sports Day (through 2019)",
     month=10,
     day=1,
     offset=DateOffset(weekday=MO(2)),
+    end_date="2020-01-01",
+)
+
+# Changed due to Tokyo Olympics
+HealthAndSportsDay2020 = Holiday(
+    "Health and Sports Day (2020)",
+    month=7,
+    day=24,
+    year=2020,
+)
+
+HealthAndSportsDay2021Onwards = Holiday(
+    "Health and Sports Day (2021 onwards)",
+    month=10,
+    day=1,
+    offset=DateOffset(weekday=MO(2)),
+    start_date="2021-01-01",
 )
 
 CultureDay = Holiday(
