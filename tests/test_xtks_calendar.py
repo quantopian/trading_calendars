@@ -215,7 +215,8 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
             pd.Timestamp("2020-05-03", tz=UTC),  # Constitution Memorial Day
             pd.Timestamp("2020-05-04", tz=UTC),  # Greenery Day
             pd.Timestamp("2020-05-05", tz=UTC),  # Children's Day
-            pd.Timestamp("2020-05-06", tz=UTC),  # Constitution Memorial Day observed
+            pd.Timestamp("2020-05-06", tz=UTC),  # Constitution Memorial Day
+                                                 # observed
             pd.Timestamp("2020-07-23", tz=UTC),  # Marine Day
             pd.Timestamp("2020-07-24", tz=UTC),  # Sports Day
             pd.Timestamp("2020-08-10", tz=UTC),  # Mountain Day
