@@ -200,3 +200,32 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         for holiday_label in expected_holidays:
             self.assertNotIn(holiday_label, self.calendar.all_sessions)
+
+    def test_2020(self):
+        expected_holidays_2020 = [
+            pd.Timestamp("2020-01-01", tz=UTC),  # New Year's holiday
+            pd.Timestamp("2020-01-02", tz=UTC),  # New Year's holiday
+            pd.Timestamp("2020-01-03", tz=UTC),  # New Year's holiday
+            pd.Timestamp("2020-01-13", tz=UTC),  # Coming of Age Day
+            pd.Timestamp("2020-02-11", tz=UTC),  # National Foundation Day
+            pd.Timestamp("2020-02-23", tz=UTC),  # Emperor's Birthday
+            pd.Timestamp("2020-02-24", tz=UTC),  # Emperor's Birthday observed
+            pd.Timestamp("2020-03-20", tz=UTC),  # Vernal Equinox
+            pd.Timestamp("2020-04-29", tz=UTC),  # Showa Day
+            pd.Timestamp("2020-05-03", tz=UTC),  # Constitution Memorial Day
+            pd.Timestamp("2020-05-04", tz=UTC),  # Greenery Day
+            pd.Timestamp("2020-05-05", tz=UTC),  # Children's Day
+            pd.Timestamp("2020-05-06", tz=UTC),  # Constitution Memorial Day
+                                                 # observed
+            pd.Timestamp("2020-07-23", tz=UTC),  # Marine Day
+            pd.Timestamp("2020-07-24", tz=UTC),  # Sports Day
+            pd.Timestamp("2020-08-10", tz=UTC),  # Mountain Day
+            pd.Timestamp("2020-09-21", tz=UTC),  # Respect for the Aged Day
+            pd.Timestamp("2020-09-22", tz=UTC),  # Autumnal Equinox
+            pd.Timestamp("2020-11-03", tz=UTC),  # Culture Day
+            pd.Timestamp("2020-11-23", tz=UTC),  # Labor Thanksgiving Day
+            pd.Timestamp("2020-12-31", tz=UTC),  # New Year's holiday
+        ]
+
+        for session_label in expected_holidays_2020:
+            self.assertNotIn(session_label, self.calendar.all_sessions)
