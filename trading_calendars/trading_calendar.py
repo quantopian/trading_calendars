@@ -980,7 +980,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         merged = regular + ad_hoc
         if not merged:
             # Concat barfs if the input has length 0.
-            return pd.Series([])
+            return pd.Series([], dtype="datetime64[ns, UTC]")
 
         result = pd.concat(merged).sort_index()
         return result.loc[(result >= start_date) & (result <= end_date)]
