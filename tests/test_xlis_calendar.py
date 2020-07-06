@@ -14,6 +14,7 @@ class XLISCalendarTestCase(EuronextCalendarTestBase, TestCase):
     # The XLIS is open from 8:00 am to 4:30 pm.
     MAX_SESSION_HOURS = 8.5
     TIMEDELTA_TO_NORMAL_CLOSE = pd.Timedelta(hours=16, minutes=30)
+    TIMEDELTA_TO_EARLY_CLOSE = pd.Timedelta(hours=13, minutes=5)
 
     TZ = 'Europe/Lisbon'
 
