@@ -121,7 +121,8 @@ class XLISExchangeCalendar(TradingCalendar):
       - Netherlands
     """
     # Source: https://www.euronext.com/en/calendars-hours
-    regular_early_close = time(14, 5)
+    # Converted 14:05 CET to local time zone WET.
+    regular_early_close = time(13, 5)
 
     @property
     def name(self):
