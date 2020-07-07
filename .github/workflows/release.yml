@@ -22,6 +22,7 @@ jobs:
       with:
         password: ${{ secrets.test_pypi_password }}
         repository_url: https://test.pypi.org/legacy/
+        skip_existing: true
 
     - name: Install from test and test running
       run: |
