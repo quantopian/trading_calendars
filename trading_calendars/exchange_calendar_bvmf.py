@@ -81,11 +81,18 @@ DiaTrabalho = Holiday(
     day=1,
 )
 # Constitutionalist Revolution
-Constitucionalista = Holiday(
-    'Constitucionalista',
+Constitucionalista_prepandemic = Holiday(
+    'Constitucionalista pre-pandemia',
     month=7,
     day=9,
-    start_date='1998-01-01'
+    start_date='1998-01-01',
+    end_date='2020-01-01'
+)
+Constitucionalista_pospandemic = Holiday(
+    'Constitucionalista pos-pandemia',
+    month=7,
+    day=9,
+    start_date='2021-01-01'
 )
 # Independence Day
 Independencia = Holiday(
@@ -205,7 +212,8 @@ class BVMFExchangeCalendar(TradingCalendar):
             CorpusChristi,
             Tiradentes,
             DiaTrabalho,
-            Constitucionalista,
+            Constitucionalista_prepandemic,
+            Constitucionalista_pospandemic,
             Independencia,
             Aparecida,
             Finados,
