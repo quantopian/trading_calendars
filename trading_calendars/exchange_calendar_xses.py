@@ -375,7 +375,7 @@ class XSESExchangeCalendar(PrecomputedTradingCalendar):
         (None, time(9, 1)),
     )
     close_times = (
-        (None, time(15, 0)),
+        (None, time(17, 0)),
     )
 
     @property
