@@ -784,9 +784,9 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[0],
             self.answers.index[-1],
         )
-
+        found_opens.index.freq = None
         pd.util.testing.assert_series_equal(
-            found_opens, self.answers['market_open'], check_freq=False
+            found_opens, self.answers['market_open']
         )
 
     def test_session_closes_in_range(self):
@@ -794,9 +794,9 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[0],
             self.answers.index[-1],
         )
-
+        found_closes.index.freq = None
         pd.util.testing.assert_series_equal(
-            found_closes, self.answers['market_close'], check_freq=False
+            found_closes, self.answers['market_close']
         )
 
     def test_daylight_savings(self):
