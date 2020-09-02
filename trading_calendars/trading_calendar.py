@@ -640,7 +640,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         start_idx = self.schedule.index.get_loc(session_label)
         end_idx = start_idx + count
-
+        end_idx = max(0, end_idx)
         return self.all_sessions[
             min(start_idx, end_idx):max(start_idx, end_idx) + 1
         ]
