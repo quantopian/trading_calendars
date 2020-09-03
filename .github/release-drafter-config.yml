@@ -1,6 +1,45 @@
 name-template: '$NEXT_PATCH_VERSION 🌈'
 tag-template: '$NEXT_PATCH_VERSION'
+categories:
+  - title: 'API Changes'
+    labels:
+      - 'api'
+  - title: 'Benchmark Changes'
+    labels:
+      - 'bench'
+  - title: 'Build Changes'
+    labels:
+      - 'build'
+  - title: 'Bug Fixes'
+    labels:
+      - 'bug'
+  - title: 'Deprecation'
+    labels:
+      - 'deprecation'
+  - title: 'Development Enhancements'
+    labels:
+      - 'development'
+  - title: 'Documentation Updates'
+    labels:
+      - 'documentation'
+  - title: 'Enhancements'
+    labels:
+      - 'enhancement'
+  - title: 'Maintenance'
+    labels:
+      - 'maintenance'
+  - title: 'Reverts'
+    labels:
+      - 'revert'
+  - title: 'Style Changes'
+    labels:
+      - 'style'
+  - title: 'Test Changes'
+    labels:
+      - 'test'
+  - title: 'Release Changes'
+    labels:
+      - 'release'
 template: |
-  ## What’s Changed
-
+  # What’s Changed
   $CHANGES
