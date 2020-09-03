@@ -784,7 +784,7 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[0],
             self.answers.index[-1],
         )
-
+        found_opens.index.freq = None
         pd.util.testing.assert_series_equal(
             found_opens, self.answers['market_open']
         )
@@ -794,7 +794,7 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[0],
             self.answers.index[-1],
         )
-
+        found_closes.index.freq = None
         pd.util.testing.assert_series_equal(
             found_closes, self.answers['market_close']
         )
