@@ -194,6 +194,24 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         raise NotImplementedError()
 
     @abstractproperty
+    def break_start(self):
+        """
+        Break time start. If None then there is no break
+
+        :return: time or None
+        """
+        return None
+
+    @abstractproperty
+    def break_end(self):
+        """
+        Break time end. If None then there is no break
+
+        :return: time or None
+        """
+        return None
+
+    @abstractproperty
     def close_times(self):
         """
         Returns a list of tuples of (start_date, close_time).  If the close
