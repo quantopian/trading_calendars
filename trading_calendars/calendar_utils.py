@@ -127,7 +127,15 @@ _default_calendar_aliases = {
     'NYFE': 'IEPA',
     'CFE': 'XCBF',
     'JKT': 'XIDX',
+    'SIX': 'XSWX',
+    'JPX': 'XTKS',
+    'ASX': 'XASX',
+    'HKEX': 'XHKG',
+    'OSE': 'XOSL',
+    'BSE': 'XBOM',
+    'SSE': 'XSHG',
 }
+
 default_calendar_names = sorted(_default_calendar_factories.keys())
 
 
