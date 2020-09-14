@@ -936,7 +936,6 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             raise ValueError(
                 "Non-ordered index passed to minute_index_to_session_labels."
             )
-
         # Find the indices of the previous open and the next close for each
         # minute.
         prev_opens = (
@@ -954,8 +953,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             example = index[bad_ix]
 
             prev_day = prev_opens[bad_ix]
-            prev_open, prev_close = self.schedule.iloc[prev_day]
-            next_open, next_close = self.schedule.iloc[prev_day + 1]
+            prev_open, prev_close = (
+                self.schedule.iloc[prev_day].loc[
+                    ['market_open', 'market_close']
+                ]
+            )
+            next_open, next_close = (
+                self.schedule.iloc[prev_day + 1].loc[
+                    ['market_open', 'market_close']
+                ]
+            )
 
             raise ValueError(
                 "{num} non-market minutes in minute_index_to_session_labels:\n"
