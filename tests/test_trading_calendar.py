@@ -142,7 +142,7 @@ class DaysAtTimeTestCase(TestCase):
     @parameterized.expand([
         # NYSE standard day
         (
-            '2016-07-19', 0, time(9, 31), timezone('US/Eastern'),
+            '2016-07-19', 0, time(9, 31), timezone('America/New_York'),
             '2016-07-19 9:31',
         ),
         # CME standard day
@@ -961,7 +961,7 @@ class OpenDetectionTestCase(TestCase):
             self.assertTrue(cal.is_open_on_minute(minute))
 
         def NYSE_timestamp(s):
-            return pd.Timestamp(s, tz='US/Eastern').tz_convert(UTC)
+            return pd.Timestamp(s, tz='America/New_York').tz_convert(UTC)
 
         non_market = [
             # After close.
