@@ -216,9 +216,9 @@ class TradingCalendar(with_metaclass(ABCMeta)):
     @property
     def break_start_times(self):
         """
-        Returns a list of tuples of (start_date, break_start_time).  If the break start
-        time is constant throughout the calendar, use None for the start_date. If there
-        is no break, use None for `break_start_time`.
+        Returns a list of tuples of (start_date, break_start_time).  If the
+        break start time is constant throughout the calendar, use None for the
+        start_date. If there is no break, use None for `break_start_time`.
 
         """
         return (None, None)
@@ -226,9 +226,9 @@ class TradingCalendar(with_metaclass(ABCMeta)):
     @property
     def break_end_times(self):
         """
-        Returns a list of tuples of (start_date, break_end_time).  If the break end
-        time is constant throughout the calendar, use None for the start_date. If there
-        is no break, use None for `break_end_time`.
+        Returns a list of tuples of (start_date, break_end_time).  If the break
+        end time is constant throughout the calendar, use None for the
+        start_date. If there is no break, use None for `break_end_time`.
 
         """
         return (None, None)
