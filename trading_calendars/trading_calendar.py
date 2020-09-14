@@ -264,8 +264,13 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
     @lazyval
     def _minutes_per_session(self):
-        diff = self.schedule.market_close - self.schedule.market_open
-        diff = diff.astype('timedelta64[m]')
+        close_to_open_diff = (
+            self.schedule.market_close - self.schedule.market_open
+        )
+        break_diff = (
+            self.schedule.break_end - self.schedule.break_start
+        ).fillna(pd.Timedelta(seconds=0))
+        diff = (close_to_open_diff - break_diff).astype("timedelta64[m]")
         return diff + 1
 
     def minutes_count_for_sessions_in_range(self, start_session, end_session):
