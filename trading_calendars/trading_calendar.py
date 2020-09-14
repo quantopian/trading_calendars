@@ -66,7 +66,9 @@ def selection(arr, start, end):
     return arr[np.all(predicates, axis=0)]
 
 
-def _group_times(all_days, times, tz, offset):
+def _group_times(all_days, times, tz, offset=0):
+    if times == (None, None):
+        return None
     elements = [
         days_at_time(
             selection(all_days, start, end),
@@ -114,6 +116,17 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             self.tz,
             self.open_offset,
         )
+        self._break_starts = _group_times(
+            _all_days,
+            self.break_start_times,
+            self.tz,
+        )
+        self._break_ends = _group_times(
+            _all_days,
+            self.break_end_times,
+            self.tz,
+        )
+
         self._closes = _group_times(
             _all_days,
             self.close_times,
@@ -135,9 +148,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         self.schedule = DataFrame(
             index=_all_days,
-            columns=['market_open', 'market_close'],
+            columns=[
+                'market_open',
+                'break_start',
+                'break_end',
+                'market_close'
+            ],
             data={
                 'market_open': self._opens,
+                'break_start': self._break_starts,
+                'break_end': self._break_ends,
                 'market_close': self._closes,
             },
             dtype='datetime64[ns]',
@@ -193,23 +213,25 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         raise NotImplementedError()
 
-    @abstractproperty
-    def break_start(self):
+    @property
+    def break_start_times(self):
         """
-        Break time start. If None then there is no break
+        Returns a list of tuples of (start_date, break_start_time).  If the break start
+        time is constant throughout the calendar, use None for the start_date. If there
+        is no break, use None for `break_start_time`.
 
-        :return: time or None
         """
-        return None
+        return (None, None)
 
-    @abstractproperty
-    def break_end(self):
+    @property
+    def break_end_times(self):
         """
-        Break time end. If None then there is no break
+        Returns a list of tuples of (start_date, break_end_time).  If the break end
+        time is constant throughout the calendar, use None for the start_date. If there
+        is no break, use None for `break_end_time`.
 
-        :return: time or None
         """
-        return None
+        return (None, None)
 
     @abstractproperty
     def close_times(self):
