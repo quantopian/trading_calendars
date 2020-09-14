@@ -56,8 +56,8 @@ class XNYSExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for the New York Stock Exchange (XNYS).
 
-    Open Time: 9:31 AM, US/Eastern
-    Close Time: 4:00 PM, US/Eastern
+    Open Time: 9:31 AM, America/New_York
+    Close Time: 4:00 PM, America/New_York
 
     Regularly-Observed Holidays:
     - New Years Day (observed on monday when Jan 1 is a Sunday)
@@ -105,7 +105,7 @@ class XNYSExchangeCalendar(TradingCalendar):
 
     name = 'XNYS'
 
-    tz = timezone('US/Eastern')
+    tz = timezone('America/New_York')
 
     open_times = (
         (None, time(9, 31)),

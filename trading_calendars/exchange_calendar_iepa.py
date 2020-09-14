@@ -26,14 +26,14 @@ class IEPAExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for ICE US (IEPA).
 
-    Open Time: 8pm, US/Eastern
-    Close Time: 6pm, US/Eastern
+    Open Time: 8pm, America/New_York
+    Close Time: 6pm, America/New_York
 
     https://www.theice.com/publicdocs/futures_us/ICE_Futures_US_Regular_Trading_Hours.pdf # noqa
     """
     name = 'IEPA'
 
-    tz = timezone("US/Eastern")
+    tz = timezone("America/New_York")
 
     open_times = (
         (None, time(20, 1)),
