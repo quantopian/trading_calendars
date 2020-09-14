@@ -1,6 +1,5 @@
 from dateutil.relativedelta import MO
 from datetime import timedelta
-from functools import partial
 from pandas import (
     Timestamp,
     DateOffset,
@@ -12,41 +11,28 @@ from pandas.tseries.holiday import (
 )
 
 from .common_holidays import new_years_day
-from .trading_calendar import SUNDAY, WEEKENDS
+from .trading_calendar import SATURDAY, SUNDAY
 
 
-def is_holiday_or_weekend(holidays, dt):
+def weekend_to_tuesday(dt):
     """
-    Given a list of holidays, return whether dt is a holiday
-    or it is on a weekend.
+    If holiday falls on Sunday or Saturday, use Tuesday instead.
     """
-    one_day = timedelta(days=1)
-
-    for h in holidays:
-        if dt in h.dates(dt - one_day, dt + one_day) or \
-                dt.weekday() in WEEKENDS:
-            return True
-
-    return False
+    if dt.weekday() == SUNDAY:
+        return dt + timedelta(2)
+    elif dt.weekday() == SATURDAY:
+        return dt + timedelta(3)
+    return dt
 
 
-def next_non_holiday_weekday(holidays, dt):
+def weekend_to_wednesday(dt):
     """
-    If a holiday falls on a Sunday, observe it on the next non-holiday weekday.
-
-    Parameters
-    ----------
-    holidays : list[pd.tseries.holiday.Holiday]
-        list of holidays
-    dt : pd.Timestamp
-        date of holiday.
+    If holiday falls on Sunday or Saturday, use Wednesday instead.
     """
-    day_of_week = dt.weekday()
-
-    if day_of_week == SUNDAY:
-        while is_holiday_or_weekend(holidays, dt):
-            dt += timedelta(1)
-
+    if dt.weekday() == SUNDAY:
+        return dt + timedelta(3)
+    elif dt.weekday() == SATURDAY:
+        return dt + timedelta(4)
     return dt
 
 
@@ -131,7 +117,7 @@ GreeneryDay2007Onwards = Holiday(
     month=5,
     day=4,
     start_date='2007-01-01',
-    observance=partial(next_non_holiday_weekday, [ChildrensDay]),
+    observance=weekend_to_tuesday,
 )
 
 CitizensHolidayGoldenWeek = Holiday(
@@ -159,12 +145,20 @@ ShowaDay = Holiday(
     observance=sunday_to_monday,
 )
 
-ConstitutionMemorialDay = Holiday(
+ConstitutionMemorialDay2007onwards = Holiday(
     "Constitution Memorial Day",
     month=5,
     day=3,
-    observance=partial(next_non_holiday_weekday,
-                       [GreeneryDay2007Onwards, ChildrensDay])
+    start_date='2007-01-01',
+    observance=weekend_to_wednesday()
+)
+
+ConstitutionMemorialDayThrough2007 = Holiday(
+    "Constituion Memorial Day",
+    month=5,
+    day=3,
+    end_date='2007-01-01',
+    observance=weekend_to_tuesday()
 )
 
 
