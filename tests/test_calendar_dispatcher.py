@@ -102,5 +102,5 @@ class CalendarAliasTestCase(TestCase):
     def test_get_calendar_names(self):
         self.assertEqual(
             self.dispatcher.get_calendar_names(),
-            ['IEPA', 'IEPA_ALIAS', 'IEPA_ALIAS_ALIAS']
+            ['IEPA_ALIAS_ALIAS', 'IEPA_ALIAS', 'IEPA']
         )
