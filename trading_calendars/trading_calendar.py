@@ -172,6 +172,12 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.market_opens_nanos = self.schedule.market_open.values.\
             astype(np.int64)
 
+        self.market_break_starts_nanos = self.schedule.break_start.values.\
+            astype(np.int64)
+
+        self.market_break_starts_nanos = self.schedule.break_end.values.\
+            astype(np.int64)
+
         self.market_closes_nanos = self.schedule.market_close.values.\
             astype(np.int64)
 
@@ -399,8 +405,13 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         bool
             Whether the exchange is open on this dt.
         """
-        return is_open(self.market_opens_nanos, self.market_closes_nanos,
-                       dt.value)
+        return is_open(
+            self.market_opens_nanos,
+            self.market_break_starts_nanos,
+            self.market_break_ends_nanos,
+            self.market_closes_nanos,
+            dt.value,
+        )
 
     def next_open(self, dt):
         """
@@ -857,16 +868,25 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         Returns a DatetimeIndex representing all the minutes in this calendar.
         """
-        opens_in_ns = self._opens.values.astype(
-            'datetime64[ns]',
-        ).view('int64')
+        if self._break_starts is not None:
+            break_starts_in_ns = self._break_starts.values.astype(
+                'datetime64[ns]'
+            ).view('int64')
 
-        closes_in_ns = self._closes.values.astype(
-            'datetime64[ns]',
-        ).view('int64')
+            break_ends_in_ns = self._break_ends.values.astype(
+                'datetime64[ns]'
+            ).view('int64')
+        else:
+            break_starts_in_ns = [None]
+            break_ends_in_ns = [None]
 
         return DatetimeIndex(
-            compute_all_minutes(opens_in_ns, closes_in_ns),
+            compute_all_minutes(
+                self.market_opens_nanos,
+                break_starts_in_ns,
+                break_ends_in_ns,
+                self.market_closes_nanos,
+            ),
             tz=UTC,
         )
 

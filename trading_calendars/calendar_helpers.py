@@ -1,6 +1,11 @@
+from itertools import zip_longest
+
 import numpy as np
+import pandas as pd
 
 NANOSECONDS_PER_MINUTE = int(6e10)
+# TODO this is a negative number - can we just check that?
+NP_NAT = np.array([pd.NaT], dtype=np.int64)[0]
 
 
 def next_divider_idx(dividers, minute_val):
@@ -25,7 +30,7 @@ def previous_divider_idx(dividers, minute_val):
     return divider_idx - 1
 
 
-def is_open(opens, closes, minute_val):
+def is_open(opens, break_starts, break_ends, closes, minute_val):
 
     open_idx = np.searchsorted(opens, minute_val)
     close_idx = np.searchsorted(closes, minute_val)
@@ -44,28 +49,28 @@ def is_open(opens, closes, minute_val):
             return False
 
 
-def compute_all_minutes(opens_in_ns, closes_in_ns):
+def compute_all_minutes(
+    opens_in_ns, break_starts_in_ns, break_ends_in_ns, closes_in_ns,
+):
     """
-    Given arrays of opens and closes, both in nanoseconds,
-    return an array of each minute between the opens and closes.
+    Given arrays of opens and closes (in nanoseconds) and optionally
+    break_starts and break ends, return an array of each minute between the
+    opens and closes.
     """
-    deltas = closes_in_ns - opens_in_ns
-
-    # + 1 because we want 390 mins per standard day, not 389
-    daily_sizes = (deltas // NANOSECONDS_PER_MINUTE) + 1
-    num_minutes = daily_sizes.sum()
-
-    # One allocation for the entire thing. This assumes that each day
-    # represents a contiguous block of minutes.
-    pieces = []
-
-    for open_, size in zip(opens_in_ns, daily_sizes):
-        pieces.append(
-            np.arange(open_,
-                      open_ + size * NANOSECONDS_PER_MINUTE,
-                      NANOSECONDS_PER_MINUTE)
-        )
-
-    out = np.concatenate(pieces).view('datetime64[ns]')
-    assert len(out) == num_minutes
+    pieces = []  # todo preallocat?
+    for open_time, break_start_time, break_end_time, close_time in zip_longest(
+        opens_in_ns, break_starts_in_ns, break_ends_in_ns, closes_in_ns
+    ):
+        if break_start_time != NP_NAT and break_end_time != NP_NAT:
+            pieces.append(
+                np.arange(open_time, break_start_time, NANOSECONDS_PER_MINUTE)
+            )
+            pieces.append(
+                np.arange(break_end_time, close_time, NANOSECONDS_PER_MINUTE)
+            )
+        else:
+            pieces.append(
+                np.arange(open_time, close_time, NANOSECONDS_PER_MINUTE)
+            )
+    out = np.concatenate(pieces).view("datetime64[ns]")
     return out
