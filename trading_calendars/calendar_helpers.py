@@ -63,12 +63,22 @@ def compute_all_minutes(
             pieces.append(
                 np.arange(open_time, break_start_time, NANOSECONDS_PER_MINUTE)
             )
+            # We add an extra minute so we include the ending minute
             pieces.append(
-                np.arange(break_end_time, close_time, NANOSECONDS_PER_MINUTE)
+                np.arange(
+                    break_end_time,
+                    close_time + NANOSECONDS_PER_MINUTE,
+                    NANOSECONDS_PER_MINUTE,
+                )
             )
         else:
+            # We add an extra minute so we include the ending minute
             pieces.append(
-                np.arange(open_time, close_time, NANOSECONDS_PER_MINUTE)
+                np.arange(
+                    open_time,
+                    close_time + NANOSECONDS_PER_MINUTE,
+                    NANOSECONDS_PER_MINUTE,
+                )
             )
     out = np.concatenate(pieces).view("datetime64[ns]")
     return out

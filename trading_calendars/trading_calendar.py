@@ -175,7 +175,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.market_break_starts_nanos = self.schedule.break_start.values.\
             astype(np.int64)
 
-        self.market_break_starts_nanos = self.schedule.break_end.values.\
+        self.market_break_ends_nanos = self.schedule.break_end.values.\
             astype(np.int64)
 
         self.market_closes_nanos = self.schedule.market_close.values.\
@@ -868,23 +868,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         Returns a DatetimeIndex representing all the minutes in this calendar.
         """
-        if self._break_starts is not None:
-            break_starts_in_ns = self._break_starts.values.astype(
-                'datetime64[ns]'
-            ).view('int64')
-
-            break_ends_in_ns = self._break_ends.values.astype(
-                'datetime64[ns]'
-            ).view('int64')
-        else:
-            break_starts_in_ns = [None]
-            break_ends_in_ns = [None]
-
         return DatetimeIndex(
             compute_all_minutes(
                 self.market_opens_nanos,
-                break_starts_in_ns,
-                break_ends_in_ns,
+                self.market_break_starts_nanos,
+                self.market_break_ends_nanos,
                 self.market_closes_nanos,
             ),
             tz=UTC,
@@ -926,13 +914,23 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             self._minute_to_session_label_cache = (dt, current_or_next_session)
             return current_or_next_session
         elif direction == "previous":
-            if not is_open(self.market_opens_nanos, self.market_closes_nanos,
-                           dt):
+            if not is_open(
+                self.market_opens_nanos,
+                self.market_break_starts_nanos,
+                self.market_break_ends_nanos,
+                self.market_closes_nanos,
+                dt
+            ):
                 # if the exchange is closed, use the previous session
                 return self.schedule.index[idx - 1]
         elif direction == "none":
-            if not is_open(self.market_opens_nanos, self.market_closes_nanos,
-                           dt):
+            if not is_open(
+                self.market_opens_nanos,
+                self.market_break_starts_nanos,
+                self.market_break_ends_nanos,
+                self.market_closes_nanos,
+                dt
+            ):
                 # if the exchange is closed, blow up
                 raise ValueError("The given dt is not an exchange minute!")
         else:
