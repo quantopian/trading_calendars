@@ -31,18 +31,23 @@ def previous_divider_idx(dividers, minute_val):
 def is_open(opens, break_starts, break_ends, closes, minute_val):
 
     open_idx = np.searchsorted(opens, minute_val)
-    break_start_idx = np.searchsorted(break_starts, minute_val)
-    break_end_idx = np.searchsorted(break_ends, minute_val)
     close_idx = np.searchsorted(closes, minute_val)
 
-    n_values = len(closes)
-
     if open_idx != close_idx:
+        # we are not guarenteed to have a sorted list of breaks, since break
+        # may not exist for a given date. Thus we need special logic.
+
         # if the indices are not same, that means we are within a session
-        if break_start_idx == break_end_idx == n_values:
+        if (break_starts == NP_NAT).all() and (break_ends == NP_NAT).all():
             # this calendar has no breaks
             return True
-        elif break_start_idx != break_end_idx:
+
+        break_start_on_open_dt = break_starts[open_idx - 1]
+        break_end_on_open_dt = break_ends[open_idx - 1]
+        if break_start_on_open_dt == NP_NAT:
+            # There is no break on the relevant day
+            return True
+        elif break_start_on_open_dt <= minute_val <= break_end_on_open_dt:
             # we're in the middle of a break
             return False
         else:
@@ -66,6 +71,9 @@ def compute_all_minutes(
     Given arrays of opens and closes (in nanoseconds) and optionally
     break_starts and break ends, return an array of each minute between the
     opens and closes.
+
+    NOTE: An extra minute is added to ending pbountaries (break_end and close)
+    so we include the last bar.
     """
     pieces = []  # todo preallocat?
     for open_time, break_start_time, break_end_time, close_time in zip(
@@ -73,9 +81,12 @@ def compute_all_minutes(
     ):
         if break_start_time != NP_NAT and break_end_time != NP_NAT:
             pieces.append(
-                np.arange(open_time, break_start_time, NANOSECONDS_PER_MINUTE)
+                np.arange(
+                    open_time,
+                    break_start_time + NANOSECONDS_PER_MINUTE,
+                    NANOSECONDS_PER_MINUTE,
+                )
             )
-            # We add an extra minute so we include the ending minute
             pieces.append(
                 np.arange(
                     break_end_time,
@@ -84,7 +95,6 @@ def compute_all_minutes(
                 )
             )
         else:
-            # We add an extra minute so we include the ending minute
             pieces.append(
                 np.arange(
                     open_time,

@@ -571,10 +571,28 @@ class ExchangeCalendarTestBase(object):
         _open, _close = self.calendar.open_and_close_for_session(
             full_session_label
         )
+        _break_start, _break_end = (
+            self.calendar.break_start_and_end_for_session(
+                full_session_label
+            )
+        )
+        if _break_start is not pd.NaT:
+            constructed_minutes = np.concatenate([
+                pd.date_range(
+                    start=_open, end=_break_start, freq="min"
+                ),
+                pd.date_range(
+                    start=_break_end, end=_close, freq="min"
+                )
+            ])
+        else:
+            constructed_minutes = pd.date_range(
+                start=_open, end=_close, freq="min"
+            )
 
         np.testing.assert_array_equal(
             minutes,
-            pd.date_range(start=_open, end=_close, freq="min")
+            constructed_minutes,
         )
 
         # early close period
@@ -679,23 +697,48 @@ class ExchangeCalendarTestBase(object):
             np.testing.assert_array_equal(minutes1, minutes2[1:-1])
 
         # manually construct the minutes
-        all_minutes = np.concatenate([
-            pd.date_range(
-                start=first_open,
-                end=first_close,
-                freq="min"
-            ),
-            pd.date_range(
-                start=middle_open,
-                end=middle_close,
-                freq="min"
-            ),
-            pd.date_range(
-                start=last_open,
-                end=last_close,
-                freq="min"
-            )
-        ])
+        first_break_start, first_break_end = (
+            self.calendar.break_start_and_end_for_session(sessions[0])
+        )
+        middle_break_start, middle_break_end = (
+            self.calendar.break_start_and_end_for_session(sessions[1])
+        )
+        last_break_start, last_break_end = (
+            self.calendar.break_start_and_end_for_session(sessions[-1])
+        )
+
+        intervals = [
+            (first_open, first_break_start, first_break_end, first_close),
+            (middle_open, middle_break_start, middle_break_end, middle_close),
+            (last_open, last_break_start, last_break_end, last_close),
+        ]
+        all_minutes = []
+
+        for _open, _break_start, _break_end, _close in intervals:
+            if _break_start is pd.NaT:
+                all_minutes.append(
+                    pd.date_range(
+                        start=_open,
+                        end=_close,
+                        freq="min"
+                    ),
+                )
+            else:
+                all_minutes.append(
+                    pd.date_range(
+                        start=_open,
+                        end=_break_start,
+                        freq="min"
+                    ),
+                )
+                all_minutes.append(
+                    pd.date_range(
+                        start=_break_end,
+                        end=_close,
+                        freq="min"
+                    ),
+                )
+        all_minutes = np.concatenate(all_minutes)
 
         np.testing.assert_array_equal(all_minutes, minutes1)
 

@@ -142,6 +142,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         # Overwrite the special opens and closes on top of the standard ones.
         _overwrite_special_dates(_all_days, self._opens, _special_opens)
         _overwrite_special_dates(_all_days, self._closes, _special_closes)
+        _remove_breaks_for_special_dates(
+            _all_days,
+            self._break_starts,
+            _special_closes,
+        )
+        _remove_breaks_for_special_dates(
+            _all_days,
+            self._break_ends,
+            _special_closes,
+        )
 
         # In pandas 0.16.1 _opens and _closes will lose their timezone
         # information. This looks like it has been resolved in 0.17.1.
@@ -811,20 +821,53 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         (Timestamp, Timestamp)
             The open and close for the given session.
         """
-        sched = self.schedule
-
         # `market_open` and `market_close` should be timezone aware, but pandas
         # 0.16.1 does not appear to support this:
         # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         return (
-            sched.at[session_label, 'market_open'].tz_localize(UTC),
-            sched.at[session_label, 'market_close'].tz_localize(UTC),
+            self.session_open(session_label),
+            self.session_close(session_label)
+        )
+
+    def break_start_and_end_for_session(self, session_label):
+        """
+        Returns a tuple of timestamps of the break start and end of the session
+        represented by the given label.
+
+        Parameters
+        ----------
+        session_label: pd.Timestamp
+            The session whose break start and end are desired.
+
+        Returns
+        -------
+        (Timestamp, Timestamp)
+            The break start and end for the given session.
+        """
+        # `market_open` and `market_close` should be timezone aware, but pandas
+        # 0.16.1 does not appear to support this:
+        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
+        return (
+            self.session_break_start(session_label),
+            self.session_break_end(session_label)
         )
 
     def session_open(self, session_label):
         return self.schedule.at[
             session_label,
             'market_open'
+        ].tz_localize(UTC)
+
+    def session_break_start(self, session_label):
+        return self.schedule.at[
+            session_label,
+            'break_start'
+        ].tz_localize(UTC)
+
+    def session_break_end(self, session_label):
+        return self.schedule.at[
+            session_label,
+            'break_end'
         ].tz_localize(UTC)
 
     def session_close(self, session_label):
@@ -1119,6 +1162,47 @@ def _overwrite_special_dates(midnight_utcs,
     # maintaining sorting, this should be ok, but this is a good place to
     # sanity check if things start going haywire with calendar computations.
     opens_or_closes.values[indexer] = special_opens_or_closes.values
+
+
+def _remove_breaks_for_special_dates(
+    midnight_utcs, break_start_or_end, special_opens_or_closes
+):
+    """
+    Overwrite breaks in break_start_or_end with corresponding dates in
+    special_opens_or_closes, using midnight_utcs for alignment.
+    """
+    # Short circuit when we have no breaks
+    if break_start_or_end is None:
+        return
+
+    # Short circuit when nothing to apply.
+    if not len(special_opens_or_closes):
+        return
+
+    len_m, len_oc = len(midnight_utcs), len(break_start_or_end)
+    if len_m != len_oc:
+        raise ValueError(
+            "Found misaligned dates while building calendar.\n"
+            "Expected midnight_utcs to be the same length as break_starts,\n"
+            "but len(midnight_utcs)=%d, len(break_start_or_end)=%d"
+            % len_m, len_oc
+        )
+
+    # Find the array indices corresponding to each special date.
+    indexer = midnight_utcs.get_indexer(special_opens_or_closes.index)
+
+    # -1 indicates that no corresponding entry was found.  If any -1s are
+    # present, then we have special dates that doesn't correspond to any
+    # trading day.
+    if -1 in indexer:
+        bad_dates = list(special_opens_or_closes[indexer == -1])
+        raise ValueError("Special dates %s are not trading days." % bad_dates)
+
+    # NOTE: This is a slightly dirty hack.  We're in-place overwriting the
+    # internal data of an Index, which is conceptually immutable.  Since we're
+    # maintaining sorting, this should be ok, but this is a good place to
+    # sanity check if things start going haywire with calendar computations.
+    break_start_or_end.values[indexer] = np.int64(pd.NaT)
 
 
 class HolidayCalendar(AbstractHolidayCalendar):
