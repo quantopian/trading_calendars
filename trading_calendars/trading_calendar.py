@@ -859,16 +859,26 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         ].tz_localize(UTC)
 
     def session_break_start(self, session_label):
-        return self.schedule.at[
+        break_start = self.schedule.at[
             session_label,
             'break_start'
-        ].tz_localize(UTC)
+        ]
+        if break_start is not pd.NaT:
+            # older versions of pandas need this guard
+            break_start = break_start.tz_localize(UTC)
+
+        return break_start
 
     def session_break_end(self, session_label):
-        return self.schedule.at[
+        break_end = self.schedule.at[
             session_label,
             'break_end'
-        ].tz_localize(UTC)
+        ]
+        if break_end is not pd.NaT:
+            # older versions of pandas need this guard
+            break_end = break_end.tz_localize(UTC)
+
+        return break_end
 
     def session_close(self, session_label):
         return self.schedule.at[
