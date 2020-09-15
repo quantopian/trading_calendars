@@ -1,5 +1,3 @@
-from itertools import zip_longest
-
 import numpy as np
 import pandas as pd
 
@@ -58,7 +56,7 @@ def compute_all_minutes(
     opens and closes.
     """
     pieces = []  # todo preallocat?
-    for open_time, break_start_time, break_end_time, close_time in zip_longest(
+    for open_time, break_start_time, break_end_time, close_time in zip(
         opens_in_ns, break_starts_in_ns, break_ends_in_ns, closes_in_ns
     ):
         if break_start_time != NP_NAT and break_end_time != NP_NAT:
