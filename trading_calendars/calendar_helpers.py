@@ -31,11 +31,23 @@ def previous_divider_idx(dividers, minute_val):
 def is_open(opens, break_starts, break_ends, closes, minute_val):
 
     open_idx = np.searchsorted(opens, minute_val)
+    break_start_idx = np.searchsorted(break_starts, minute_val)
+    break_end_idx = np.searchsorted(break_ends, minute_val)
     close_idx = np.searchsorted(closes, minute_val)
 
+    n_values = len(closes)
+
     if open_idx != close_idx:
-        # if the indices are not same, that means the market is open
-        return True
+        # if the indices are not same, that means we are within a session
+        if break_start_idx == break_end_idx == n_values:
+            # this calendar has no breaks
+            return True
+        elif break_start_idx != break_end_idx:
+            # we're in the middle of a break
+            return False
+        else:
+            return True
+
     else:
         try:
             # if they are the same, it might be the first minute of a
