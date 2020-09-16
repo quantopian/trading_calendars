@@ -77,6 +77,7 @@ establishment_day = Holiday(
     month=7,
     day=1,
     observance=sunday_to_monday,
+    start_date=pd.Timestamp('1997-07-01'),
 )
 
 day_after_mid_autumn_festival_dates = mid_autumn_festival_dates + timedelta(1)
