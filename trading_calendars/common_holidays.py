@@ -289,17 +289,6 @@ def weekend_boxing_day(start_date=None, end_date=None, observance=None):
     )
 
 
-def chinese_national_day(start_date=None, end_date=None, observance=None):
-    return Holiday(
-        "Chinese National Day",
-        month=10,
-        day=1,
-        start_date=start_date,
-        end_date=end_date,
-        observance=observance,
-    )
-
-
 # Precomputed Chinese Lunar Year dates.
 #
 # See Also

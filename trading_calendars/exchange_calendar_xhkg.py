@@ -47,7 +47,6 @@ from .common_holidays import (
     mid_autumn_festival_dates,
     double_ninth_festival_dates,
     dragon_boat_festival_dates,
-    chinese_national_day,
     new_years_day,
     new_years_eve,
     qingming_festival_dates,
@@ -78,6 +77,14 @@ establishment_day = Holiday(
     day=1,
     observance=sunday_to_monday,
     start_date=pd.Timestamp('1997-07-01'),
+)
+
+NationalDay = Holiday(
+    name="National Day",
+    month=10,
+    day=1,
+    observance=sunday_to_monday,
+    start_date=pd.Timestamp('1997-07-01')
 )
 
 day_after_mid_autumn_festival_dates = mid_autumn_festival_dates + timedelta(1)
@@ -174,7 +181,7 @@ class XHKGExchangeCalendar(TradingCalendar):
             EasterMonday,
             labor_day,
             establishment_day,
-            chinese_national_day(observance=sunday_to_monday),
+            NationalDay,
             christmas(),
             weekend_christmas(),
             boxing_day(observance=boxing_day_obs)
