@@ -24,6 +24,7 @@ from pandas.tseries.holiday import (
     Holiday,
     sunday_to_monday,
 )
+from pandas.tseries.offsets import WeekOfMonth
 from pytz import timezone
 import toolz
 
@@ -63,6 +64,21 @@ from .utils.pandas_utils import vectorized_sunday_to_monday
 weekdays = (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY)
 
 
+def process_queen_birthday(dt):
+    # before 1983
+    if dt.year in [1974, 1981]:
+        return dt + pd.DateOffset(weekday=6)
+    elif dt.year < 1983:
+        return sunday_to_monday(dt)
+    # after 1983
+    wom = WeekOfMonth(week=2, weekday=0)
+    if dt.year in [1983, 1988, 1993, 1994]:
+        wom = WeekOfMonth(week=1, weekday=0)
+    if dt.year in [1985]:
+        wom = WeekOfMonth(week=3, weekday=0)
+    return dt + wom
+
+
 labor_day = Holiday(
     'Labor Day',
     month=5,
@@ -85,6 +101,24 @@ NationalDay = Holiday(
     day=1,
     observance=sunday_to_monday,
     start_date=pd.Timestamp('1997-07-01')
+)
+
+QueenBirthday = Holiday(
+    name="Queen's Birthday",  # 英女王生日 6月
+    month=6,
+    day=10,
+    observance=process_queen_birthday,
+    start_date=pd.Timestamp('1983-01-01'),
+    end_date=pd.Timestamp('1997-06-01')
+)
+
+QueenBirthday2 = Holiday(
+    name="Queen's Birthday",  # 英女王生日 4月
+    month=4,
+    day=21,
+    observance=process_queen_birthday,
+    start_date=pd.Timestamp('1926-04-21'),
+    end_date=pd.Timestamp('1983-01-01')
 )
 
 day_after_mid_autumn_festival_dates = mid_autumn_festival_dates + timedelta(1)
@@ -182,6 +216,8 @@ class XHKGExchangeCalendar(TradingCalendar):
             labor_day,
             establishment_day,
             NationalDay,
+            QueenBirthday,
+            QueenBirthday2,
             christmas(),
             weekend_christmas(),
             boxing_day(observance=boxing_day_obs)
