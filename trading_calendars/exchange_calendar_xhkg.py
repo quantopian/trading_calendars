@@ -69,6 +69,7 @@ labor_day = Holiday(
     month=5,
     day=1,
     observance=sunday_to_monday,
+    start_date=pd.Timestamp('1999-05-01'),
 )
 
 establishment_day = Holiday(
