@@ -72,8 +72,8 @@ def compute_all_minutes(
     break_starts and break ends, return an array of each minute between the
     opens and closes.
 
-    NOTE: An extra minute is added to ending pbountaries (break_end and close)
-    so we include the last bar.
+    NOTE: Add an extra minute to ending boundaries (break_start and close)
+    so we include the last bar (arange doesn't include its stop).
     """
     pieces = []  # todo preallocat?
     for open_time, break_start_time, break_end_time, close_time in zip(
