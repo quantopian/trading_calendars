@@ -34,7 +34,7 @@ def is_open(opens, break_starts, break_ends, closes, minute_val):
     close_idx = np.searchsorted(closes, minute_val)
 
     if open_idx != close_idx:
-        # we are not guarenteed to have a sorted list of breaks, since break
+        # we are not guaranteed to have a sorted list of breaks, since break
         # may not exist for a given date. Thus we need special logic.
 
         # if the indices are not same, that means we are within a session
