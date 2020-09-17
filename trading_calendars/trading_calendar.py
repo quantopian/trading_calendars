@@ -15,7 +15,6 @@
 from abc import ABCMeta, abstractproperty
 import warnings
 
-from operator import attrgetter
 from pandas.tseries.holiday import AbstractHolidayCalendar
 from six import with_metaclass
 from pytz import UTC
@@ -38,7 +37,6 @@ from .calendar_helpers import (
 )
 from .utils.memoize import lazyval
 from .utils.pandas_utils import days_at_time
-from .utils.preprocess import preprocess, coerce
 
 
 start_default = pd.Timestamp('1990-01-01', tz=UTC)
@@ -929,7 +927,6 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             tz=UTC,
         )
 
-    @preprocess(dt=coerce(pd.Timestamp, attrgetter('value')))
     def minute_to_session_label(self, dt, direction="next"):
         """
         Given a minute, get the label of its containing session.
@@ -955,14 +952,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             The label of the containing session.
         """
         if direction == "next":
-            if self._minute_to_session_label_cache[0] == dt:
+            if self._minute_to_session_label_cache[0] == dt.value:
                 return self._minute_to_session_label_cache[1]
 
-        idx = searchsorted(self.market_closes_nanos, dt)
+        idx = searchsorted(self.market_closes_nanos, dt.value)
         current_or_next_session = self.schedule.index[idx]
 
         if direction == "next":
-            self._minute_to_session_label_cache = (dt, current_or_next_session)
+            self._minute_to_session_label_cache = (
+                dt.value, current_or_next_session
+            )
             return current_or_next_session
         elif direction == "previous":
             if not self.is_open_on_minute(dt):
@@ -1165,8 +1164,13 @@ def _remove_breaks_for_special_dates(
     session_labels, break_start_or_end, special_opens_or_closes
 ):
     """
+<<<<<<< HEAD
     Overwrite breaks in break_start_or_end with corresponding dates in
     special_opens_or_closes, using session_labels for alignment.
+=======
+    Overwrite breaks in break_start_or_end on corresponding dates in
+    special_opens_or_closes with NaT, using midnight_utcs for alignment.
+>>>>>>> 9b3bc64c4beceb33fad5ee7bd430aa666b1323b1
     """
     # Short circuit when we have no breaks
     if break_start_or_end is None:
