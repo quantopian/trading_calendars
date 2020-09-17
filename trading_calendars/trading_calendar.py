@@ -67,7 +67,7 @@ def selection(arr, start, end):
 
 
 def _group_times(all_days, times, tz, offset=0):
-    if times == (None, None):
+    if times is None:
         return None
     elements = [
         days_at_time(
@@ -232,22 +232,20 @@ class TradingCalendar(with_metaclass(ABCMeta)):
     @property
     def break_start_times(self):
         """
-        Returns a list of tuples of (start_date, break_start_time).  If the
-        break start time is constant throughout the calendar, use None for the
-        start_date. If there is no break, use None for `break_start_time`.
-
+        Returns a optional list of tuples of (start_date, break_start_time).
+        If the break start time is constant throughout the calendar, use None
+        for the start_date. If there is no break, return `None`.
         """
-        return (None, None)
+        return None
 
     @property
     def break_end_times(self):
         """
-        Returns a list of tuples of (start_date, break_end_time).  If the break
-        end time is constant throughout the calendar, use None for the
-        start_date. If there is no break, use None for `break_end_time`.
-
+        Returns a optional list of tuples of (start_date, break_end_time).  If
+        the break end time is constant throughout the calendar, use None for
+        the start_date. If there is no break, return `None`.
         """
-        return (None, None)
+        return None
 
     @abstractproperty
     def close_times(self):
@@ -863,7 +861,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             session_label,
             'break_start'
         ]
-        if break_start is not pd.NaT:
+        if not pd.isnull(break_start):
             # older versions of pandas need this guard
             break_start = break_start.tz_localize(UTC)
 
@@ -967,23 +965,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             self._minute_to_session_label_cache = (dt, current_or_next_session)
             return current_or_next_session
         elif direction == "previous":
-            if not is_open(
-                self.market_opens_nanos,
-                self.market_break_starts_nanos,
-                self.market_break_ends_nanos,
-                self.market_closes_nanos,
-                dt
-            ):
+            if not self.is_open_on_minute(dt):
                 # if the exchange is closed, use the previous session
                 return self.schedule.index[idx - 1]
         elif direction == "none":
-            if not is_open(
-                self.market_opens_nanos,
-                self.market_break_starts_nanos,
-                self.market_break_ends_nanos,
-                self.market_closes_nanos,
-                dt
-            ):
+            if not self.is_open_on_minute(dt):
                 # if the exchange is closed, blow up
                 raise ValueError("The given dt is not an exchange minute!")
         else:
@@ -1138,27 +1124,28 @@ def scheduled_special_times(calendar, start, end, time, tz):
     )
 
 
-def _overwrite_special_dates(midnight_utcs,
-                             opens_or_closes,
-                             special_opens_or_closes):
+def _overwrite_special_dates(
+    session_labels, opens_or_closes, special_opens_or_closes
+):
     """
     Overwrite dates in open_or_closes with corresponding dates in
-    special_opens_or_closes, using midnight_utcs for alignment.
+    special_opens_or_closes, using session_labels for alignment.
     """
     # Short circuit when nothing to apply.
     if not len(special_opens_or_closes):
         return
 
-    len_m, len_oc = len(midnight_utcs), len(opens_or_closes)
+    len_m, len_oc = len(session_labels), len(opens_or_closes)
     if len_m != len_oc:
         raise ValueError(
             "Found misaligned dates while building calendar.\n"
-            "Expected midnight_utcs to be the same length as open_or_closes,\n"
-            "but len(midnight_utcs)=%d, len(open_or_closes)=%d" % len_m, len_oc
+            "Expected session_labels to be the same length as "
+            "open_or_closes but,\n"
+            "len(session_labels)=%d, len(open_or_closes)=%d" % len_m, len_oc
         )
 
     # Find the array indices corresponding to each special date.
-    indexer = midnight_utcs.get_indexer(special_opens_or_closes.index)
+    indexer = session_labels.get_indexer(special_opens_or_closes.index)
 
     # -1 indicates that no corresponding entry was found.  If any -1s are
     # present, then we have special dates that doesn't correspond to any
@@ -1175,11 +1162,11 @@ def _overwrite_special_dates(midnight_utcs,
 
 
 def _remove_breaks_for_special_dates(
-    midnight_utcs, break_start_or_end, special_opens_or_closes
+    session_labels, break_start_or_end, special_opens_or_closes
 ):
     """
     Overwrite breaks in break_start_or_end with corresponding dates in
-    special_opens_or_closes, using midnight_utcs for alignment.
+    special_opens_or_closes, using session_labels for alignment.
     """
     # Short circuit when we have no breaks
     if break_start_or_end is None:
@@ -1189,17 +1176,17 @@ def _remove_breaks_for_special_dates(
     if not len(special_opens_or_closes):
         return
 
-    len_m, len_oc = len(midnight_utcs), len(break_start_or_end)
+    len_m, len_oc = len(session_labels), len(break_start_or_end)
     if len_m != len_oc:
         raise ValueError(
             "Found misaligned dates while building calendar.\n"
-            "Expected midnight_utcs to be the same length as break_starts,\n"
-            "but len(midnight_utcs)=%d, len(break_start_or_end)=%d"
+            "Expected session_labels to be the same length as break_starts,\n"
+            "but len(session_labels)=%d, len(break_start_or_end)=%d"
             % (len_m, len_oc)
         )
 
     # Find the array indices corresponding to each special date.
-    indexer = midnight_utcs.get_indexer(special_opens_or_closes.index)
+    indexer = session_labels.get_indexer(special_opens_or_closes.index)
 
     # -1 indicates that no corresponding entry was found.  If any -1s are
     # present, then we have special dates that doesn't correspond to any

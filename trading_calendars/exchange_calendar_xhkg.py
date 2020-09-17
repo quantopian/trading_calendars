@@ -127,7 +127,7 @@ class XHKGExchangeCalendar(TradingCalendar):
         (pd.Timestamp('2011-03-07'), time(9, 31)),
     )
     break_start_times = (
-        (None, time(12, 0)),
+        (None, time(12, 1)),
     )
     break_end_times = (
         (None, time(13, 0)),
