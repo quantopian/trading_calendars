@@ -1178,8 +1178,8 @@ def _remove_breaks_for_special_dates(
     midnight_utcs, break_start_or_end, special_opens_or_closes
 ):
     """
-    Overwrite breaks in break_start_or_end with corresponding dates in
-    special_opens_or_closes, using midnight_utcs for alignment.
+    Overwrite breaks in break_start_or_end on corresponding dates in
+    special_opens_or_closes with NaT, using midnight_utcs for alignment.
     """
     # Short circuit when we have no breaks
     if break_start_or_end is None:
