@@ -134,12 +134,21 @@ ChristmasEve = Holiday(
     observance=previous_friday,
 )
 # New Year's eve (or the preceding Friday if it falls on a weekend)
-# is a half day.
-NewYearsEve = Holiday(
+# is a half day. Except for 1999-12-31, when the Queen declared a
+# bank holiday.
+NewYearsEvePre1999 = Holiday(
     "New Year's Eve Early Close",
     month=12,
     day=31,
     observance=previous_friday,
+    end_date=pd.Timestamp('1999-01-01')
+)
+NewYearsEvePost2000 = Holiday(
+    "New Year's Eve Early Close",
+    month=12,
+    day=31,
+    observance=previous_friday,
+    start_date=pd.Timestamp('2000-01-01')
 )
 
 
@@ -222,6 +231,7 @@ class XLONExchangeCalendar(TradingCalendar):
             # Wedding Day of Prince William and Catherine Middleton
             pd.Timestamp("2011-04-29", tz='UTC'),
             # Miscellaneous
+            # Eve of 3rd Millenium A.D.
             pd.Timestamp("1999-12-31", tz='UTC'),
         ]
 
@@ -230,6 +240,7 @@ class XLONExchangeCalendar(TradingCalendar):
         return [
             (self.regular_early_close, HolidayCalendar([
                 ChristmasEve,
-                NewYearsEve,
+                NewYearsEvePre1999,
+                NewYearsEvePost2000,
             ]))
         ]
