@@ -1195,7 +1195,7 @@ def _remove_breaks_for_special_dates(
             "Found misaligned dates while building calendar.\n"
             "Expected midnight_utcs to be the same length as break_starts,\n"
             "but len(midnight_utcs)=%d, len(break_start_or_end)=%d"
-            % len_m, len_oc
+            % (len_m, len_oc)
         )
 
     # Find the array indices corresponding to each special date.
