@@ -1164,13 +1164,8 @@ def _remove_breaks_for_special_dates(
     session_labels, break_start_or_end, special_opens_or_closes
 ):
     """
-<<<<<<< HEAD
     Overwrite breaks in break_start_or_end with corresponding dates in
     special_opens_or_closes, using session_labels for alignment.
-=======
-    Overwrite breaks in break_start_or_end on corresponding dates in
-    special_opens_or_closes with NaT, using midnight_utcs for alignment.
->>>>>>> 9b3bc64c4beceb33fad5ee7bd430aa666b1323b1
     """
     # Short circuit when we have no breaks
     if break_start_or_end is None:
