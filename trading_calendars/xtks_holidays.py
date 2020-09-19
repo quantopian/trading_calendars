@@ -11,28 +11,24 @@ from pandas.tseries.holiday import (
 )
 
 from .common_holidays import new_years_day
-from .trading_calendar import SATURDAY, SUNDAY
+from .trading_calendar import SUNDAY
 
 
-def weekend_to_tuesday(dt):
+def sunday_to_tuesday(dt):
     """
     If holiday falls on Sunday or Saturday, use Tuesday instead.
     """
     if dt.weekday() == SUNDAY:
         return dt + timedelta(2)
-    elif dt.weekday() == SATURDAY:
-        return dt + timedelta(3)
     return dt
 
 
-def weekend_to_wednesday(dt):
+def sunday_to_wednesday(dt):
     """
     If holiday falls on Sunday or Saturday, use Wednesday instead.
     """
     if dt.weekday() == SUNDAY:
         return dt + timedelta(3)
-    elif dt.weekday() == SATURDAY:
-        return dt + timedelta(4)
     return dt
 
 
@@ -99,7 +95,7 @@ VernalEquinoxes = [
 # so that that if an earlier holiday (Constitution Memorial Day, Greenery Day)
 # falls on a Sunday, that holiday can be observed on the next non-holiday
 # weekday.
-
+# Clash with GreeneryDay and ConstitutionMemorialDay
 ChildrensDay = Holiday(
     "Children's Day",
     month=5,
@@ -112,12 +108,13 @@ ChildrensDay = Holiday(
 # In 2007, Greenery Day was moved from April 29 to May 4, replacing the
 # unnamed citizen's holiday. For more info, see:
 # https://en.wikipedia.org/wiki/Golden_Week_(Japan)
+# Clash with ChildrensDay and ConstitutionMemorialDay
 GreeneryDay2007Onwards = Holiday(
     "Greenery Day",
     month=5,
     day=4,
     start_date='2007-01-01',
-    observance=weekend_to_tuesday,
+    observance=sunday_to_tuesday,
 )
 
 CitizensHolidayGoldenWeek = Holiday(
@@ -145,20 +142,22 @@ ShowaDay = Holiday(
     observance=sunday_to_monday,
 )
 
-ConstitutionMemorialDay2007onwards = Holiday(
+# Clash with ChildrensDay and GreeneryDay
+ConstitutionMemorialDay2007Onwards = Holiday(
     "Constitution Memorial Day",
     month=5,
     day=3,
     start_date='2007-01-01',
-    observance=weekend_to_wednesday()
+    observance=sunday_to_wednesday,
 )
 
-ConstitutionMemorialDayThrough2007 = Holiday(
+# Clash with ChildrensDay
+ConstitutionMemorialDayThrough2006 = Holiday(
     "Constituion Memorial Day",
     month=5,
     day=3,
     end_date='2007-01-01',
-    observance=weekend_to_tuesday()
+    observance=sunday_to_tuesday,
 )
 
 
