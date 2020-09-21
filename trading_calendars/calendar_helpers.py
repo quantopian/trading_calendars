@@ -47,7 +47,7 @@ def is_open(opens, break_starts, break_ends, closes, minute_val):
         if break_start_on_open_dt == NP_NAT:
             # There is no break on the relevant day
             return True
-        elif break_start_on_open_dt <= minute_val <= break_end_on_open_dt:
+        elif break_start_on_open_dt <= minute_val < break_end_on_open_dt:
             # we're in the middle of a break
             return False
         else:

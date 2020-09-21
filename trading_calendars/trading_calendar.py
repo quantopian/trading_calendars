@@ -959,8 +959,12 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             return current_or_next_session
         elif direction == "previous":
             if not self.is_open_on_minute(dt):
-                # if the exchange is closed, use the previous session
-                return self.schedule.index[idx - 1]
+                break_start, break_end = self.break_start_and_end_for_session(
+                    current_or_next_session
+                )
+                if (break_start >= dt) or (dt > break_end):
+                    # if the exchange is closed, use the previous session
+                    return self.schedule.index[idx - 1]
         elif direction == "none":
             if not self.is_open_on_minute(dt):
                 # if the exchange is closed, blow up
