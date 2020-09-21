@@ -54,6 +54,25 @@ class XHKGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         self.assertTrue(self.calendar.is_open_on_minute(normal_minute))
         self.assertFalse(self.calendar.is_open_on_minute(break_minute))
 
+        current_session_label = self.calendar.minute_to_session_label(
+            normal_minute,
+            direction="none"
+        )
+        self.assertEqual(
+            current_session_label,
+            self.calendar.minute_to_session_label(
+                break_minute,
+                direction="previous"
+            )
+        )
+        self.assertEqual(
+            current_session_label,
+            self.calendar.minute_to_session_label(
+                break_minute,
+                direction="next"
+            )
+        )
+
     def test_lunar_new_year_2003(self):
         # NOTE: Lunar Month 12 2002 is the 12th month of the lunar year that
         # begins in 2002; this month actually takes place in January 2003.

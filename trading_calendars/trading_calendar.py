@@ -31,6 +31,7 @@ import toolz
 
 from .calendar_helpers import (
     compute_all_minutes,
+    is_betweeen_open_and_close,
     is_open,
     next_divider_idx,
     previous_divider_idx,
@@ -397,7 +398,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         return dt in self.schedule.index
 
-    def is_open_on_minute(self, dt):
+    def is_open_on_minute(self, dt, ignore_breaks=False):
         """
         Given a dt, return whether this exchange is open at the given dt.
 
@@ -411,13 +412,21 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         bool
             Whether the exchange is open on this dt.
         """
-        return is_open(
-            self.market_opens_nanos,
-            self.market_break_starts_nanos,
-            self.market_break_ends_nanos,
-            self.market_closes_nanos,
-            dt.value,
-        )
+        if ignore_breaks:
+            out = is_betweeen_open_and_close(
+                self.market_opens_nanos,
+                self.market_closes_nanos,
+                dt.value,
+            )
+        else:
+            out = is_open(
+                self.market_opens_nanos,
+                self.market_break_starts_nanos,
+                self.market_break_ends_nanos,
+                self.market_closes_nanos,
+                dt.value,
+            )
+        return out
 
     def next_open(self, dt):
         """
@@ -958,13 +967,8 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             )
             return current_or_next_session
         elif direction == "previous":
-            if not self.is_open_on_minute(dt):
-                break_start, break_end = self.break_start_and_end_for_session(
-                    current_or_next_session
-                )
-                if (break_start >= dt) or (dt > break_end):
-                    # if the exchange is closed, use the previous session
-                    return self.schedule.index[idx - 1]
+            if not self.is_open_on_minute(dt, ignore_breaks=True):
+                return self.schedule.index[idx - 1]
         elif direction == "none":
             if not self.is_open_on_minute(dt):
                 # if the exchange is closed, blow up
