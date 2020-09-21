@@ -69,7 +69,7 @@ def compute_all_minutes(
     NOTE: Add an extra minute to ending boundaries (break_start and close)
     so we include the last bar (arange doesn't include its stop).
     """
-    pieces = []  # todo preallocat?
+    pieces = []
     for open_time, break_start_time, break_end_time, close_time in zip(
         opens_in_ns, break_starts_in_ns, break_ends_in_ns, closes_in_ns
     ):
