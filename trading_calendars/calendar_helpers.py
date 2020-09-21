@@ -38,16 +38,10 @@ def is_open(opens, break_starts, break_ends, closes, minute_val):
         # may not exist for a given date. Thus we need special logic.
 
         # if the indices are not same, that means we are within a session
-        if (break_starts == NP_NAT).all() and (break_ends == NP_NAT).all():
-            # this calendar has no breaks
-            return True
-
         break_start_on_open_dt = break_starts[open_idx - 1]
         break_end_on_open_dt = break_ends[open_idx - 1]
-        if break_start_on_open_dt == NP_NAT:
-            # There is no break on the relevant day
-            return True
-        elif break_start_on_open_dt <= minute_val < break_end_on_open_dt:
+        # NaT comparisions will result in False
+        if break_start_on_open_dt <= minute_val < break_end_on_open_dt:
             # we're in the middle of a break
             return False
         else:
