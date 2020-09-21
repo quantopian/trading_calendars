@@ -817,9 +817,6 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         (Timestamp, Timestamp)
             The open and close for the given session.
         """
-        # `market_open` and `market_close` should be timezone aware, but pandas
-        # 0.16.1 does not appear to support this:
-        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         return (
             self.session_open(session_label),
             self.session_close(session_label)
@@ -840,9 +837,6 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         (Timestamp, Timestamp)
             The break start and end for the given session.
         """
-        # `market_open` and `market_close` should be timezone aware, but pandas
-        # 0.16.1 does not appear to support this:
-        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         return (
             self.session_break_start(session_label),
             self.session_break_end(session_label)
