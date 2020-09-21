@@ -16,7 +16,7 @@ from .trading_calendar import SUNDAY
 
 def sunday_to_tuesday(dt):
     """
-    If holiday falls on Sunday or Saturday, use Tuesday instead.
+    If holiday falls on Sunday, use Tuesday instead.
     """
     if dt.weekday() == SUNDAY:
         return dt + timedelta(2)
@@ -25,7 +25,7 @@ def sunday_to_tuesday(dt):
 
 def sunday_to_wednesday(dt):
     """
-    If holiday falls on Sunday or Saturday, use Wednesday instead.
+    If holiday falls on Sunday, use Wednesday instead.
     """
     if dt.weekday() == SUNDAY:
         return dt + timedelta(3)
