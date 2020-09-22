@@ -104,16 +104,20 @@ class XNYSExchangeCalendar(TradingCalendar):
     - Thanksgiving (fourth Thursday in November, after 1941)
     - Christmas (December 25th, Sunday to Monday, before 1954)
     - Christmas (observed on nearest weekday to December 25, after 1953)
+
     NOTE: The NYSE does not observe the following US Federal Holidays:
     - Columbus Day (after 1953)
     - Veterans Day (after 1953)
+
     Regularly-Observed Early Closes:
     - July 3rd (Mondays, Tuesdays, and Thursdays, 1995 onward)
     - July 5th (Fridays, 1995 onward, except 2013)
     - Christmas Eve (except on Fridays, when the exchange is closed entirely)
     - Day After Thanksgiving (aka Black Friday, observed from 1992 onward)
+
     NOTE: Until 1993, the standard early close time for the NYSE was 2:00 PM.
     From 1993 onward, it has been 1:00 PM.
+
     Additional Irregularities:
     - Closed on 11/1/1929 and 11/29/1929 for backlog relief.
     - Closed between 3/6/1933 and 3/14/1933 due to bank holiday.
@@ -144,6 +148,7 @@ class XNYSExchangeCalendar(TradingCalendar):
     - Closed at 1:00 PM on Friday, December 31, 1999
     - Closed at 1:00 PM on Friday, December 26, 1997
     - Closed at 1:00 PM on Friday, December 26, 2003
+
     NOTE: The exchange was **not** closed early on Friday December 26, 2008,
     nor was it closed on Friday December 26, 2014. The next Thursday Christmas
     will be in 2025.  If someone is still maintaining this code in 2025, then
