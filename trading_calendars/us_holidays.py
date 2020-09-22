@@ -363,8 +363,6 @@ HurricaneSandyClosings = [
 # add Hurricane Gloria closing
 HurricaneGloriaClosing = [Timestamp("1985-09-27", tz=UTC)]
 
-# add New York Blackout closing
-NewYorkBlackout = [Timestamp("1977-07-14", tz=UTC)]
 
 # National Days of Mourning
 # - President John F. Kennedy - November 25, 1963
