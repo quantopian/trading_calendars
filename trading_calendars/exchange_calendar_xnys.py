@@ -25,24 +25,51 @@ from pytz import timezone
 from pytz import UTC
 
 from .trading_calendar import TradingCalendar, HolidayCalendar
-from .us_holidays import (August45VictoryOverJapan, Christmas, ChristmasBefore1954,
-                                                 ChristmasEveBefore1993, ChristmasEveInOrAfter1993, ChristmasEvesAdhoc,
-                                                 DayAfterChristmasAdhoc, DayAfterIndependenceDayAdhoc,
-                                                 DayBeforeDecorationAdhoc, FirstLunarLandingClosing,
-                                                 FridayAfterIndependenceDayPre2013, HurricaneGloriaClosing,
-                                                 HurricaneSandyClosings, LincolnsBirthDayAdhoc, March33BankHoliday,
-                                                 MonTuesThursBeforeIndependenceDay, NewYorkCityBlackout77,
-                                                 November29BacklogRelief, PaperworkCrisis68, September11Closings,
-                                                 USBlackFridayBefore1993, USBlackFridayInOrAfter1993,
-                                                 USColumbusDayBefore1954, USElectionDay1848to1967,
-                                                 USElectionDay1968to1980, USIndependenceDay,
-                                                 USIndependenceDayBefore1954, USLincolnsBirthDayBefore1954,
-                                                 USMartinLutherKingJrAfter1998, USMemorialDay, USMemorialDay1964to1969,
-                                                 USMemorialDayBefore1964, USNationalDaysofMourning, USNewYearsDay,
-                                                 USPresidentsDay, USThanksgivingDay, USThanksgivingDay1939to1941,
-                                                 USThanksgivingDayBefore1939, USVeteransDay1934to1953,
-                                                 USWashingtonsBirthDay1964to1970, USWashingtonsBirthDayBefore1964,
-                                                 WeatherSnowClosing, WednesdayBeforeIndependenceDayPost2013)
+from .us_holidays import (
+    August45VictoryOverJapan,
+    Christmas,
+    ChristmasBefore1954,
+    ChristmasEveBefore1993,
+    ChristmasEveInOrAfter1993,
+    ChristmasEvesAdhoc,
+    DayAfterChristmasAdhoc,
+    DayAfterIndependenceDayAdhoc,
+    DayBeforeDecorationAdhoc,
+    FirstLunarLandingClosing,
+    FridayAfterIndependenceDayPre2013,
+    HurricaneGloriaClosing,
+    HurricaneSandyClosings,
+    LincolnsBirthDayAdhoc,
+    March33BankHoliday,
+    MonTuesThursBeforeIndependenceDay,
+    NewYorkCityBlackout77,
+    November29BacklogRelief,
+    PaperworkCrisis68,
+    September11Closings,
+    USBlackFridayBefore1993,
+    USBlackFridayInOrAfter1993,
+    USColumbusDayBefore1954,
+    USElectionDay1848to1967,
+    USElectionDay1968to1980,
+    USIndependenceDay,
+    USIndependenceDayBefore1954,
+    USLincolnsBirthDayBefore1954,
+    USMartinLutherKingJrAfter1998,
+    USMemorialDay,
+    USMemorialDay1964to1969,
+    USMemorialDayBefore1964,
+    USNationalDaysofMourning,
+    USNewYearsDay,
+    USPresidentsDay,
+    USThanksgivingDay,
+    USThanksgivingDay1939to1941,
+    USThanksgivingDayBefore1939,
+    USVeteransDay1934to1953,
+    USWashingtonsBirthDay1964to1970,
+    USWashingtonsBirthDayBefore1964,
+    WeatherSnowClosing,
+    WednesdayBeforeIndependenceDayPost2013,
+)
 
 # Useful resources for making changes to this file:
 # http://www.nyse.com/pdfs/closings.pdf
@@ -125,80 +152,87 @@ class XNYSExchangeCalendar(TradingCalendar):
 
     regular_early_close = time(13)
 
-    name = 'XNYS'
+    name = "XNYS"
 
-    tz = timezone('America/New_York')
+    tz = timezone("America/New_York")
 
-    open_times = (
-        (None, time(9, 31)),
-    )
+    open_times = ((None, time(9, 31)),)
 
-    close_times = (
-        (None, time(16)),
-    )
+    close_times = ((None, time(16)),)
 
     @property
     def regular_holidays(self):
-        return HolidayCalendar([
-            USNewYearsDay,
-            USMartinLutherKingJrAfter1998,
-            USLincolnsBirthDayBefore1954,
-            USWashingtonsBirthDayBefore1964,
-            USWashingtonsBirthDay1964to1970,
-            USPresidentsDay,
-            GoodFriday,
-            USMemorialDayBefore1964,
-            USMemorialDay1964to1969,
-            USMemorialDay,
-            USIndependenceDayBefore1954,
-            USIndependenceDay,
-            USLaborDay,
-            USThanksgivingDayBefore1939,
-            USThanksgivingDay1939to1941,
-            USThanksgivingDay,
-            USElectionDay1848to1967,
-            USElectionDay1968to1980,
-            USVeteransDay1934to1953,
-            USColumbusDayBefore1954,
-            ChristmasBefore1954,
-            Christmas,
-        ])
+        return HolidayCalendar(
+            [
+                USNewYearsDay,
+                USMartinLutherKingJrAfter1998,
+                USLincolnsBirthDayBefore1954,
+                USWashingtonsBirthDayBefore1964,
+                USWashingtonsBirthDay1964to1970,
+                USPresidentsDay,
+                GoodFriday,
+                USMemorialDayBefore1964,
+                USMemorialDay1964to1969,
+                USMemorialDay,
+                USIndependenceDayBefore1954,
+                USIndependenceDay,
+                USLaborDay,
+                USThanksgivingDayBefore1939,
+                USThanksgivingDay1939to1941,
+                USThanksgivingDay,
+                USElectionDay1848to1967,
+                USElectionDay1968to1980,
+                USVeteransDay1934to1953,
+                USColumbusDayBefore1954,
+                ChristmasBefore1954,
+                Christmas,
+            ]
+        )
 
     @property
     def adhoc_holidays(self):
-        return list(chain(
-            November29BacklogRelief,
-            March33BankHoliday,
-            August45VictoryOverJapan,
-            ChristmasEvesAdhoc,
-            DayAfterChristmasAdhoc,
-            DayBeforeDecorationAdhoc,
-            LincolnsBirthDayAdhoc,
-            PaperworkCrisis68,
-            DayAfterIndependenceDayAdhoc,
-            WeatherSnowClosing,
-            FirstLunarLandingClosing,
-            September11Closings,
-            NewYorkCityBlackout77,
-            HurricaneGloriaClosing,
-            HurricaneSandyClosings,
-            USNationalDaysofMourning,
-        ))
+        return list(
+            chain(
+                November29BacklogRelief,
+                March33BankHoliday,
+                August45VictoryOverJapan,
+                ChristmasEvesAdhoc,
+                DayAfterChristmasAdhoc,
+                DayBeforeDecorationAdhoc,
+                LincolnsBirthDayAdhoc,
+                PaperworkCrisis68,
+                DayAfterIndependenceDayAdhoc,
+                WeatherSnowClosing,
+                FirstLunarLandingClosing,
+                September11Closings,
+                NewYorkCityBlackout77,
+                HurricaneGloriaClosing,
+                HurricaneSandyClosings,
+                USNationalDaysofMourning,
+            )
+        )
 
     @property
     def special_closes(self):
         return [
-            (self.regular_early_close, HolidayCalendar([
-                MonTuesThursBeforeIndependenceDay,
-                FridayAfterIndependenceDayPre2013,
-                WednesdayBeforeIndependenceDayPost2013,
-                USBlackFridayInOrAfter1993,
-                ChristmasEveInOrAfter1993
-            ])),
-            (time(14), HolidayCalendar([
-                ChristmasEveBefore1993,
-                USBlackFridayBefore1993,
-            ])),
+            (
+                self.regular_early_close,
+                HolidayCalendar(
+                    [
+                        MonTuesThursBeforeIndependenceDay,
+                        FridayAfterIndependenceDayPre2013,
+                        WednesdayBeforeIndependenceDayPost2013,
+                        USBlackFridayInOrAfter1993,
+                        ChristmasEveInOrAfter1993,
+                    ]
+                ),
+            ),
+            (
+                time(14),
+                HolidayCalendar(
+                    [ChristmasEveBefore1993, USBlackFridayBefore1993, ]
+                ),
+            ),
         ]
 
     @property
@@ -207,12 +241,7 @@ class XNYSExchangeCalendar(TradingCalendar):
             (
                 self.regular_early_close,
                 DatetimeIndex(
-                    [
-                        '1997-12-26',
-                        '1999-12-31',
-                        '2003-12-26',
-                    ],
-                    tz=UTC,
-                )
+                    ["1997-12-26", "1999-12-31", "2003-12-26", ], tz=UTC,
+                ),
             )
         ]
