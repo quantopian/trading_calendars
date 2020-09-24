@@ -403,25 +403,35 @@ class XHKGExchangeCalendar(TradingCalendar):
     @property
     def special_closes(self):
         return [
+            # HK changed their early close time
             (
-                time,
-                HolidayCalendar([
+                time(12, 30), HolidayCalendar([
                     new_years_eve(
-                        start_date=start,
-                        end_date=end,
+                        # Market was close for Y2K instead of closing early
+                        end_date=pd.Timestamp('1999-12-01'),
+                        days_of_week=weekdays,
+                    ),
+                    new_years_eve(
+                        start_date=pd.Timestamp('2000-12-01'),
+                        end_date=pd.Timestamp('2011-03-07'),
                         days_of_week=weekdays,
                     ),
                     christmas_eve(
-                        start_date=start,
-                        end_date=end,
+                        end_date=pd.Timestamp('2011-03-07'),
                         days_of_week=weekdays
+                    )])
+            ),
+            (
+                time(12, 00), HolidayCalendar([
+                    new_years_eve(
+                        start_date=pd.Timestamp('2011-03-07'),
+                        days_of_week=weekdays,
                     ),
-                ]),
-            )
-            for (start, time), (end, _) in toolz.sliding_window(
-                2,
-                toolz.concatv(self.regular_early_close_times, [(None, None)]),
-            )
+                    christmas_eve(
+                        start_date=pd.Timestamp('2011-03-07'),
+                        days_of_week=weekdays
+                    )])
+            ),
         ]
 
     @property

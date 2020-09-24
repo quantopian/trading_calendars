@@ -24,13 +24,13 @@ class XHKGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # range should fail.
 
         with self.assertRaises(ValueError) as e:
-            self.calendar_class(T('1980-12-31'), T('2000-01-01'))
+            self.calendar_class(T('1958-12-31'), T('2000-01-01'))
 
         self.assertEqual(
             str(e.exception),
             (
-                'the lunisolar holidays have only been computed back to 1981,'
-                ' cannot instantiate the XHKG calendar back to 1980'
+                'the lunisolar holidays have only been computed back to 1960,'
+                ' cannot instantiate the XHKG calendar back to 1958'
             ),
         )
 
