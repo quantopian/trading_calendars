@@ -8,8 +8,10 @@ from pandas.tseries.holiday import (
 from .common_holidays import (
     european_labour_day,
     new_years_day,
-    chinese_lunar_new_year_dates,
     christmas,
+)
+from .lunisolar_holidays import (
+    chinese_lunar_new_year_dates,
 )
 from .trading_calendar import WEEKENDS
 
