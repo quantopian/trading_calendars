@@ -41,6 +41,9 @@ def good_friday_unless_christmas_nye_friday(dt):
         return GoodFriday._apply_rule(
             pd.Timestamp(str(dt.year)+"-"+str(dt.month)+"-"+str(dt.day))
         )
+    else:
+        # compatibility for pandas 0.18.1
+        return pd.NaT
 
 
 GoodFridayUnlessChristmasNYEFriday = Holiday(
