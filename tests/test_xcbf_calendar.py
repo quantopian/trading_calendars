@@ -23,10 +23,18 @@ class XCBFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
         # thanksgiving day: nov 24
         # christmas (observed): dec 26
         # new years (observed): jan 2 2017
-        for day in ["2016-01-01", "2016-01-18", "2016-02-15", "2016-03-25",
-                    "2016-05-30", "2016-07-04", "2016-09-05", "2016-11-24",
-                    "2016-12-26", "2017-01-02"]:
+        for day in ["2016-01-01", "2016-01-18", "2016-02-15", "2016-05-30",
+                    "2016-07-04", "2016-09-05", "2016-11-24", "2016-12-26",
+                    "2017-01-02"]:
             self.assertFalse(
+                self.calendar.is_session(pd.Timestamp(day, tz=UTC))
+            )
+
+    def test_good_friday_rule(self):
+        # Good friday is a holiday unless Christmas Day or New Years Day is on
+        # a Friday
+        for day in ["2015-04-03", "2016-03-25"]:
+            self.assertTrue(
                 self.calendar.is_session(pd.Timestamp(day, tz=UTC))
             )
 

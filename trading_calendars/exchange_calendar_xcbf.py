@@ -1,7 +1,9 @@
 from datetime import time
 from itertools import chain
 
+import pandas as pd
 from pandas.tseries.holiday import (
+    Holiday,
     USPresidentsDay,
     USLaborDay,
     USThanksgivingDay,
@@ -20,6 +22,35 @@ from trading_calendars.us_holidays import (
     Christmas,
     HurricaneSandyClosings,
     USNationalDaysofMourning,
+)
+
+
+def good_friday_unless_christmas_nye_friday(dt):
+    """
+    Good Friday is a valid trading day if Christmas Day or New Years Day fall
+    on a Friday.
+    """
+    year_str = str(dt.year)
+    christmas_weekday = Christmas.observance(
+        pd.Timestamp(year_str+"-12-25")
+    ).weekday()
+    nyd_weekday = USNewYearsDay.observance(
+        pd.Timestamp(year_str+"-01-01")
+    ).weekday()
+    if christmas_weekday != 4 and nyd_weekday != 4:
+        return GoodFriday._apply_rule(
+            pd.Timestamp(str(dt.year)+"-"+str(dt.month)+"-"+str(dt.day))
+        )
+    else:
+        # compatibility for pandas 0.18.1
+        return pd.NaT
+
+
+GoodFridayUnlessChristmasNYEFriday = Holiday(
+    name="Good Friday XCBF",
+    month=1,
+    day=1,
+    observance=good_friday_unless_christmas_nye_friday,
 )
 
 
@@ -52,7 +83,7 @@ class XCBFExchangeCalendar(TradingCalendar):
             USNewYearsDay,
             USMartinLutherKingJrAfter1998,
             USPresidentsDay,
-            GoodFriday,
+            GoodFridayUnlessChristmasNYEFriday,
             USIndependenceDay,
             USMemorialDay,
             USLaborDay,
