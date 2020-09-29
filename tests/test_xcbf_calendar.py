@@ -30,7 +30,7 @@ class XCBFCalendarTestCase(ExchangeCalendarTestBase, TestCase):
                 self.calendar.is_session(pd.Timestamp(day, tz=UTC))
             )
 
-    def test_good_friday_fule(self):
+    def test_good_friday_rule(self):
         # Good friday is a holiday unless Christmas Day or New Years Day is on
         # a Friday
         for day in ["2015-04-03", "2016-03-25"]:
