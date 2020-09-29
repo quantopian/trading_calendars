@@ -33,11 +33,11 @@ def good_friday_unless_christmas_nye_friday(dt):
     christmas_weekday = Christmas.observance(
         pd.Timestamp(year=dt.year, month=12, day=25)
     ).weekday()
-    nye_weekday = USNewYearsDay.observance(
+    nyd_weekday = USNewYearsDay.observance(
         pd.Timestamp(year=dt.year, month=1, day=1)
     ).weekday()
-    if christmas_weekday != 4 and nye_weekday != 4:
-        GoodFriday._apply_rule(
+    if christmas_weekday != 4 and nyd_weekday != 4:
+        return GoodFriday._apply_rule(
             pd.Timestamp(year=dt.year, month=dt.month, day=dt.day)
         )
 
