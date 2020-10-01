@@ -338,3 +338,10 @@ Misc2019Holidays = [
     Timestamp('2019-05-02'),  # Citizen's Holiday
     Timestamp('2019-10-22'),  # Enthronement Ceremony
 ]
+
+Misc2020Holidays = [
+    # JPX: Trading halt due to system glitch. Reports:
+    # 1. https://www.jpx.co.jp/english/news/1030/20201001-04.html
+    # 2. https://www.jpx.co.jp/english/news/1030/20201001-05.html
+    Timestamp('2020-10-01'),
+]
