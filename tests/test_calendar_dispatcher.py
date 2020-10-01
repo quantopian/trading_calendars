@@ -98,3 +98,9 @@ class CalendarAliasTestCase(TestCase):
 
         expected = "Cycle in calendar aliases: ['C' -> 'A' -> 'B' -> 'C']"
         self.assertEqual(str(e.exception), expected)
+
+    def test_get_calendar_names(self):
+        self.assertEqual(
+            sorted(self.dispatcher.get_calendar_names()),
+            ['IEPA', 'IEPA_ALIAS', 'IEPA_ALIAS_ALIAS']
+        )

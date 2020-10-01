@@ -1,6 +1,5 @@
 from dateutil.relativedelta import MO
 from datetime import timedelta
-from functools import partial
 from pandas import (
     Timestamp,
     DateOffset,
@@ -12,41 +11,24 @@ from pandas.tseries.holiday import (
 )
 
 from .common_holidays import new_years_day
-from .trading_calendar import SUNDAY, WEEKENDS
+from .trading_calendar import SUNDAY
 
 
-def is_holiday_or_weekend(holidays, dt):
+def sunday_to_tuesday(dt):
     """
-    Given a list of holidays, return whether dt is a holiday
-    or it is on a weekend.
+    If holiday falls on Sunday, use Tuesday instead.
     """
-    one_day = timedelta(days=1)
-
-    for h in holidays:
-        if dt in h.dates(dt - one_day, dt + one_day) or \
-                dt.weekday() in WEEKENDS:
-            return True
-
-    return False
+    if dt.weekday() == SUNDAY:
+        return dt + timedelta(2)
+    return dt
 
 
-def next_non_holiday_weekday(holidays, dt):
+def sunday_to_wednesday(dt):
     """
-    If a holiday falls on a Sunday, observe it on the next non-holiday weekday.
-
-    Parameters
-    ----------
-    holidays : list[pd.tseries.holiday.Holiday]
-        list of holidays
-    dt : pd.Timestamp
-        date of holiday.
+    If holiday falls on Sunday, use Wednesday instead.
     """
-    day_of_week = dt.weekday()
-
-    if day_of_week == SUNDAY:
-        while is_holiday_or_weekend(holidays, dt):
-            dt += timedelta(1)
-
+    if dt.weekday() == SUNDAY:
+        return dt + timedelta(3)
     return dt
 
 
@@ -113,7 +95,7 @@ VernalEquinoxes = [
 # so that that if an earlier holiday (Constitution Memorial Day, Greenery Day)
 # falls on a Sunday, that holiday can be observed on the next non-holiday
 # weekday.
-
+# Clash with GreeneryDay and ConstitutionMemorialDay
 ChildrensDay = Holiday(
     "Children's Day",
     month=5,
@@ -126,12 +108,13 @@ ChildrensDay = Holiday(
 # In 2007, Greenery Day was moved from April 29 to May 4, replacing the
 # unnamed citizen's holiday. For more info, see:
 # https://en.wikipedia.org/wiki/Golden_Week_(Japan)
+# Clash with ChildrensDay and ConstitutionMemorialDay
 GreeneryDay2007Onwards = Holiday(
     "Greenery Day",
     month=5,
     day=4,
     start_date='2007-01-01',
-    observance=partial(next_non_holiday_weekday, [ChildrensDay]),
+    observance=sunday_to_tuesday,
 )
 
 CitizensHolidayGoldenWeek = Holiday(
@@ -159,12 +142,22 @@ ShowaDay = Holiday(
     observance=sunday_to_monday,
 )
 
-ConstitutionMemorialDay = Holiday(
+# Clash with ChildrensDay and GreeneryDay
+ConstitutionMemorialDay2007Onwards = Holiday(
     "Constitution Memorial Day",
     month=5,
     day=3,
-    observance=partial(next_non_holiday_weekday,
-                       [GreeneryDay2007Onwards, ChildrensDay])
+    start_date='2007-01-01',
+    observance=sunday_to_wednesday,
+)
+
+# Clash with ChildrensDay
+ConstitutionMemorialDayThrough2006 = Holiday(
+    "Constituion Memorial Day",
+    month=5,
+    day=3,
+    end_date='2007-01-01',
+    observance=sunday_to_tuesday,
 )
 
 

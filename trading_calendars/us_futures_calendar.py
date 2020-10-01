@@ -30,8 +30,8 @@ class QuantopianUSFuturesCalendar(TradingCalendar):
 
     Notes
     -----
-    Open Time: 6:00 PM, US/Eastern
-    Close Time: 6:00 PM, US/Eastern
+    Open Time: 6:00 PM, America/New_York
+    Close Time: 6:00 PM, America/New_York
 
     Regularly-Observed Holidays:
     - New Years Day
@@ -51,7 +51,7 @@ class QuantopianUSFuturesCalendar(TradingCalendar):
         super(QuantopianUSFuturesCalendar, self).__init__(start=start, end=end)
 
     name = 'us_futures'
-    tz = timezone('US/Eastern')
+    tz = timezone('America/New_York')
     open_times = (
         (None, time(18, 1)),
     )

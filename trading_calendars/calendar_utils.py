@@ -1,3 +1,5 @@
+import itertools
+
 from .always_open import AlwaysOpenCalendar
 from .errors import (
     CalendarNameCollision,
@@ -127,7 +129,15 @@ _default_calendar_aliases = {
     'NYFE': 'IEPA',
     'CFE': 'XCBF',
     'JKT': 'XIDX',
+    'SIX': 'XSWX',
+    'JPX': 'XTKS',
+    'ASX': 'XASX',
+    'HKEX': 'XHKG',
+    'OSE': 'XOSL',
+    'BSE': 'XBOM',
+    'SSE': 'XSHG',
 }
+
 default_calendar_names = sorted(_default_calendar_factories.keys())
 
 
@@ -183,6 +193,25 @@ class TradingCalendarDispatcher(object):
         # Cache the calendar for future use.
         calendar = self._calendars[canonical_name] = factory()
         return calendar
+
+    def get_calendar_names(self):
+        """
+        Returns all the calendars we know about or know how to make
+
+        Returns
+        -------
+        calendar_names: List[str]
+            A list of all the calendars we know about or know how to make
+        """
+        return list(
+            set(
+                itertools.chain(
+                    self._calendars.keys(),
+                    self._calendar_factories.keys(),
+                    self._aliases.keys()
+                )
+            )
+        )
 
     def has_calendar(self, name):
         """
@@ -353,6 +382,7 @@ global_calendar_dispatcher = TradingCalendarDispatcher(
 )
 
 get_calendar = global_calendar_dispatcher.get_calendar
+get_calendar_names = global_calendar_dispatcher.get_calendar_names
 clear_calendars = global_calendar_dispatcher.clear_calendars
 deregister_calendar = global_calendar_dispatcher.deregister_calendar
 register_calendar = global_calendar_dispatcher.register_calendar

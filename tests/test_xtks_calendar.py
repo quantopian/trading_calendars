@@ -8,7 +8,8 @@ from trading_calendars.xtks_holidays import (
     AutumnalEquinoxes,
     ChildrensDay,
     CitizensHolidaySilverWeek,
-    ConstitutionMemorialDay,
+    ConstitutionMemorialDayThrough2006,
+    ConstitutionMemorialDay2007Onwards,
     EmperorAkihitoBirthday,
     GreeneryDay2007Onwards,
     RespectForTheAgedDay2003Onwards
@@ -52,7 +53,7 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
     def test_golden_week(self):
         # from 2000 to 2006 May 4 was an unnamed citizen's holiday because
         # it was between Constitution Memorial Day and Children's Day
-        consitution_memorial_days = ConstitutionMemorialDay.dates(
+        consitution_memorial_days = ConstitutionMemorialDayThrough2006.dates(
             '2000-01-01', '2007-01-01'
         )
         childrens_days = ChildrensDay.dates(
@@ -74,7 +75,7 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
             self.assertNotIn(childrens_day, self.calendar.all_sessions)
 
         # from 2007 onwards, Greenery Day was moved to May 4
-        consitution_memorial_days = ConstitutionMemorialDay.dates(
+        consitution_memorial_days = ConstitutionMemorialDay2007Onwards.dates(
             '2007-01-01', '2019-01-01'
         )
         greenery_days = GreeneryDay2007Onwards.dates(

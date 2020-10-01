@@ -166,7 +166,7 @@ class XBOGExchangeCalendar(TradingCalendar):
 
     # Though Bogota uses Colombia Standard Time, XBOG uses
     # US Eastern for trading times
-    tz = timezone('US/Eastern')
+    tz = timezone('America/New_York')
 
     open_times = (
         (None, time(9, 31)),

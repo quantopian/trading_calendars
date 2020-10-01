@@ -77,4 +77,13 @@ if __name__ == '__main__':
             include=['trading_calendars', 'trading_calendars.*']
         ),
         install_requires=reqs,
+        extras_require={
+            "test": [
+                "flake8",
+                "nose",
+                "nose-ignore-docstring",
+                "nose-timer",
+                "parameterized",
+            ],
+        },
     )

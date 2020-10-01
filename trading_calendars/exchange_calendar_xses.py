@@ -337,7 +337,6 @@ precomputed_ses_holidays = pd.to_datetime([
     "2019-08-09",
     "2019-08-12",
     "2019-10-28",
-    "2019-12-15",
     "2019-12-25",
     "2020-01-01",
     "2020-01-27",
@@ -345,6 +344,7 @@ precomputed_ses_holidays = pd.to_datetime([
     "2020-05-01",
     "2020-05-07",
     "2020-05-25",
+    "2020-07-10",
     "2020-07-31",
     "2020-08-10",
     "2020-12-25",
@@ -373,7 +373,7 @@ class XSESExchangeCalendar(PrecomputedTradingCalendar):
         (None, time(9, 1)),
     )
     close_times = (
-        (None, time(15, 0)),
+        (None, time(17, 0)),
     )
 
     @property
