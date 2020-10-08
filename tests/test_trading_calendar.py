@@ -715,7 +715,7 @@ class ExchangeCalendarTestBase(object):
         all_minutes = []
 
         for _open, _break_start, _break_end, _close in intervals:
-            if _break_start is pd.NaT:
+            if pd.isnull(_break_start):
                 all_minutes.append(
                     pd.date_range(
                         start=_open,
