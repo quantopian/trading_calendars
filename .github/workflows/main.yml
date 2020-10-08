@@ -15,15 +15,15 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [2.7, 3.5, 3.7, 3.8]
+        python-version: [2.7, 3.5, 3.8, 3.9]
         include:
           - python-version: 2.7
             requirements_file: requirements_locked_old.txt
           - python-version: 3.5
             requirements_file: requirements_locked_old.txt
-          - python-version: 3.7
-            requirements_file: requirements_locked.txt
           - python-version: 3.8
+            requirements_file: requirements_locked.txt
+          - python-version: 3.9
             requirements_file: requirements_locked.txt
 
     steps:
