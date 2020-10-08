@@ -92,7 +92,7 @@ class XHKGExchangeCalendar(TradingCalendar):
     Exchange calendar for the Hong Kong Stock Exchange (XHKG).
 
     Open Time: 9:31 AM, Asia/Hong_Kong
-    Lunch Break: 12:00 PM - 1:00 PM Asia/Hong_Kong
+    Lunch Break: 12:01 PM - 1:00 PM Asia/Hong_Kong
     Close Time: 4:00 PM, Asia/Hong_Kong
 
     Regularly-Observed Holidays:
