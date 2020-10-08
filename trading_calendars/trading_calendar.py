@@ -873,7 +873,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             session_label,
             'break_end'
         ]
-        if break_end is not pd.NaT:
+        if not pd.isnull(break_end):
             # older versions of pandas need this guard
             break_end = break_end.tz_localize(UTC)
 
