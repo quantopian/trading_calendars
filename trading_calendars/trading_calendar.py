@@ -1200,7 +1200,7 @@ def _remove_breaks_for_special_dates(
     # internal data of an Index, which is conceptually immutable.  Since we're
     # maintaining sorting, this should be ok, but this is a good place to
     # sanity check if things start going haywire with calendar computations.
-    break_start_or_end.values[indexer] = np.int64(pd.NaT)
+    break_start_or_end.values[indexer] = NP_NAT
 
 
 class HolidayCalendar(AbstractHolidayCalendar):
