@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Copyright 2018 Quantopian, Inc.
 #
@@ -24,6 +25,10 @@ from pandas.tseries.holiday import (
     Holiday,
     sunday_to_monday,
 )
+from pandas.tseries.offsets import (
+    LastWeekOfMonth,
+    WeekOfMonth,
+)
 from pytz import timezone
 import toolz
 
@@ -40,18 +45,19 @@ from .trading_calendar import (
 )
 from .common_holidays import (
     boxing_day,
-    chinese_buddhas_birthday_dates,
-    chinese_lunar_new_year_dates,
     christmas,
     christmas_eve,
+    new_years_day,
+    new_years_eve,
+    weekend_christmas,
+)
+from .lunisolar_holidays import (
+    chinese_buddhas_birthday_dates,
+    chinese_lunar_new_year_dates,
     mid_autumn_festival_dates,
     double_ninth_festival_dates,
     dragon_boat_festival_dates,
-    chinese_national_day,
-    new_years_day,
-    new_years_eve,
-    qingming_festival_dates,
-    weekend_christmas,
+    qingming_festival_dates
 )
 from .utils.pandas_utils import vectorized_sunday_to_monday
 
@@ -64,21 +70,169 @@ from .utils.pandas_utils import vectorized_sunday_to_monday
 weekdays = (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY)
 
 
-labor_day = Holiday(
-    'Labor Day',
+def process_queen_birthday(dt):
+    # before 1983
+    if dt.year in [1974, 1981]:
+        return dt + pd.DateOffset(weekday=6)
+    elif dt.year < 1983:
+        return sunday_to_monday(dt)
+    # after 1983
+    wom = WeekOfMonth(week=2, weekday=0)
+    if dt.year in [1983, 1988, 1993, 1994]:
+        wom = WeekOfMonth(week=1, weekday=0)
+    if dt.year in [1985]:
+        wom = WeekOfMonth(week=3, weekday=0)
+    return dt + wom
+
+
+LabourDay = Holiday(
+    name="Labour Day",  # 劳动节
     month=5,
     day=1,
     observance=sunday_to_monday,
+    start_date=pd.Timestamp('1999-05-01')
 )
 
-establishment_day = Holiday(
-    'Hong Kong Special Administrative Region Establishment Day',
+HKRegionEstablishmentDay = Holiday(
+    name="Hong Kong Special Region Establishment Day",
     month=7,
     day=1,
     observance=sunday_to_monday,
+    start_date=pd.Timestamp('1997-07-01')
 )
 
+NationalDay = Holiday(
+    name="National Day",
+    month=10,
+    day=1,
+    observance=sunday_to_monday,
+    start_date=pd.Timestamp('1997-07-01')
+)
+
+QueenBirthday = Holiday(
+    name="Queen's Birthday",  # 英女王生日 6月
+    month=6,
+    day=10,
+    observance=process_queen_birthday,
+    start_date=pd.Timestamp('1983-01-01'),
+    end_date=pd.Timestamp('1997-06-01')
+)
+
+QueenBirthday2 = Holiday(
+    name="Queen's Birthday",  # 英女王生日 4月
+    month=4,
+    day=21,
+    observance=process_queen_birthday,
+    start_date=pd.Timestamp('1926-04-21'),
+    end_date=pd.Timestamp('1983-01-01')
+)
+
+CommemoratingAlliedVictory = Holiday(
+    name="Commemorating the allied victory",  # 重光纪念日 8月最后一个星期一
+    month=8,
+    day=20,
+    offset=LastWeekOfMonth(weekday=0),
+    start_date=pd.Timestamp('1945-08-30'),
+    end_date=pd.Timestamp('1997-07-01')
+)
+
+IDontKnow = Holiday(
+    name="I dont know these days, please tell me",  # 8月第一个星期一
+    month=7,
+    day=31,
+    offset=WeekOfMonth(week=0, weekday=0),
+    start_date=pd.Timestamp('1960-08-01'),
+    end_date=pd.Timestamp('1983-01-01')
+)
+
+
 day_after_mid_autumn_festival_dates = mid_autumn_festival_dates + timedelta(1)
+
+HKAdhocClosures = [
+    # I dont know these days
+    pd.Timestamp('1970-07-01', tz='UTC'),
+    pd.Timestamp('1971-07-01', tz='UTC'),
+    pd.Timestamp('1973-07-02', tz='UTC'),
+    pd.Timestamp('1974-07-01', tz='UTC'),
+    pd.Timestamp('1975-07-01', tz='UTC'),
+    pd.Timestamp('1976-07-01', tz='UTC'),
+    pd.Timestamp('1977-07-01', tz='UTC'),
+    pd.Timestamp('1979-07-02', tz='UTC'),
+    pd.Timestamp('1980-07-01', tz='UTC'),
+    pd.Timestamp('1981-07-01', tz='UTC'),
+    pd.Timestamp('1982-07-01', tz='UTC'),
+    pd.Timestamp('1971-03-22', tz='UTC'),
+    pd.Timestamp('1971-12-06', tz='UTC'),
+    pd.Timestamp('1971-12-20', tz='UTC'),
+    pd.Timestamp('1975-07-28', tz='UTC'),
+    pd.Timestamp('1985-07-29', tz='UTC'),
+
+    # Weather related closures
+    pd.Timestamp('1970-07-16', tz='UTC'),  # 台风Ruby7003
+    pd.Timestamp('1970-09-14', tz='UTC'),  # 台风Georgia7011
+    pd.Timestamp('1971-07-22', tz='UTC'),  # 台风Lucy7114
+    pd.Timestamp('1971-08-31', tz='UTC'),  # 重光纪念日?
+    pd.Timestamp('1973-04-16', tz='UTC'),  # 股灾休市?
+    pd.Timestamp('1973-07-17', tz='UTC'),  # 台风Dot7304
+    pd.Timestamp('1974-04-25', tz='UTC'),  # 英国女王生日
+    pd.Timestamp('1975-10-14', tz='UTC'),  # 台风Elsie7514
+    pd.Timestamp('1978-07-26', tz='UTC'),  # 台风Agnes7807
+    pd.Timestamp('1978-07-27', tz='UTC'),
+    pd.Timestamp('1979-01-26', tz='UTC'),  # 春节补假
+    pd.Timestamp('1979-08-02', tz='UTC'),  # 台风Hope7908
+    pd.Timestamp('1980-05-21', tz='UTC'),  # 台风Georgia8004
+    pd.Timestamp('1980-07-22', tz='UTC'),  # 台风Joy8007
+    pd.Timestamp('1981-04-27', tz='UTC'),  # 英国女王生日
+    pd.Timestamp('1981-07-06', tz='UTC'),  # 台风Lynn8106
+    pd.Timestamp('1981-07-07', tz='UTC'),
+    pd.Timestamp('1981-07-29', tz='UTC'),  # 查理斯王子与戴安娜婚礼
+    pd.Timestamp('1983-09-09', tz='UTC'),  # 台风Ellen8309
+    pd.Timestamp('1985-06-24', tz='UTC'),  # 台风Hal8504
+    pd.Timestamp('1986-04-01', tz='UTC'),  # 复活节星期一翌日
+    pd.Timestamp('1986-10-22', tz='UTC'),  # 英女王伊丽莎白二世访港
+    pd.Timestamp('1987-10-20', tz='UTC'),  # 黑色星期一后,休市4天
+    pd.Timestamp('1987-10-21', tz='UTC'),
+    pd.Timestamp('1987-10-22', tz='UTC'),
+    pd.Timestamp('1987-10-23', tz='UTC'),
+    pd.Timestamp('1988-04-05', tz='UTC'),  # 清明节翌日
+    # Timestamp('1988-06-13', tz='UTC'),  # 英国女王生日
+    pd.Timestamp('1991-06-18', tz='UTC'),  # 英国女王生日翌日
+    pd.Timestamp('1992-07-22', tz='UTC'),  # 台风Cary9207
+    # pd.Timestamp('1993-06-14', tz='UTC'),  # 英国女王生日
+    pd.Timestamp('1993-09-17', tz='UTC'),  # 台风Becky9316
+    pd.Timestamp('1994-06-14', tz='UTC'),  # 英国女王生日翌日,端午节翌日
+    pd.Timestamp('1997-06-30', tz='UTC'),  # 英国女王生日
+    pd.Timestamp('1997-07-02', tz='UTC'),  # 香港回归纪念日翌日
+    pd.Timestamp('1997-08-18', tz='UTC'),  # 抗战胜利纪念日
+    pd.Timestamp('1997-10-02', tz='UTC'),  # 国庆节翌日
+    pd.Timestamp('1998-08-17', tz='UTC'),  # 抗战胜利纪念日
+    pd.Timestamp('1998-10-02', tz='UTC'),  # 国庆节翌日
+    pd.Timestamp('1999-04-06', tz='UTC'),  # 清明节翌日
+    pd.Timestamp('1999-09-16', tz='UTC'),  # 台风约克
+    pd.Timestamp('1999-12-31', tz='UTC'),  # 千年虫
+    pd.Timestamp('2001-07-06', tz='UTC'),  # 台风尤特0104
+    pd.Timestamp('2001-07-25', tz='UTC'),  # 台风玉兔0107
+    # pd.Timestamp(2008-06-25', tz='UTC'),  # 台风风神0806,上午休市
+    pd.Timestamp('2008-08-06', tz='UTC'),  # 台风北冕0809
+    pd.Timestamp('2008-08-22', tz='UTC'),  # 台风鹦鹉0810
+    # pd.Timestamp(2009-09-15', tz='UTC'),  # 台风巨爵0915,上午休市
+    pd.Timestamp('2010-04-06', tz='UTC'),  # 清明节翌日
+    pd.Timestamp('2011-09-29', tz='UTC'),  # 台风纳沙1117
+    # pd.Timestamp(2012-07-24', tz='UTC'),  # 台风韦森特1208,上午休市
+    pd.Timestamp('2012-10-02', tz='UTC'),  # 中秋节补假
+    # pd.Timestamp(2013-05-22', tz='UTC'),  # 暴雨,上午休市
+    pd.Timestamp('2013-08-14', tz='UTC'),  # 台风尤特1311
+    # pd.Timestamp(2013-09-23', tz='UTC'),  # 台风天兔1319,上午休市
+    # pd.Timestamp(2014-09-16', tz='UTC'),  # 台风海鸥1415,上午休市
+    pd.Timestamp('2015-04-07', tz='UTC'),  # 复活节+清明节补假
+    # pd.Timestamp(2015-07-09', tz='UTC'),  # 台风莲花1520,期货夜盘休市
+    pd.Timestamp('2015-09-03', tz='UTC'),  # 抗战70周年纪念
+    # pd.Timestamp(2016-08-01', tz='UTC'),  # 台风妮妲1604,期货夜盘20:55收市
+    pd.Timestamp('2016-08-02', tz='UTC'),  # 台风妮妲1604
+    pd.Timestamp('2016-10-21', tz='UTC'),  # 台风海马1622
+    # pd.Timestamp(2017-06-12', tz='UTC'),  # 台风苗柏1702,期货夜盘17:35休市
+    pd.Timestamp('2017-08-23', tz='UTC'),  # 台风天鸽1713
+]
 
 
 def boxing_day_obs(dt):
@@ -170,9 +324,13 @@ class XHKGExchangeCalendar(TradingCalendar):
             new_years_day(observance=sunday_to_monday),
             GoodFriday,
             EasterMonday,
-            labor_day,
-            establishment_day,
-            chinese_national_day(observance=sunday_to_monday),
+            LabourDay,
+            HKRegionEstablishmentDay,
+            CommemoratingAlliedVictory,
+            IDontKnow,
+            NationalDay,
+            QueenBirthday,
+            QueenBirthday2,
             christmas(),
             weekend_christmas(),
             boxing_day(observance=boxing_day_obs)
@@ -239,45 +397,41 @@ class XHKGExchangeCalendar(TradingCalendar):
             vectorized_sunday_to_monday(dragon_boat_festival_dates),
             mid_autumn_festival,
             vectorized_sunday_to_monday(double_ninth_festival_dates),
-
-            # severe weather closure (typhoons)
-            [
-                '2008-08-06',
-                '2008-08-22',
-                '2011-09-29',
-                '2013-08-14',
-                '2016-08-02',
-                '2016-10-21',
-                '2017-08-23',
-            ],
-
-            # special holiday:
-            # https://www.info.gov.hk/gia/general/201507/09/P201507080716.htm
-            ['2015-09-03'],
+            HKAdhocClosures,
         ))
 
     @property
     def special_closes(self):
         return [
+            # HK changed their early close time
             (
-                time,
-                HolidayCalendar([
+                time(12, 30), HolidayCalendar([
                     new_years_eve(
-                        start_date=start,
-                        end_date=end,
+                        # Market was close for Y2K instead of closing early
+                        end_date=pd.Timestamp('1999-12-01'),
+                        days_of_week=weekdays,
+                    ),
+                    new_years_eve(
+                        start_date=pd.Timestamp('2000-12-01'),
+                        end_date=pd.Timestamp('2011-03-07'),
                         days_of_week=weekdays,
                     ),
                     christmas_eve(
-                        start_date=start,
-                        end_date=end,
+                        end_date=pd.Timestamp('2011-03-07'),
                         days_of_week=weekdays
+                    )])
+            ),
+            (
+                time(12, 00), HolidayCalendar([
+                    new_years_eve(
+                        start_date=pd.Timestamp('2011-03-07'),
+                        days_of_week=weekdays,
                     ),
-                ]),
-            )
-            for (start, time), (end, _) in toolz.sliding_window(
-                2,
-                toolz.concatv(self.regular_early_close_times, [(None, None)]),
-            )
+                    christmas_eve(
+                        start_date=pd.Timestamp('2011-03-07'),
+                        days_of_week=weekdays
+                    )])
+            ),
         ]
 
     @property

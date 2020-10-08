@@ -28,6 +28,8 @@ from pytz import timezone
 from .common_holidays import (
     european_labour_day,
     new_years_day,
+)
+from .lunisolar_holidays import (
     chinese_lunar_new_year_dates,
     qingming_festival_dates,
     dragon_boat_festival_dates,

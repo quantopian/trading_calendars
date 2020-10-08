@@ -32,6 +32,8 @@ from .common_holidays import (
     christmas_eve,
     new_years_eve,
     all_saints_day,
+)
+from .lunisolar_holidays import (
     chinese_lunar_new_year_dates,
 )
 from .trading_calendar import (

@@ -25,10 +25,12 @@ from pytz import timezone
 
 from .common_holidays import (
     ascension_day,
-    chinese_lunar_new_year_dates,
     christmas,
     new_years_day,
     new_years_eve,
+)
+from .lunisolar_holidays import (
+    chinese_lunar_new_year_dates
 )
 from .trading_calendar import HolidayCalendar, TradingCalendar
 
