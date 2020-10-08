@@ -576,7 +576,7 @@ class ExchangeCalendarTestBase(object):
                 full_session_label
             )
         )
-        if _break_start is not pd.NaT:
+        if not pd.isnull(_break_start):
             constructed_minutes = np.concatenate([
                 pd.date_range(
                     start=_open, end=_break_start, freq="min"
