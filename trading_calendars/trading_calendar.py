@@ -1142,7 +1142,7 @@ def _overwrite_special_dates(
             "Found misaligned dates while building calendar.\n"
             "Expected session_labels to be the same length as "
             "open_or_closes but,\n"
-            "len(session_labels)=%d, len(open_or_closes)=%d" % len_m, len_oc
+            "len(session_labels)=%d, len(open_or_closes)=%d" % (len_m, len_oc)
         )
 
     # Find the array indices corresponding to each special date.
