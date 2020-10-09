@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 NANOSECONDS_PER_MINUTE = int(6e10)
-# TODO this is a negative number - can we just check that?
+
 NP_NAT = np.array([pd.NaT], dtype=np.int64)[0]
 
 

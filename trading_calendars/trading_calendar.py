@@ -955,6 +955,9 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         pd.Timestamp (midnight UTC)
             The label of the containing session.
         """
+        if isinstance(dt, int):
+            dt = pd.Timestamp(dt, unit="ns")
+
         if direction == "next":
             if self._minute_to_session_label_cache[0] == dt.value:
                 return self._minute_to_session_label_cache[1]
