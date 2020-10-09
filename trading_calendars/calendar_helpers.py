@@ -33,8 +33,9 @@ def is_open(opens, break_starts, break_ends, closes, minute_val):
     open_idx = np.searchsorted(opens, minute_val)
     close_idx = np.searchsorted(closes, minute_val)
 
+    # if the indices are not same, that means we are within a session
     if open_idx != close_idx:
-        # if the indices are not same, that means we are within a session
+
         break_start_on_open_dt = break_starts[open_idx - 1]
         break_end_on_open_dt = break_ends[open_idx - 1]
         # NaT comparisions will result in False
