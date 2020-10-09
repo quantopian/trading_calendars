@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from abc import ABCMeta, abstractproperty
+from collections import OrderedDict
 import warnings
 
 from pandas.tseries.holiday import AbstractHolidayCalendar
@@ -151,23 +152,14 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             _special_closes,
         )
 
-        # In pandas 0.16.1 _opens and _closes will lose their timezone
-        # information. This looks like it has been resolved in 0.17.1.
-        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         self.schedule = DataFrame(
             index=_all_days,
-            columns=[
-                'market_open',
-                'break_start',
-                'break_end',
-                'market_close'
-            ],
-            data={
+            data=OrderedDict({
                 'market_open': self._opens,
                 'break_start': self._break_starts,
                 'break_end': self._break_ends,
                 'market_close': self._closes,
-            },
+            }),
             dtype='datetime64[ns]',
         )
 
