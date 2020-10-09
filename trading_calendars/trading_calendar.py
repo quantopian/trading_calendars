@@ -408,7 +408,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
         Parameters
         ----------
-        dt: pd.Timestamp
+        dt : pd.Timestamp or nanosecond offset
             The dt for which to check if this exchange is open.
         ignore_breaks: bool
             Whether to consider midday breaks when determining if an exchange
@@ -419,8 +419,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         bool
             Whether the exchange is open on this dt.
         """
-        open_idx = np.searchsorted(self.market_opens_nanos, dt.value)
-        close_idx = np.searchsorted(self.market_closes_nanos, dt.value)
+        if isinstance(dt, pd.Timestamp):
+            dt = dt.value
+
+        open_idx = np.searchsorted(self.market_opens_nanos, dt)
+        close_idx = np.searchsorted(self.market_closes_nanos, dt)
 
         # if the indices are not same, that means we are within a session
         if open_idx != close_idx:
@@ -431,7 +434,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
                 self.market_break_starts_nanos[open_idx - 1]
             break_end_on_open_dt = self.market_break_ends_nanos[open_idx - 1]
             # NaT comparisions will result in False
-            if break_start_on_open_dt <= dt.value < break_end_on_open_dt:
+            if break_start_on_open_dt <= dt < break_end_on_open_dt:
                 # we're in the middle of a break
                 return False
             else:
@@ -441,7 +444,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             try:
                 # if they are the same, it might be the first minute of a
                 # session
-                return dt.value == self.market_opens_nanos[open_idx]
+                return dt == self.market_opens_nanos[open_idx]
             except IndexError:
                 # this can happen if we're outside the schedule's range (like
                 # after the last close)
@@ -973,19 +976,19 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         pd.Timestamp (midnight UTC)
             The label of the containing session.
         """
-        if isinstance(dt, int):
-            dt = pd.Timestamp(dt, unit="ns")
+        if isinstance(dt, pd.Timestamp):
+            dt = dt.value
 
         if direction == "next":
-            if self._minute_to_session_label_cache[0] == dt.value:
+            if self._minute_to_session_label_cache[0] == dt:
                 return self._minute_to_session_label_cache[1]
 
-        idx = searchsorted(self.market_closes_nanos, dt.value)
+        idx = searchsorted(self.market_closes_nanos, dt)
         current_or_next_session = self.schedule.index[idx]
 
         if direction == "next":
             self._minute_to_session_label_cache = (
-                dt.value, current_or_next_session
+                dt, current_or_next_session
             )
             return current_or_next_session
         elif direction == "previous":
