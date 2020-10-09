@@ -191,7 +191,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.market_closes_nanos = self.schedule.market_close.values.\
             astype(np.int64)
 
-        check_breaks_match(
+        _check_breaks_match(
             self.market_break_starts_nanos,
             self.market_break_ends_nanos
         )
@@ -1124,7 +1124,7 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         )
 
 
-def check_breaks_match(market_break_starts_nanos, market_break_ends_nanos):
+def _check_breaks_match(market_break_starts_nanos, market_break_ends_nanos):
     """Checks that market_break_starts_nanos and market_break_ends_nanos
 
     Parameters
