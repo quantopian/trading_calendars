@@ -53,6 +53,10 @@ class XHKGCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         self.assertTrue(self.calendar.is_open_on_minute(normal_minute))
         self.assertFalse(self.calendar.is_open_on_minute(break_minute))
+        # Make sure that ignoring breaks indicates the exchange is open
+        self.assertTrue(
+            self.calendar.is_open_on_minute(break_minute, ignore_breaks=True)
+        )
 
         current_session_label = self.calendar.minute_to_session_label(
             normal_minute,

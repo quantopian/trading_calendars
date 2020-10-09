@@ -407,6 +407,9 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         ----------
         dt: pd.Timestamp
             The dt for which to check if this exchange is open.
+        ignore_breaks: bool
+            Whether to consider midday breaks when determining if an exchange
+            is open.
 
         Returns
         -------
