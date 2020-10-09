@@ -28,54 +28,6 @@ def previous_divider_idx(dividers, minute_val):
     return divider_idx - 1
 
 
-def is_open(opens, break_starts, break_ends, closes, minute_val):
-
-    open_idx = np.searchsorted(opens, minute_val)
-    close_idx = np.searchsorted(closes, minute_val)
-
-    # if the indices are not same, that means we are within a session
-    if open_idx != close_idx:
-
-        break_start_on_open_dt = break_starts[open_idx - 1]
-        break_end_on_open_dt = break_ends[open_idx - 1]
-        # NaT comparisions will result in False
-        if break_start_on_open_dt <= minute_val < break_end_on_open_dt:
-            # we're in the middle of a break
-            return False
-        else:
-            return True
-
-    else:
-        try:
-            # if they are the same, it might be the first minute of a
-            # session
-            return minute_val == opens[open_idx]
-        except IndexError:
-            # this can happen if we're outside the schedule's range (like
-            # after the last close)
-            return False
-
-
-def is_betweeen_open_and_close(opens, closes, minute_val):
-    """
-    Works like `is_open`, ignoring the existence of breaks
-    """
-    open_idx = np.searchsorted(opens, minute_val)
-    close_idx = np.searchsorted(closes, minute_val)
-    if open_idx != close_idx:
-        # if the indices are not same, that means we are within a session
-        return True
-    else:
-        try:
-            # if they are the same, it might be the first minute of a
-            # session
-            return minute_val == opens[open_idx]
-        except IndexError:
-            # this can happen if we're outside the schedule's range (like
-            # after the last close)
-            return False
-
-
 def compute_all_minutes(
     opens_in_ns, break_starts_in_ns, break_ends_in_ns, closes_in_ns,
 ):

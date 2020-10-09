@@ -32,8 +32,6 @@ import toolz
 from .calendar_helpers import (
     NP_NAT,
     compute_all_minutes,
-    is_betweeen_open_and_close,
-    is_open,
     next_divider_idx,
     previous_divider_idx,
 )
@@ -421,21 +419,33 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         bool
             Whether the exchange is open on this dt.
         """
-        if ignore_breaks:
-            out = is_betweeen_open_and_close(
-                self.market_opens_nanos,
-                self.market_closes_nanos,
-                dt.value,
-            )
+        open_idx = np.searchsorted(self.market_opens_nanos, dt.value)
+        close_idx = np.searchsorted(self.market_closes_nanos, dt.value)
+
+        # if the indices are not same, that means we are within a session
+        if open_idx != close_idx:
+            if ignore_breaks:
+                return True
+
+            break_start_on_open_dt = \
+                self.market_break_starts_nanos[open_idx - 1]
+            break_end_on_open_dt = self.market_break_ends_nanos[open_idx - 1]
+            # NaT comparisions will result in False
+            if break_start_on_open_dt <= dt.value < break_end_on_open_dt:
+                # we're in the middle of a break
+                return False
+            else:
+                return True
+
         else:
-            out = is_open(
-                self.market_opens_nanos,
-                self.market_break_starts_nanos,
-                self.market_break_ends_nanos,
-                self.market_closes_nanos,
-                dt.value,
-            )
-        return out
+            try:
+                # if they are the same, it might be the first minute of a
+                # session
+                return dt.value == self.market_opens_nanos[open_idx]
+            except IndexError:
+                # this can happen if we're outside the schedule's range (like
+                # after the last close)
+                return False
 
     def next_open(self, dt):
         """
