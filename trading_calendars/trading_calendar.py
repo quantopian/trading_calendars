@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from abc import ABCMeta, abstractproperty
+from collections import OrderedDict
 import warnings
 
-from operator import attrgetter
 from pandas.tseries.holiday import AbstractHolidayCalendar
 from six import with_metaclass
 from pytz import UTC
@@ -31,14 +31,13 @@ from pandas.tseries.offsets import CustomBusinessDay
 import toolz
 
 from .calendar_helpers import (
+    NP_NAT,
     compute_all_minutes,
-    is_open,
     next_divider_idx,
     previous_divider_idx,
 )
 from .utils.memoize import lazyval
 from .utils.pandas_utils import days_at_time
-from .utils.preprocess import preprocess, coerce
 
 
 start_default = pd.Timestamp('1990-01-01', tz=UTC)
@@ -66,7 +65,9 @@ def selection(arr, start, end):
     return arr[np.all(predicates, axis=0)]
 
 
-def _group_times(all_days, times, tz, offset):
+def _group_times(all_days, times, tz, offset=0):
+    if times is None:
+        return None
     elements = [
         days_at_time(
             selection(all_days, start, end),
@@ -114,6 +115,17 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             self.tz,
             self.open_offset,
         )
+        self._break_starts = _group_times(
+            _all_days,
+            self.break_start_times,
+            self.tz,
+        )
+        self._break_ends = _group_times(
+            _all_days,
+            self.break_end_times,
+            self.tz,
+        )
+
         self._closes = _group_times(
             _all_days,
             self.close_times,
@@ -129,17 +141,25 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         # Overwrite the special opens and closes on top of the standard ones.
         _overwrite_special_dates(_all_days, self._opens, _special_opens)
         _overwrite_special_dates(_all_days, self._closes, _special_closes)
+        _remove_breaks_for_special_dates(
+            _all_days,
+            self._break_starts,
+            _special_closes,
+        )
+        _remove_breaks_for_special_dates(
+            _all_days,
+            self._break_ends,
+            _special_closes,
+        )
 
-        # In pandas 0.16.1 _opens and _closes will lose their timezone
-        # information. This looks like it has been resolved in 0.17.1.
-        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         self.schedule = DataFrame(
             index=_all_days,
-            columns=['market_open', 'market_close'],
-            data={
-                'market_open': self._opens,
-                'market_close': self._closes,
-            },
+            data=OrderedDict([
+                ('market_open', self._opens),
+                ('break_start', self._break_starts),
+                ('break_end', self._break_ends),
+                ('market_close', self._closes),
+            ]),
             dtype='datetime64[ns]',
         )
 
@@ -152,8 +172,19 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.market_opens_nanos = self.schedule.market_open.values.\
             astype(np.int64)
 
+        self.market_break_starts_nanos = self.schedule.break_start.values.\
+            astype(np.int64)
+
+        self.market_break_ends_nanos = self.schedule.break_end.values.\
+            astype(np.int64)
+
         self.market_closes_nanos = self.schedule.market_close.values.\
             astype(np.int64)
+
+        _check_breaks_match(
+            self.market_break_starts_nanos,
+            self.market_break_ends_nanos
+        )
 
         self._trading_minutes_nanos = self.all_minutes.values.\
             astype(np.int64)
@@ -193,6 +224,24 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         raise NotImplementedError()
 
+    @property
+    def break_start_times(self):
+        """
+        Returns a optional list of tuples of (start_date, break_start_time).
+        If the break start time is constant throughout the calendar, use None
+        for the start_date. If there is no break, return `None`.
+        """
+        return None
+
+    @property
+    def break_end_times(self):
+        """
+        Returns a optional list of tuples of (start_date, break_end_time).  If
+        the break end time is constant throughout the calendar, use None for
+        the start_date. If there is no break, return `None`.
+        """
+        return None
+
     @abstractproperty
     def close_times(self):
         """
@@ -224,8 +273,13 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
     @lazyval
     def _minutes_per_session(self):
-        diff = self.schedule.market_close - self.schedule.market_open
-        diff = diff.astype('timedelta64[m]')
+        close_to_open_diff = (
+            self.schedule.market_close - self.schedule.market_open
+        )
+        break_diff = (
+            self.schedule.break_end - self.schedule.break_start
+        ).fillna(pd.Timedelta(seconds=0))
+        diff = (close_to_open_diff - break_diff).astype("timedelta64[m]")
         return diff + 1
 
     def minutes_count_for_sessions_in_range(self, start_session, end_session):
@@ -340,22 +394,53 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         return dt in self.schedule.index
 
-    def is_open_on_minute(self, dt):
+    def is_open_on_minute(self, dt, ignore_breaks=False):
         """
         Given a dt, return whether this exchange is open at the given dt.
 
         Parameters
         ----------
-        dt: pd.Timestamp
+        dt : pd.Timestamp or nanosecond offset
             The dt for which to check if this exchange is open.
+        ignore_breaks: bool
+            Whether to consider midday breaks when determining if an exchange
+            is open.
 
         Returns
         -------
         bool
             Whether the exchange is open on this dt.
         """
-        return is_open(self.market_opens_nanos, self.market_closes_nanos,
-                       dt.value)
+        if isinstance(dt, pd.Timestamp):
+            dt = dt.value
+
+        open_idx = np.searchsorted(self.market_opens_nanos, dt)
+        close_idx = np.searchsorted(self.market_closes_nanos, dt)
+
+        # if the indices are not same, that means we are within a session
+        if open_idx != close_idx:
+            if ignore_breaks:
+                return True
+
+            break_start_on_open_dt = \
+                self.market_break_starts_nanos[open_idx - 1]
+            break_end_on_open_dt = self.market_break_ends_nanos[open_idx - 1]
+            # NaT comparisions will result in False
+            if break_start_on_open_dt <= dt < break_end_on_open_dt:
+                # we're in the middle of a break
+                return False
+            else:
+                return True
+
+        else:
+            try:
+                # if they are the same, it might be the first minute of a
+                # session
+                return dt == self.market_opens_nanos[open_idx]
+            except IndexError:
+                # this can happen if we're outside the schedule's range (like
+                # after the last close)
+                return False
 
     def next_open(self, dt):
         """
@@ -755,14 +840,29 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         (Timestamp, Timestamp)
             The open and close for the given session.
         """
-        sched = self.schedule
-
-        # `market_open` and `market_close` should be timezone aware, but pandas
-        # 0.16.1 does not appear to support this:
-        # http://pandas.pydata.org/pandas-docs/stable/whatsnew.html#datetime-with-tz  # noqa
         return (
-            sched.at[session_label, 'market_open'].tz_localize(UTC),
-            sched.at[session_label, 'market_close'].tz_localize(UTC),
+            self.session_open(session_label),
+            self.session_close(session_label)
+        )
+
+    def break_start_and_end_for_session(self, session_label):
+        """
+        Returns a tuple of timestamps of the break start and end of the session
+        represented by the given label.
+
+        Parameters
+        ----------
+        session_label: pd.Timestamp
+            The session whose break start and end are desired.
+
+        Returns
+        -------
+        (Timestamp, Timestamp)
+            The break start and end for the given session.
+        """
+        return (
+            self.session_break_start(session_label),
+            self.session_break_end(session_label)
         )
 
     def session_open(self, session_label):
@@ -770,6 +870,28 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             session_label,
             'market_open'
         ].tz_localize(UTC)
+
+    def session_break_start(self, session_label):
+        break_start = self.schedule.at[
+            session_label,
+            'break_start'
+        ]
+        if not pd.isnull(break_start):
+            # older versions of pandas need this guard
+            break_start = break_start.tz_localize(UTC)
+
+        return break_start
+
+    def session_break_end(self, session_label):
+        break_end = self.schedule.at[
+            session_label,
+            'break_end'
+        ]
+        if not pd.isnull(break_end):
+            # older versions of pandas need this guard
+            break_end = break_end.tz_localize(UTC)
+
+        return break_end
 
     def session_close(self, session_label):
         return self.schedule.at[
@@ -812,20 +934,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         """
         Returns a DatetimeIndex representing all the minutes in this calendar.
         """
-        opens_in_ns = self._opens.values.astype(
-            'datetime64[ns]',
-        ).view('int64')
-
-        closes_in_ns = self._closes.values.astype(
-            'datetime64[ns]',
-        ).view('int64')
-
         return DatetimeIndex(
-            compute_all_minutes(opens_in_ns, closes_in_ns),
+            compute_all_minutes(
+                self.market_opens_nanos,
+                self.market_break_starts_nanos,
+                self.market_break_ends_nanos,
+                self.market_closes_nanos,
+            ),
             tz=UTC,
         )
 
-    @preprocess(dt=coerce(pd.Timestamp, attrgetter('value')))
     def minute_to_session_label(self, dt, direction="next"):
         """
         Given a minute, get the label of its containing session.
@@ -850,6 +968,9 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         pd.Timestamp (midnight UTC)
             The label of the containing session.
         """
+        if isinstance(dt, pd.Timestamp):
+            dt = dt.value
+
         if direction == "next":
             if self._minute_to_session_label_cache[0] == dt:
                 return self._minute_to_session_label_cache[1]
@@ -858,16 +979,15 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         current_or_next_session = self.schedule.index[idx]
 
         if direction == "next":
-            self._minute_to_session_label_cache = (dt, current_or_next_session)
+            self._minute_to_session_label_cache = (
+                dt, current_or_next_session
+            )
             return current_or_next_session
         elif direction == "previous":
-            if not is_open(self.market_opens_nanos, self.market_closes_nanos,
-                           dt):
-                # if the exchange is closed, use the previous session
+            if not self.is_open_on_minute(dt, ignore_breaks=True):
                 return self.schedule.index[idx - 1]
         elif direction == "none":
-            if not is_open(self.market_opens_nanos, self.market_closes_nanos,
-                           dt):
+            if not self.is_open_on_minute(dt):
                 # if the exchange is closed, blow up
                 raise ValueError("The given dt is not an exchange minute!")
         else:
@@ -896,7 +1016,6 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             raise ValueError(
                 "Non-ordered index passed to minute_index_to_session_labels."
             )
-
         # Find the indices of the previous open and the next close for each
         # minute.
         prev_opens = (
@@ -914,8 +1033,16 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             example = index[bad_ix]
 
             prev_day = prev_opens[bad_ix]
-            prev_open, prev_close = self.schedule.iloc[prev_day]
-            next_open, next_close = self.schedule.iloc[prev_day + 1]
+            prev_open, prev_close = (
+                self.schedule.iloc[prev_day].loc[
+                    ['market_open', 'market_close']
+                ]
+            )
+            next_open, next_close = (
+                self.schedule.iloc[prev_day + 1].loc[
+                    ['market_open', 'market_close']
+                ]
+            )
 
             raise ValueError(
                 "{num} non-market minutes in minute_index_to_session_labels:\n"
@@ -1002,6 +1129,32 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         )
 
 
+def _check_breaks_match(market_break_starts_nanos, market_break_ends_nanos):
+    """Checks that market_break_starts_nanos and market_break_ends_nanos
+
+    Parameters
+    ----------
+    market_break_starts_nanos : np.ndarray
+    market_break_ends_nanos : np.ndarray
+    """
+    nats_match = np.equal(
+        NP_NAT == market_break_starts_nanos,
+        NP_NAT == market_break_ends_nanos
+    )
+    if not nats_match.all():
+        raise ValueError(
+            """
+            Mismatched market breaks
+            Break starts:
+            %s
+            Break ends:
+            %s
+            """,
+            market_break_starts_nanos[~nats_match],
+            market_break_ends_nanos[~nats_match]
+        )
+
+
 def scheduled_special_times(calendar, start, end, time, tz):
     """
     Returns a Series mapping each holiday (as a UTC midnight Timestamp)
@@ -1015,27 +1168,28 @@ def scheduled_special_times(calendar, start, end, time, tz):
     )
 
 
-def _overwrite_special_dates(midnight_utcs,
-                             opens_or_closes,
-                             special_opens_or_closes):
+def _overwrite_special_dates(
+    session_labels, opens_or_closes, special_opens_or_closes
+):
     """
     Overwrite dates in open_or_closes with corresponding dates in
-    special_opens_or_closes, using midnight_utcs for alignment.
+    special_opens_or_closes, using session_labels for alignment.
     """
     # Short circuit when nothing to apply.
     if not len(special_opens_or_closes):
         return
 
-    len_m, len_oc = len(midnight_utcs), len(opens_or_closes)
+    len_m, len_oc = len(session_labels), len(opens_or_closes)
     if len_m != len_oc:
         raise ValueError(
             "Found misaligned dates while building calendar.\n"
-            "Expected midnight_utcs to be the same length as open_or_closes,\n"
-            "but len(midnight_utcs)=%d, len(open_or_closes)=%d" % len_m, len_oc
+            "Expected session_labels to be the same length as "
+            "open_or_closes but,\n"
+            "len(session_labels)=%d, len(open_or_closes)=%d" % (len_m, len_oc)
         )
 
     # Find the array indices corresponding to each special date.
-    indexer = midnight_utcs.get_indexer(special_opens_or_closes.index)
+    indexer = session_labels.get_indexer(special_opens_or_closes.index)
 
     # -1 indicates that no corresponding entry was found.  If any -1s are
     # present, then we have special dates that doesn't correspond to any
@@ -1049,6 +1203,47 @@ def _overwrite_special_dates(midnight_utcs,
     # maintaining sorting, this should be ok, but this is a good place to
     # sanity check if things start going haywire with calendar computations.
     opens_or_closes.values[indexer] = special_opens_or_closes.values
+
+
+def _remove_breaks_for_special_dates(
+    session_labels, break_start_or_end, special_opens_or_closes
+):
+    """
+    Overwrite breaks in break_start_or_end with corresponding dates in
+    special_opens_or_closes, using session_labels for alignment.
+    """
+    # Short circuit when we have no breaks
+    if break_start_or_end is None:
+        return
+
+    # Short circuit when nothing to apply.
+    if not len(special_opens_or_closes):
+        return
+
+    len_m, len_oc = len(session_labels), len(break_start_or_end)
+    if len_m != len_oc:
+        raise ValueError(
+            "Found misaligned dates while building calendar.\n"
+            "Expected session_labels to be the same length as break_starts,\n"
+            "but len(session_labels)=%d, len(break_start_or_end)=%d"
+            % (len_m, len_oc)
+        )
+
+    # Find the array indices corresponding to each special date.
+    indexer = session_labels.get_indexer(special_opens_or_closes.index)
+
+    # -1 indicates that no corresponding entry was found.  If any -1s are
+    # present, then we have special dates that doesn't correspond to any
+    # trading day.
+    if -1 in indexer:
+        bad_dates = list(special_opens_or_closes[indexer == -1])
+        raise ValueError("Special dates %s are not trading days." % bad_dates)
+
+    # NOTE: This is a slightly dirty hack.  We're in-place overwriting the
+    # internal data of an Index, which is conceptually immutable.  Since we're
+    # maintaining sorting, this should be ok, but this is a good place to
+    # sanity check if things start going haywire with calendar computations.
+    break_start_or_end.values[indexer] = NP_NAT
 
 
 class HolidayCalendar(AbstractHolidayCalendar):

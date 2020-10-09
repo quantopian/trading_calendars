@@ -246,6 +246,7 @@ class XHKGExchangeCalendar(TradingCalendar):
     Exchange calendar for the Hong Kong Stock Exchange (XHKG).
 
     Open Time: 9:31 AM, Asia/Hong_Kong
+    Lunch Break: 12:01 PM - 1:00 PM Asia/Hong_Kong
     Close Time: 4:00 PM, Asia/Hong_Kong
 
     Regularly-Observed Holidays:
@@ -278,6 +279,12 @@ class XHKGExchangeCalendar(TradingCalendar):
     open_times = (
         (None, time(10, 1)),
         (pd.Timestamp('2011-03-07'), time(9, 31)),
+    )
+    break_start_times = (
+        (None, time(12, 1)),
+    )
+    break_end_times = (
+        (None, time(13, 0)),
     )
     close_times = (
         (None, time(16)),
