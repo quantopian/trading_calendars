@@ -93,7 +93,7 @@ def compute_all_minutes(
     for open_time, break_start_time, break_end_time, close_time in zip(
         opens_in_ns, break_starts_in_ns, break_ends_in_ns, closes_in_ns
     ):
-        if break_start_time != NP_NAT and break_end_time != NP_NAT:
+        if break_start_time != NP_NAT:
             pieces.append(
                 np.arange(
                     open_time,

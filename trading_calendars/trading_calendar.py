@@ -191,6 +191,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.market_closes_nanos = self.schedule.market_close.values.\
             astype(np.int64)
 
+        check_breaks_match(
+            self.market_break_starts_nanos,
+            self.market_break_ends_nanos
+        )
+
         self._trading_minutes_nanos = self.all_minutes.values.\
             astype(np.int64)
 
@@ -1116,6 +1121,32 @@ class TradingCalendar(with_metaclass(ABCMeta)):
             self.special_closes_adhoc,
             start,
             end,
+        )
+
+
+def check_breaks_match(market_break_starts_nanos, market_break_ends_nanos):
+    """Checks that market_break_starts_nanos and market_break_ends_nanos
+
+    Parameters
+    ----------
+    market_break_starts_nanos : np.ndarray
+    market_break_ends_nanos : np.ndarray
+    """
+    nats_match = np.equal(
+        NP_NAT == market_break_starts_nanos,
+        NP_NAT == market_break_ends_nanos
+    )
+    if not nats_match.all():
+        raise ValueError(
+            """
+            Mismatched market breaks
+            Break starts:
+            %s
+            Break ends:
+            %s
+            """,
+            market_break_starts_nanos[~nats_match],
+            market_break_ends_nanos[~nats_match]
         )
 
 
