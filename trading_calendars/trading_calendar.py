@@ -30,6 +30,7 @@ from pandas.tseries.offsets import CustomBusinessDay
 import toolz
 
 from .calendar_helpers import (
+    NP_NAT,
     compute_all_minutes,
     is_betweeen_open_and_close,
     is_open,
