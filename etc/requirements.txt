@@ -1,5 +1,4 @@
 # This file is used to pin dependencies when running tests on travis/appveyor
--e .
 configparser==3.5.0
 enum34==1.1.6
 flake8==3.7.9
