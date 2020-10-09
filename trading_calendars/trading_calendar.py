@@ -154,12 +154,12 @@ class TradingCalendar(with_metaclass(ABCMeta)):
 
         self.schedule = DataFrame(
             index=_all_days,
-            data=OrderedDict({
-                'market_open': self._opens,
-                'break_start': self._break_starts,
-                'break_end': self._break_ends,
-                'market_close': self._closes,
-            }),
+            data=OrderedDict([
+                ('market_open', self._opens),
+                ('break_start', self._break_starts),
+                ('break_end', self._break_ends),
+                ('market_close', self._closes),
+            ]),
             dtype='datetime64[ns]',
         )
 
