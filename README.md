@@ -86,7 +86,7 @@ xnys.sessions_window(
                   dtype='datetime64[ns, UTC]', freq='C')
 
 
-**NOTE**: the [TradingCalendar class](https://github.com/quantopian/trading_calendars/blob/master/trading_calendars/trading_calendar.py) for more advanced usage.
+**NOTE**: see the [TradingCalendar class](https://github.com/quantopian/trading_calendars/blob/master/trading_calendars/trading_calendar.py) for more advanced usage.
 
 Trading calendars also supports commandline usage, printing a unix-cal like calendar indicating which days are trading sessions.
 
@@ -110,7 +110,7 @@ tcal XNYS 2020
     [12] 13  14  15  16  17 [18]   [10] 11  12  13  14  15 [16]   [14] 15  16  17  18  19 [20]
     [19] 20  21  22  23  24 [25]   [17] 18  19  20  21  22 [23]   [21] 22  23  24  25  26 [27]
     [26] 27  28  29  30            [24][25] 26  27  28  29 [30]   [28] 29  30
-                                [31]
+                                   [31]
 
                 July                          August                       September
     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa
@@ -119,7 +119,7 @@ tcal XNYS 2020
     [12] 13  14  15  16  17 [18]   [ 9] 10  11  12  13  14 [15]   [13] 14  15  16  17  18 [19]
     [19] 20  21  22  23  24 [25]   [16] 17  18  19  20  21 [22]   [20] 21  22  23  24  25 [26]
     [26] 27  28  29  30  31        [23] 24  25  26  27  28 [29]   [27] 28  29  30
-                                [30] 31
+                                   [30] 31
 
             October                        November                       December
     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa
@@ -128,7 +128,7 @@ tcal XNYS 2020
     [11] 12  13  14  15  16 [17]   [ 8]  9  10  11  12  13 [14]   [13] 14  15  16  17  18 [19]
     [18] 19  20  21  22  23 [24]   [15] 16  17  18  19  20 [21]   [20] 21  22  23  24 [25][26]
     [25] 26  27  28  29  30 [31]   [22] 23  24  25 [26] 27 [28]   [27] 28  29  30  31
-                                [29] 30
+                                   [29] 30
 
 ```bash
 tcal XNYS 1 2020
@@ -146,14 +146,14 @@ tcal XNYS 1 2020
 
 ### Why are open times one minute late?
 
-Due to its historical use in the [Zipline](https://github.com/quantopian/zipline) backtesting system, `trading_calendars` will only indicate a market is open on the completion of the first minute bar in a day. As an example, on a regular trading day for NYSE:
+Due to its historical use in the [Zipline](https://github.com/quantopian/zipline) backtesting system, `trading_calendars` will only indicate a market is open upon the completion of the first minute bar in a day. As an example, on a regular trading day for NYSE:
 
-- 9:30:00 returns market closed.
-- 9:30:01 returns market closed.
-- 9:31:00 is the first time returned as open.
-- 16:00:00 returns market open
+- 9:30:00 is treated as closed.
+- 9:30:01 is treated as  closed.
+- 9:31:00 is the first time treated as open.
+- 16:00:00 is treated as open
 
-This does not affect calendars you define yourself, but is true of all existing calendars in the library.
+This may change in the future.
 
 
 ## Calendar Support
