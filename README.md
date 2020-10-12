@@ -1,7 +1,7 @@
 # trading_calendars
 
 ![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)
-[![PyPI version](https://badge.fury.io/py/trading-calendars.svg)](https://badge.fury.io/py/trading-calendars)
+[![PyPI version](https://img.shields.io/pypi/v/trading-calendars.svg)](https://pypi.org/project/trading-calendars/)
 [![Conda version](https://img.shields.io/conda/vn/conda-forge/trading-calendars.svg)](https://anaconda.org/conda-forge/trading-calendars)
 
 A Python library of exchange calendars, frequently used with [Zipline](https://github.com/quantopian/zipline).
