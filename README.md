@@ -39,12 +39,16 @@ Working with sessions:
 ```python
 >>> xnys.is_session(pd.Timestamp("2020-01-01"))
 False
+
 >>> xnys.next_open(pd.Timestamp("2020-01-01"))
 Timestamp('2020-01-02 14:31:00+0000', tz='UTC')
+
 >>> pd.Timestamp("2020-01-01", tz=pytz.UTC)+xnys.day
 Timestamp('2020-01-02 00:00:00+0000', tz='UTC')
+
 >>> xnys.previous_close(pd.Timestamp("2020-01-01"))
 Timestamp('2019-12-31 21:00:00+0000', tz='UTC')
+
 >>> xnys.sessions_in_range(
 >>>     pd.Timestamp("2020-01-01", tz=pytz.UTC),
 >>>     pd.Timestamp("2020-01-10", tz=pytz.UTC)
@@ -54,6 +58,7 @@ DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
                 '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
                 '2020-01-10 00:00:00+00:00'],
                 dtype='datetime64[ns, UTC]', freq='C')
+
 >>> xnys.sessions_window(
 >>>     pd.Timestamp("2020-01-02", tz=pytz.UTC),
 >>>     7
