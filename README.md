@@ -131,6 +131,7 @@ Due to its historical use in the [Zipline](https://github.com/quantopian/zipline
 - 9:30:01 is treated as closed.
 - 9:31:00 is the first time treated as open.
 - 16:00:00 is treated as open
+- 16:00:01 is treated as closed
 
 This may change in the future.
 
