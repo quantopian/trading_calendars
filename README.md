@@ -24,68 +24,46 @@ import pytz
 Get all registered calendars with `get_calendar_names`:
 
 ```python
-tc.get_calendar_names()[:5]
+>>> tc.get_calendar_names()[:5]
+['XPHS', 'FWB', 'CFE', 'CMES', 'XSGO']
 ```
-    ['XPHS', 'FWB', 'CFE', 'CMES', 'XSGO']
 
-Instantiate a calendar with `get_calendar`:
+Get a calendar with `get_calendar`:
 
 ```python
-xnys = tc.get_calendar("XNYS")
+>>> xnys = tc.get_calendar("XNYS")
 ```
 
 Working with sessions:
 
 ```python
-xnys.is_session(pd.Timestamp("2020-01-01"))
+>>> xnys.is_session(pd.Timestamp("2020-01-01"))
+False
+>>> xnys.next_open(pd.Timestamp("2020-01-01"))
+Timestamp('2020-01-02 14:31:00+0000', tz='UTC')
+>>> pd.Timestamp("2020-01-01", tz=pytz.UTC)+xnys.day
+Timestamp('2020-01-02 00:00:00+0000', tz='UTC')
+>>> xnys.previous_close(pd.Timestamp("2020-01-01"))
+Timestamp('2019-12-31 21:00:00+0000', tz='UTC')
+>>> xnys.sessions_in_range(
+>>>     pd.Timestamp("2020-01-01", tz=pytz.UTC),
+>>>     pd.Timestamp("2020-01-10", tz=pytz.UTC)
+>>> )
+DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
+                '2020-01-06 00:00:00+00:00', '2020-01-07 00:00:00+00:00',
+                '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
+                '2020-01-10 00:00:00+00:00'],
+                dtype='datetime64[ns, UTC]', freq='C')
+>>> xnys.sessions_window(
+>>>     pd.Timestamp("2020-01-02", tz=pytz.UTC),
+>>>     7
+>>> )
+DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
+                '2020-01-06 00:00:00+00:00', '2020-01-07 00:00:00+00:00',
+                '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
+                '2020-01-10 00:00:00+00:00', '2020-01-13 00:00:00+00:00'],
+                dtype='datetime64[ns, UTC]', freq='C')
 ```
-
-    False
-
-```python
-xnys.next_open(pd.Timestamp("2020-01-01"))
-```
-
-    Timestamp('2020-01-02 14:31:00+0000', tz='UTC')
-
-```python
-pd.Timestamp("2020-01-01", tz=pytz.UTC)+xnys.day
-```
-
-    Timestamp('2020-01-02 00:00:00+0000', tz='UTC')
-
-```python
-xnys.previous_close(pd.Timestamp("2020-01-01"))
-```
-
-    Timestamp('2019-12-31 21:00:00+0000', tz='UTC')
-
-```python
-xnys.sessions_in_range(
-    pd.Timestamp("2020-01-01", tz=pytz.UTC),
-    pd.Timestamp("2020-01-10", tz=pytz.UTC)
-)
-```
-
-    DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
-                   '2020-01-06 00:00:00+00:00', '2020-01-07 00:00:00+00:00',
-                   '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
-                   '2020-01-10 00:00:00+00:00'],
-                  dtype='datetime64[ns, UTC]', freq='C')
-
-```python
-xnys.sessions_window(
-    pd.Timestamp("2020-01-02", tz=pytz.UTC),
-    7
-)
-```
-
-    DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
-                   '2020-01-06 00:00:00+00:00', '2020-01-07 00:00:00+00:00',
-                   '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
-                   '2020-01-10 00:00:00+00:00', '2020-01-13 00:00:00+00:00'],
-                  dtype='datetime64[ns, UTC]', freq='C')
-
 
 **NOTE**: see the [TradingCalendar class](https://github.com/quantopian/trading_calendars/blob/master/trading_calendars/trading_calendar.py) for more advanced usage.
 
