@@ -1,6 +1,6 @@
 # trading_calendars
 
-![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)
+[![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)](https://github.com/quantopian/trading_calendars/actions?query=workflow%3ACI)
 [![PyPI version](https://img.shields.io/pypi/v/trading-calendars.svg)](https://pypi.org/project/trading-calendars/)
 [![Conda version](https://img.shields.io/conda/vn/conda-forge/trading-calendars.svg)](https://anaconda.org/conda-forge/trading-calendars)
 
@@ -67,7 +67,7 @@ DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
 
 **NOTE**: see the [TradingCalendar class](https://github.com/quantopian/trading_calendars/blob/master/trading_calendars/trading_calendar.py) for more advanced usage.
 
-Trading calendars also supports commandline usage, printing a unix-cal like calendar indicating which days are trading sessions or holidays.
+Trading calendars also supports command line usage, printing a unix-cal like calendar indicating which days are trading sessions or holidays.
 
 ```bash
 tcal XNYS 2020
