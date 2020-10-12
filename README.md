@@ -1,8 +1,162 @@
 # trading_calendars
 
 ![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)
+[![PyPI version](https://badge.fury.io/py/trading-calendars.svg)](https://badge.fury.io/py/trading-calendars)
 
-A Python library of exchange calendars meant to be used with [Zipline](https://github.com/quantopian/zipline).
+A Python library of exchange calendars, frequently used with [Zipline](https://github.com/quantopian/zipline).
+
+
+## Installation
+
+```bash
+$ pip install trading-calendars
+```
+
+## Quick Start
+
+```python
+import trading_calendars as tc
+import pandas as pd
+import pytz
+```
+
+Get all registered calendars with `get_calendar_names`:
+
+```python
+tc.get_calendar_names()[:5]
+```
+    ['XPHS', 'FWB', 'CFE', 'CMES', 'XSGO']
+
+Instantiate a calendar with `get_calendar`:
+
+```python
+xnys = tc.get_calendar("XNYS")
+```
+
+Working with sessions:
+
+```python
+xnys.is_session(pd.Timestamp("2020-01-01"))
+```
+
+    False
+
+```python
+xnys.next_open(pd.Timestamp("2020-01-01"))
+```
+
+    Timestamp('2020-01-02 14:31:00+0000', tz='UTC')
+
+```python
+pd.Timestamp("2020-01-01", tz=pytz.UTC)+xnys.day
+```
+
+    Timestamp('2020-01-02 00:00:00+0000', tz='UTC')
+
+```python
+xnys.previous_close(pd.Timestamp("2020-01-01"))
+```
+
+    Timestamp('2019-12-31 21:00:00+0000', tz='UTC')
+
+```python
+xnys.sessions_in_range(
+    pd.Timestamp("2020-01-01", tz=pytz.UTC),
+    pd.Timestamp("2020-01-10", tz=pytz.UTC)
+)
+```
+
+    DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
+                   '2020-01-06 00:00:00+00:00', '2020-01-07 00:00:00+00:00',
+                   '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
+                   '2020-01-10 00:00:00+00:00'],
+                  dtype='datetime64[ns, UTC]', freq='C')
+
+```python
+xnys.sessions_window(
+    pd.Timestamp("2020-01-02", tz=pytz.UTC),
+    7
+)
+```
+
+    DatetimeIndex(['2020-01-02 00:00:00+00:00', '2020-01-03 00:00:00+00:00',
+                   '2020-01-06 00:00:00+00:00', '2020-01-07 00:00:00+00:00',
+                   '2020-01-08 00:00:00+00:00', '2020-01-09 00:00:00+00:00',
+                   '2020-01-10 00:00:00+00:00', '2020-01-13 00:00:00+00:00'],
+                  dtype='datetime64[ns, UTC]', freq='C')
+
+
+**NOTE**: the [TradingCalendar class](https://github.com/quantopian/trading_calendars/blob/master/trading_calendars/trading_calendar.py) for more advanced usage.
+
+Trading calendars also supports commandline usage, printing a unix-cal like calendar indicating which days are trading sessions.
+
+```bash
+tcal XNYS 2020
+```
+                                            2020
+            January                        February                        March
+    Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa
+                [ 1]  2   3 [ 4]                           [ 1]
+    [ 5]  6   7   8   9  10 [11]   [ 2]  3   4   5   6   7 [ 8]   [ 1]  2   3   4   5   6 [ 7]
+    [12] 13  14  15  16  17 [18]   [ 9] 10  11  12  13  14 [15]   [ 8]  9  10  11  12  13 [14]
+    [19][20] 21  22  23  24 [25]   [16][17] 18  19  20  21 [22]   [15] 16  17  18  19  20 [21]
+    [26] 27  28  29  30  31        [23] 24  25  26  27  28 [29]   [22] 23  24  25  26  27 [28]
+                                                                [29] 30  31
+
+            April                           May                            June
+    Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa
+                1   2   3 [ 4]                         1 [ 2]         1   2   3   4   5 [ 6]
+    [ 5]  6   7   8   9 [10][11]   [ 3]  4   5   6   7   8 [ 9]   [ 7]  8   9  10  11  12 [13]
+    [12] 13  14  15  16  17 [18]   [10] 11  12  13  14  15 [16]   [14] 15  16  17  18  19 [20]
+    [19] 20  21  22  23  24 [25]   [17] 18  19  20  21  22 [23]   [21] 22  23  24  25  26 [27]
+    [26] 27  28  29  30            [24][25] 26  27  28  29 [30]   [28] 29  30
+                                [31]
+
+                July                          August                       September
+    Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa
+                1   2 [ 3][ 4]                           [ 1]             1   2   3   4 [ 5]
+    [ 5]  6   7   8   9  10 [11]   [ 2]  3   4   5   6   7 [ 8]   [ 6][ 7]  8   9  10  11 [12]
+    [12] 13  14  15  16  17 [18]   [ 9] 10  11  12  13  14 [15]   [13] 14  15  16  17  18 [19]
+    [19] 20  21  22  23  24 [25]   [16] 17  18  19  20  21 [22]   [20] 21  22  23  24  25 [26]
+    [26] 27  28  29  30  31        [23] 24  25  26  27  28 [29]   [27] 28  29  30
+                                [30] 31
+
+            October                        November                       December
+    Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa     Su  Mo  Tu  We  Th  Fr  Sa
+                    1   2 [ 3]                                            1   2   3   4 [ 5]
+    [ 4]  5   6   7   8   9 [10]   [ 1]  2   3   4   5   6 [ 7]   [ 6]  7   8   9  10  11 [12]
+    [11] 12  13  14  15  16 [17]   [ 8]  9  10  11  12  13 [14]   [13] 14  15  16  17  18 [19]
+    [18] 19  20  21  22  23 [24]   [15] 16  17  18  19  20 [21]   [20] 21  22  23  24 [25][26]
+    [25] 26  27  28  29  30 [31]   [22] 23  24  25 [26] 27 [28]   [27] 28  29  30  31
+                                [29] 30
+
+```bash
+tcal XNYS 1 2020
+```
+
+            January 2020
+    Su  Mo  Tu  We  Th  Fr  Sa
+                [ 1]  2   3 [ 4]
+    [ 5]  6   7   8   9  10 [11]
+    [12] 13  14  15  16  17 [18]
+    [19][20] 21  22  23  24 [25]
+    [26] 27  28  29  30  31
+
+## Frequenty Asked Questions
+
+### Why are open times one minute late?
+
+Due to its historical use in the [Zipline](https://github.com/quantopian/zipline) backtesting system, `trading_calendars` will only indicate a market is open on the completion of the first minute bar in a day. As an example, on a regular trading day for NYSE:
+
+- 9:30:00 returns market closed.
+- 9:30:01 returns market closed.
+- 9:31:00 is the first time returned as open.
+- 16:00:00 returns market open
+
+This does not affect calendars you define yourself, but is true of all existing calendars in the library.
+
+
+## Calendar Support
 
 | Exchange                        | ISO Code | Country        | Version Added | Exchange Website (English)                                   |
 | ------------------------------- | -------- | -------------- | ------------- | ------------------------------------------------------------ |
@@ -56,37 +210,3 @@ A Python library of exchange calendars meant to be used with [Zipline](https://g
 | Pakistan Stock Exchange         | XKAR     | Pakistan       | 1.11          | https://www.psx.com.pk/                                      |
 
 > Note that exchange calendars are defined by their [ISO-10383](https://www.iso20022.org/10383/iso-10383-market-identifier-codes) market identifier code.
-
-## Installation
-
-``` bash
-$ pip install trading-calendars
-```
-
-## Usage
-
-``` python
-from trading_calendars import get_calendar
-
-# US Stock Exchanges (includes NASDAQ)
-us_calendar = get_calendar('XNYS')
-# London Stock Exchange
-london_calendar = get_calendar('XLON')
-# Toronto Stock Exchange
-toronto_calendar = get_calendar('XTSE')
-# Tokyo Stock Exchange
-tokyo_calendar = get_calendar('XTKS')
-# Frankfurt Stock Exchange
-frankfurt_calendar = get_calendar('XFRA')
-
-# US Futures
-us_futures_calendar = get_calendar('us_futures')
-# Chicago Mercantile Exchange
-cme_calendar = get_calendar('CMES')
-# Intercontinental Exchange
-ice_calendar = get_calendar('IEPA')
-# CBOE Futures Exchange
-cfe_calendar = get_calendar('XCBF')
-# Brazilian Mercantile and Futures Exchange
-bmf_calendar = get_calendar('BVMF')
-```
