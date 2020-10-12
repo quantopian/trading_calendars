@@ -146,7 +146,7 @@ tcal XNYS 1 2020
 
 ### Why are open times one minute late?
 
-Due to its historical use in the [Zipline](https://github.com/quantopian/zipline) backtesting system, `trading_calendars` will only indicate a market is open upon the completion of the first minute bar in a day. As an example, on a regular trading day for NYSE:
+Due to its historical use in the [Zipline](https://github.com/quantopian/zipline) backtesting system, `trading_calendars` will only indicate a market is open upon the completion of the first minute bar in a day. Zipline uses minute bars labeled with the end of the bar, e.g. 9:31AM for 9:30-9:31AM. As an example, on a regular trading day for NYSE:
 
 - 9:30:00 is treated as closed.
 - 9:30:01 is treated as  closed.
