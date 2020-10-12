@@ -2,6 +2,7 @@
 
 ![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)
 [![PyPI version](https://badge.fury.io/py/trading-calendars.svg)](https://badge.fury.io/py/trading-calendars)
+[![Conda version](https://img.shields.io/conda/vn/conda-forge/trading-calendars.svg)](https://anaconda.org/conda-forge/trading-calendars)
 
 A Python library of exchange calendars, frequently used with [Zipline](https://github.com/quantopian/zipline).
 
@@ -88,7 +89,7 @@ xnys.sessions_window(
 
 **NOTE**: see the [TradingCalendar class](https://github.com/quantopian/trading_calendars/blob/master/trading_calendars/trading_calendar.py) for more advanced usage.
 
-Trading calendars also supports commandline usage, printing a unix-cal like calendar indicating which days are trading sessions.
+Trading calendars also supports commandline usage, printing a unix-cal like calendar indicating which days are trading sessions or holidays.
 
 ```bash
 tcal XNYS 2020
@@ -142,14 +143,14 @@ tcal XNYS 1 2020
     [19][20] 21  22  23  24 [25]
     [26] 27  28  29  30  31
 
-## Frequenty Asked Questions
+## Frequently Asked Questions
 
 ### Why are open times one minute late?
 
 Due to its historical use in the [Zipline](https://github.com/quantopian/zipline) backtesting system, `trading_calendars` will only indicate a market is open upon the completion of the first minute bar in a day. Zipline uses minute bars labeled with the end of the bar, e.g. 9:31AM for 9:30-9:31AM. As an example, on a regular trading day for NYSE:
 
 - 9:30:00 is treated as closed.
-- 9:30:01 is treated as  closed.
+- 9:30:01 is treated as closed.
 - 9:31:00 is the first time treated as open.
 - 16:00:00 is treated as open
 
