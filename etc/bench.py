@@ -23,8 +23,6 @@ def construct_all_calendars():
         assert dispatcher.get_calendar(name) is not None
         dispatcher.deregister_calendar(name)
 
-    time.sleep(10)
-
 
 def test_calendar_construction(benchmark):
     benchmark(construct_all_calendars)
