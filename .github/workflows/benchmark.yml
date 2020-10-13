@@ -15,7 +15,7 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        pip install -e .[test] -c etc/requirements_locked.txt
+        pip install -e .[dev] -c etc/requirements_locked.txt
     - name: Run benchmark
       run: |
         pytest etc/bench.py --benchmark-json output.json
