@@ -1,0 +1,4 @@
+flake8
+pytest
+parameterized
+pip-tools
