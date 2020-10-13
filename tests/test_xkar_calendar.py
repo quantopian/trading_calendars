@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pandas as pd
 from pytz import UTC
-from nose_parameterized import parameterized
+from parameterized import parameterized
 
 from .test_trading_calendar import NoDSTExchangeCalendarTestBase
 from trading_calendars.trading_calendar import WEEKENDS

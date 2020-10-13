@@ -14,7 +14,7 @@ from trading_calendars.exchange_calendar_iepa import IEPAExchangeCalendar
 class CalendarAliasTestCase(TestCase):
 
     @classmethod
-    def setupClass(cls):
+    def setup_class(cls):
         # Make a calendar once so that we don't spend time in every test
         # instantiating calendars.
         cls.dispatcher_kwargs = dict(
@@ -26,18 +26,18 @@ class CalendarAliasTestCase(TestCase):
             },
         )
 
-    def setUp(self):
+    def setup_method(self, method):
         self.dispatcher = TradingCalendarDispatcher(
             # Make copies here so that tests that mutate the dispatcher dicts
             # are isolated from one another.
             **{k: v.copy() for k, v in self.dispatcher_kwargs.items()}
         )
 
-    def tearDown(self):
+    def teardown_method(self, method):
         self.dispatcher = None
 
     @classmethod
-    def tearDownClass(cls):
+    def teardown_class(cls):
         cls.dispatcher_kwargs = None
 
     def test_follow_alias_chain(self):
