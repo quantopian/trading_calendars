@@ -1,7 +1,5 @@
 import itertools
 
-import pytest
-
 from trading_calendars.calendar_utils import (
     _default_calendar_aliases,
     _default_calendar_factories,
