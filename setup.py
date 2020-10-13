@@ -80,9 +80,7 @@ if __name__ == '__main__':
         extras_require={
             "test": [
                 "flake8",
-                "nose",
-                "nose-ignore-docstring",
-                "nose-timer",
+                "pytest",
                 "parameterized",
             ],
         },

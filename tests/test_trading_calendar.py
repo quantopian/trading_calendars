@@ -22,7 +22,7 @@ from unittest import TestCase
 
 import numpy as np
 import pandas as pd
-from nose_parameterized import parameterized
+from parameterized import parameterized
 from pandas import read_csv
 from pandas import Timedelta
 from pandas.util.testing import assert_index_equal
