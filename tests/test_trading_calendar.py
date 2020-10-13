@@ -61,11 +61,11 @@ class FakeCalendar(TradingCalendar):
 
 
 class CalendarRegistrationTestCase(TestCase):
-    def setUp(self):
+    def setup_method(self, method):
         self.dummy_cal_type = FakeCalendar
         self.dispatcher = TradingCalendarDispatcher({}, {}, {})
 
-    def tearDown(self):
+    def teardown_method(self, method):
         self.dispatcher.clear_calendars()
 
     def test_register_calendar(self):
@@ -229,7 +229,7 @@ class ExchangeCalendarTestBase(object):
         )
 
     @classmethod
-    def setupClass(cls):
+    def setup_class(cls):
         cls.answers = cls.load_answer_key(cls.answer_key_filename)
 
         cls.start_date = cls.answers.index[0]
@@ -240,7 +240,7 @@ class ExchangeCalendarTestBase(object):
         cls.one_hour = pd.Timedelta(hours=1)
 
     @classmethod
-    def teardownClass(cls):
+    def teardown_class(cls):
         cls.calendar = None
         cls.answers = None
 
