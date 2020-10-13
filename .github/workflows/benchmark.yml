@@ -35,4 +35,4 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         # Enable alert commit comment
         comment-on-alert: true
-        alert-threshold: "125%"
+        alert-threshold: "110%"
