@@ -1,4 +1,5 @@
 import itertools
+import time
 
 from trading_calendars.calendar_utils import (
     _default_calendar_aliases,
@@ -21,6 +22,8 @@ def construct_all_calendars():
     for name in calendar_names:
         assert dispatcher.get_calendar(name) is not None
         dispatcher.deregister_calendar(name)
+
+    time.sleep(5)
 
 
 def test_calendar_construction(benchmark):
