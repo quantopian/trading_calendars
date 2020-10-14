@@ -29,10 +29,10 @@ pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
 pyparsing==2.4.7          # via packaging
 pytest==4.6.11            # via -r etc/requirements_dev.in
-python-dateutil==2.8.1    # via pandas
+python-dateutil==2.8.1    # via -r etc/requirements.in, pandas
 pytz==2020.1              # via -r etc/requirements.in, pandas
 scandir==1.10.0           # via pathlib2
-six==1.15.0               # via more-itertools, packaging, pathlib2, pip-tools, pytest, python-dateutil
+six==1.15.0               # via -r etc/requirements.in, more-itertools, packaging, pathlib2, pip-tools, pytest, python-dateutil
 toolz==0.10.0             # via -r etc/requirements.in
 typing==3.7.4.3           # via flake8
 wcwidth==0.2.5            # via pytest

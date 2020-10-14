@@ -48,7 +48,9 @@ classifiers = [
 reqs = [
     "numpy",
     "pandas",
+    "python-dateutil",
     "pytz",
+    "six",
     "toolz",
 ]
 
