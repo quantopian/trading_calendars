@@ -1,5 +1,4 @@
 import itertools
-import time
 
 from trading_calendars.calendar_utils import (
     _default_calendar_aliases,
