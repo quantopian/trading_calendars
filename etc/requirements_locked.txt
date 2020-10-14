@@ -7,6 +7,7 @@
 attrs==20.2.0             # via pytest
 click==7.1.2              # via pip-tools
 flake8==3.8.4             # via -r etc/requirements_dev.in
+importlib-metadata==2.0.0  # via flake8, pluggy, pytest
 iniconfig==1.0.1          # via pytest
 mccabe==0.6.1             # via flake8
 numpy==1.19.2             # via -r etc/requirements.in, pandas
@@ -20,11 +21,12 @@ pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
 pyparsing==2.4.7          # via packaging
 pytest==6.1.1             # via -r etc/requirements_dev.in
-python-dateutil==2.8.1    # via pandas
+python-dateutil==2.8.1    # via -r etc/requirements.in, pandas
 pytz==2020.1              # via -r etc/requirements.in, pandas
-six==1.15.0               # via packaging, pip-tools, python-dateutil
+six==1.15.0               # via -r etc/requirements.in, packaging, pip-tools, python-dateutil
 toml==0.10.1              # via pytest
 toolz==0.11.1             # via -r etc/requirements.in
+zipp==3.3.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
