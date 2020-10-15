@@ -25,7 +25,6 @@ import pandas as pd
 from parameterized import parameterized
 from pandas import read_csv
 from pandas import Timedelta
-from pandas.util.testing import assert_index_equal
 from pytz import timezone
 from pytz import UTC
 from toolz import concat
@@ -34,7 +33,6 @@ from trading_calendars.errors import (
     CalendarNameCollision,
     InvalidCalendarName,
 )
-
 from trading_calendars import (
     get_calendar,
 )
@@ -47,6 +45,9 @@ from trading_calendars.trading_calendar import (
     days_at_time,
     TradingCalendar,
 )
+from trading_calendars.utils.pandas_utils import testing
+
+assert_index_equal = testing.assert_index_equal
 
 
 class FakeCalendar(TradingCalendar):
@@ -825,7 +826,7 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[-1],
         )
         found_opens.index.freq = None
-        pd.util.testing.assert_series_equal(
+        testing.assert_series_equal(
             found_opens, self.answers['market_open']
         )
 
@@ -835,7 +836,7 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[-1],
         )
         found_closes.index.freq = None
-        pd.util.testing.assert_series_equal(
+        testing.assert_series_equal(
             found_closes, self.answers['market_close']
         )
 
