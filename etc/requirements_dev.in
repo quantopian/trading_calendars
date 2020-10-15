@@ -1,5 +1,8 @@
 flake8
+
 pytest
 pytest-benchmark
 parameterized
+pytest-xdist
+
 pip-tools

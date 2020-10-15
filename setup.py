@@ -85,6 +85,7 @@ if __name__ == '__main__':
                 "pytest",
                 "pytest-benchmark",
                 "parameterized",
+                "pytest-xdist",
             ],
         },
     )
