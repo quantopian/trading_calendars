@@ -47,7 +47,7 @@ jobs:
       env:
         PYTHONWARNINGS: ignore:DEPRECATION::pip._internal.cli.base_command
       run: |
-        pip install -e .[test]
+        pip install -e .[dev]
     - name: Lint with flake8
       run: |
         flake8

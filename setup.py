@@ -80,9 +80,10 @@ if __name__ == '__main__':
         ),
         install_requires=reqs,
         extras_require={
-            "test": [
+            "dev": [
                 "flake8",
                 "pytest",
+                "pytest-benchmark",
                 "parameterized",
             ],
         },

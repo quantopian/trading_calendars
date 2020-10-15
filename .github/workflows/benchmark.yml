@@ -1,0 +1,38 @@
+name: Benchmark
+
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  benchmark:
+    name: Performance regression check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        pip install -e .[dev] -c etc/requirements_locked.txt
+    - name: Run benchmark
+      run: |
+        pytest etc/bench.py --benchmark-json output.json
+    - name: Download previous benchmark data
+      uses: actions/cache@v1
+      with:
+        path: ./cache
+        key: ${{ runner.os }}-benchmark
+    - name: Store benchmark result
+      uses: rhysd/github-action-benchmark@v1
+      with:
+        tool: 'pytest'
+        output-file-path: output.json
+        external-data-json-path: ./cache/benchmark-data.json
+        fail-on-alert: true
+        # GitHub API token to make a commit comment
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # Enable alert commit comment
+        comment-on-alert: true
+        alert-threshold: "110%"
