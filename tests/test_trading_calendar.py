@@ -25,7 +25,6 @@ import pandas as pd
 from parameterized import parameterized
 from pandas import read_csv
 from pandas import Timedelta
-from pandas.util.testing import assert_index_equal
 from pytz import timezone
 from pytz import UTC
 from toolz import concat
@@ -34,7 +33,6 @@ from trading_calendars.errors import (
     CalendarNameCollision,
     InvalidCalendarName,
 )
-
 from trading_calendars import (
     get_calendar,
 )
@@ -47,6 +45,9 @@ from trading_calendars.trading_calendar import (
     days_at_time,
     TradingCalendar,
 )
+from trading_calendars.utils.pandas_utils import testing
+
+assert_index_equal = testing.assert_index_equal
 
 
 class FakeCalendar(TradingCalendar):
@@ -396,17 +397,16 @@ class ExchangeCalendarTestBase(object):
                 )
 
     def test_minute_to_session_label(self):
-        for idx, info in enumerate(self.answers[1:-2].iterrows()):
-            session_label = info[1].name
-            open_minute = info[1].iloc[0]
-            close_minute = info[1].iloc[1]
+        for idx, (session_label, open_minute, close_minute) in enumerate(
+                self.answers.iloc[1:-2].itertuples(name=None)
+        ):
             hour_into_session = open_minute + self.one_hour
 
             minute_before_session = open_minute - self.one_minute
             minute_after_session = close_minute + self.one_minute
 
-            next_session_label = self.answers.iloc[idx + 2].name
-            previous_session_label = self.answers.iloc[idx].name
+            next_session_label = self.answers.index[idx + 2]
+            previous_session_label = self.answers.index[idx]
 
             # verify that minutes inside a session resolve correctly
             minutes_that_resolve_to_this_session = [
@@ -803,10 +803,8 @@ class ExchangeCalendarTestBase(object):
         self.assertEqual(one_day_distance, 1)
 
     def test_open_and_close_for_session(self):
-        for index, row in self.answers.iterrows():
-            session_label = row.name
-            open_answer = row.iloc[0]
-            close_answer = row.iloc[1]
+        for session_label, open_answer, close_answer in \
+                self.answers.itertuples(name=None):
 
             found_open, found_close = \
                 self.calendar.open_and_close_for_session(session_label)
@@ -828,7 +826,7 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[-1],
         )
         found_opens.index.freq = None
-        pd.util.testing.assert_series_equal(
+        testing.assert_series_equal(
             found_opens, self.answers['market_open']
         )
 
@@ -838,7 +836,7 @@ class ExchangeCalendarTestBase(object):
             self.answers.index[-1],
         )
         found_closes.index.freq = None
-        pd.util.testing.assert_series_equal(
+        testing.assert_series_equal(
             found_closes, self.answers['market_close']
         )
 

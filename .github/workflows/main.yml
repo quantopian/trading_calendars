@@ -56,4 +56,4 @@ jobs:
         flake8
     - name: Test with pytest
       run: |
-        pytest tests
+        pytest tests -n auto --dist loadscope

@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file=etc/requirements_locked_old.txt etc/requirements.in etc/requirements_dev.in
 #
+apipkg==1.5               # via execnet
 atomicwrites==1.4.0       # via pytest
 attrs==20.2.0             # via pytest
 backports.functools-lru-cache==1.6.1  # via wcwidth
@@ -12,6 +13,7 @@ configparser==4.0.2       # via flake8, importlib-metadata
 contextlib2==0.6.0.post1  # via importlib-metadata
 docutils==0.16            # via statistics
 enum34==1.1.10            # via flake8
+execnet==1.7.1            # via pytest-xdist
 flake8==3.8.4             # via -r etc/requirements_dev.in
 funcsigs==1.0.2           # via pytest
 functools32==3.2.3.post2  # via flake8
@@ -26,16 +28,18 @@ pathlib2==2.3.5           # via importlib-metadata, pytest, pytest-benchmark
 pip-tools==5.3.1          # via -r etc/requirements_dev.in
 pluggy==0.13.1            # via pytest
 py-cpuinfo==7.0.0         # via pytest-benchmark
-py==1.9.0                 # via pytest
+py==1.9.0                 # via pytest, pytest-forked
 pycodestyle==2.6.0        # via flake8
 pyflakes==2.2.0           # via flake8
 pyparsing==2.4.7          # via packaging
 pytest-benchmark==3.2.3   # via -r etc/requirements_dev.in
-pytest==4.6.11            # via -r etc/requirements_dev.in, pytest-benchmark
-python-dateutil==2.8.1    # via pandas
+pytest-forked==1.3.0      # via pytest-xdist
+pytest-xdist==1.34.0      # via -r etc/requirements_dev.in
+pytest==4.6.11            # via -r etc/requirements_dev.in, pytest-benchmark, pytest-forked, pytest-xdist
+python-dateutil==2.8.1    # via -r etc/requirements.in, pandas
 pytz==2020.1              # via -r etc/requirements.in, pandas
 scandir==1.10.0           # via pathlib2
-six==1.15.0               # via more-itertools, packaging, pathlib2, pip-tools, pytest, python-dateutil
+six==1.15.0               # via -r etc/requirements.in, more-itertools, packaging, pathlib2, pip-tools, pytest, pytest-xdist, python-dateutil
 statistics==1.0.3.5       # via pytest-benchmark
 toolz==0.10.0             # via -r etc/requirements.in
 typing==3.7.4.3           # via flake8

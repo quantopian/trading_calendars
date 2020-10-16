@@ -1,11 +1,13 @@
 from unittest import TestCase
 
 import pandas as pd
-from pandas.util.testing import assert_index_equal
 from pytz import UTC
 
 from trading_calendars.weekday_calendar import WeekdayCalendar
+from trading_calendars.utils.pandas_utils import testing
 from .test_trading_calendar import ExchangeCalendarTestBase
+
+assert_index_equal = testing.assert_index_equal
 
 
 class WeekdayCalendarTestCase(ExchangeCalendarTestBase, TestCase):

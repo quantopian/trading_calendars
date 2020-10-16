@@ -193,11 +193,11 @@ class TradingCalendar(with_metaclass(ABCMeta)):
         self.last_trading_session = _all_days[-1]
 
         self._late_opens = pd.DatetimeIndex(
-            _special_opens.map(self.minute_to_session_label)
+            _special_opens.map(self.minute_index_to_session_labels)
         )
 
         self._early_closes = pd.DatetimeIndex(
-            _special_closes.map(self.minute_to_session_label)
+            _special_closes.map(self.minute_index_to_session_labels)
         )
 
     @lazyval

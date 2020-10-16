@@ -65,3 +65,9 @@ def vectorized_sunday_to_monday(dtix):
     values = dtix.values.copy()
     values[dtix.weekday == 6] += np.timedelta64(1, 'D')
     return pd.DatetimeIndex(values)
+
+
+try:
+    from pandas import testing  # noqa: rexport
+except ImportError:
+    from pandas.util import testing  # noqa: rexport
