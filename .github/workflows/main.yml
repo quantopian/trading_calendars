@@ -15,21 +15,21 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [2.7, 3.5, 3.7, 3.8]
+        python-version: [2.7, 3.5, 3.8, 3.9]
         include:
           - python-version: 2.7
             requirements_file: requirements_locked_old.txt
           - python-version: 3.5
             requirements_file: requirements_locked_old.txt
-          - python-version: 3.7
-            requirements_file: requirements_locked.txt
           - python-version: 3.8
+            requirements_file: requirements_locked.txt
+          - python-version: 3.9
             requirements_file: requirements_locked.txt
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Set Lockfile
