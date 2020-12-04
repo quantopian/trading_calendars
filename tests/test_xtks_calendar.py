@@ -230,3 +230,30 @@ class XTKSCalendarTestCase(ExchangeCalendarTestBase, TestCase):
 
         for session_label in expected_holidays_2020:
             self.assertNotIn(session_label, self.calendar.all_sessions)
+
+    def test_2021(self):
+        expected_holidays_2021 = [
+            pd.Timestamp("2021-01-01", tz="UTC"),  # New Year's Day
+            pd.Timestamp("2021-01-02", tz="UTC"),  # Market Holiday
+            pd.Timestamp("2021-01-03", tz="UTC"),  # Market Holiday
+            pd.Timestamp("2021-01-11", tz="UTC"),  # Coming of Age Day
+            pd.Timestamp("2021-02-11", tz="UTC"),  # National Foundation Day
+            pd.Timestamp("2021-02-23", tz="UTC"),  # Emperor's Birthday
+            pd.Timestamp("2021-03-20", tz="UTC"),  # Vernal Equinox
+            pd.Timestamp("2021-04-29", tz="UTC"),  # Showa Day
+            pd.Timestamp("2021-05-03", tz="UTC"),  # Constitution Memorial Day
+            pd.Timestamp("2021-05-04", tz="UTC"),  # Greenery Day
+            pd.Timestamp("2021-05-05", tz="UTC"),  # Children's Day
+            pd.Timestamp("2021-07-22", tz="UTC"),  # Marine Day
+            pd.Timestamp("2021-07-23", tz="UTC"),  # Sports Day
+            pd.Timestamp("2021-08-08", tz="UTC"),  # Mountain Day
+            pd.Timestamp("2021-08-09", tz="UTC"),  # Mountain Day observed
+            pd.Timestamp("2021-09-20", tz="UTC"),  # Respect for the Aged Day
+            pd.Timestamp("2021-09-23", tz="UTC"),  # Autumnal Equinox
+            pd.Timestamp("2021-11-03", tz="UTC"),  # Culture Day
+            pd.Timestamp("2021-11-23", tz="UTC"),  # Labor Thanksgiving Day
+            pd.Timestamp("2021-12-31", tz="UTC"),  # Market Holiday
+        ]
+
+        for session_label in expected_holidays_2021:
+            self.assertNotIn(session_label, self.calendar.all_sessions)
