@@ -84,7 +84,8 @@ LastWorkingDay = Holiday(
 
 class XETRExchangeCalendar(TradingCalendar):
     """
-    Exchange calendar for the Frankfurt Stock Exchange electronic market (XETR).
+    Exchange calendar for the Frankfurt Stock Exchange electronic market
+    (XETR).
 
     Open Time: 9:00 AM, CET
     Close Time: 5:30 PM, CET
