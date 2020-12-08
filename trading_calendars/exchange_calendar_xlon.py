@@ -128,7 +128,7 @@ WeekendBoxingDay = weekend_boxing_day()
 # If Christmas Eve falls on a weekday, that day is a half day.
 # If it falls on a weekend, the preceding Friday is a half day.
 ChristmasEve = Holiday(
-    'Christmas Eve Early Close',
+    'Christmas Eve',
     month=12,
     day=24,
     observance=previous_friday,
@@ -137,14 +137,14 @@ ChristmasEve = Holiday(
 # is a half day. Except for 1999-12-31, when the Queen declared a
 # bank holiday.
 NewYearsEvePre1999 = Holiday(
-    "New Year's Eve Early Close",
+    "New Year's Eve",
     month=12,
     day=31,
     observance=previous_friday,
     end_date=pd.Timestamp('1999-01-01')
 )
 NewYearsEvePost2000 = Holiday(
-    "New Year's Eve Early Close",
+    "New Year's Eve",
     month=12,
     day=31,
     observance=previous_friday,
