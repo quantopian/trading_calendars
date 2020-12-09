@@ -61,7 +61,7 @@ class XTAEExchangeCalendar(TradingCalendar):
     of the year.
     """ # noqa
     start_date = pd.Timestamp('2019-01-01', tz=UTC)
-    
+
     name = 'XTAE'
 
     tz = timezone('Asia/Tel_Aviv')
