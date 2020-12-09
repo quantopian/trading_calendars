@@ -21,12 +21,14 @@ from .trading_calendar import TradingCalendar
 # All holidays are defined as ad-hoc holidays for each year since there is
 # currently no support for Hebrew calendar holiday rules in pandas.
 
+
 class XTAEExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for TASE Stock Exchange.
 
     Open Time: 10:00 AM, Asia/Tel_Aviv
-    Close Time: 5:14 PM, Asia/Tel_Aviv (excluding pre-close and closing auction phases)
+    Close Time: 5:14 PM, Asia/Tel_Aviv (excluding pre-close and closing auction
+        phases)
 
     Regularly-Observed Holidays (not necessarily in order):
     - Purim
@@ -57,9 +59,10 @@ class XTAEExchangeCalendar(TradingCalendar):
     last Sunday in March, and lasts until the last Sunday in October. During the
     Daylight Saving time period the clock will be UTC+3, and UTC+2 for the rest
     of the year.
-    """
-    def __init__(self)
-        super(XTAEExchangeCalendar, self).__init__(pd.Timestamp('2019-01-01', tz=UTC))
+    """ # noqa
+    def __init__(self):
+        super(XTAEExchangeCalendar, self).__init__(pd.Timestamp('2019-01-01',
+                                                                tz=UTC))
 
     name = 'XTAE'
 
@@ -77,94 +80,178 @@ class XTAEExchangeCalendar(TradingCalendar):
     def adhoc_holidays(self):
         return [
             # 2019
-            pd.Timestamp('2019-03-21', tz='Asia/Jerusalem'), # Purim
-            pd.Timestamp('2019-04-09', tz='Asia/Jerusalem'), # Election Day
-            pd.Timestamp('2019-04-25', tz='Asia/Jerusalem'), # Passover II Eve
-            pd.Timestamp('2019-04-26', tz='Asia/Jerusalem'), # Passover II
-            pd.Timestamp('2019-05-08', tz='Asia/Jerusalem'), # Memorial Day
-            pd.Timestamp('2019-05-09', tz='Asia/Jerusalem'), # Independence Day
-            pd.Timestamp('2019-06-09', tz='Asia/Jerusalem'), # Pentecost (Shavuot)
-            pd.Timestamp('2019-08-11', tz='Asia/Jerusalem'), # Fast Day
-            pd.Timestamp('2019-09-17', tz='Asia/Jerusalem'), # Election Day
-            pd.Timestamp('2019-09-29', tz='Asia/Jerusalem'), # Jewish New Year Eve
-            pd.Timestamp('2019-09-30', tz='Asia/Jerusalem'), # Jewish New Year I
-            pd.Timestamp('2019-10-01', tz='Asia/Jerusalem'), # Jewish New Year II
-            pd.Timestamp('2019-10-08', tz='Asia/Jerusalem'), # Yom Kiuppur Eve
-            pd.Timestamp('2019-10-09', tz='Asia/Jerusalem'), # Yom Kippur
-            pd.Timestamp('2019-10-13', tz='Asia/Jerusalem'), # Feast of Tabernacles (Sukkoth) Eve
-            pd.Timestamp('2019-10-14', tz='Asia/Jerusalem'), # Feast of Tabernacles
-            pd.Timestamp('2019-10-20', tz='Asia/Jerusalem'), # Rejoicing of the Law (Simchat Tora) Eve
-            pd.Timestamp('2019-10-21', tz='Asia/Jerusalem'), # Rejoicing of the Law
+            # Purim
+            pd.Timestamp('2019-03-21', tz='Asia/Jerusalem'),
+            # Election Day
+            pd.Timestamp('2019-04-09', tz='Asia/Jerusalem'),
+            # Passover II Eve
+            pd.Timestamp('2019-04-25', tz='Asia/Jerusalem'),
+            # Passover II
+            pd.Timestamp('2019-04-26', tz='Asia/Jerusalem'),
+            # Memorial Day
+            pd.Timestamp('2019-05-08', tz='Asia/Jerusalem'),
+            # Independence Day
+            pd.Timestamp('2019-05-09', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot)
+            pd.Timestamp('2019-06-09', tz='Asia/Jerusalem'),
+            # Fast Day
+            pd.Timestamp('2019-08-11', tz='Asia/Jerusalem'),
+            # Election Day
+            pd.Timestamp('2019-09-17', tz='Asia/Jerusalem'),
+            # Jewish New Year Eve
+            pd.Timestamp('2019-09-29', tz='Asia/Jerusalem'),
+            # Jewish New Year I
+            pd.Timestamp('2019-09-30', tz='Asia/Jerusalem'),
+            # Jewish New Year II
+            pd.Timestamp('2019-10-01', tz='Asia/Jerusalem'),
+            # Yom Kiuppur Eve
+            pd.Timestamp('2019-10-08', tz='Asia/Jerusalem'),
+            # Yom Kippur
+            pd.Timestamp('2019-10-09', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles (Sukkoth) Eve
+            pd.Timestamp('2019-10-13', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles
+            pd.Timestamp('2019-10-14', tz='Asia/Jerusalem'),
+            # Rejoicing of the Law (Simchat Tora) Eve
+            pd.Timestamp('2019-10-20', tz='Asia/Jerusalem'),
+            # Rejoicing of the Law
+            pd.Timestamp('2019-10-21', tz='Asia/Jerusalem'),
             # 2020
-            pd.Timestamp('2020-03-02', tz='Asia/Jerusalem'), # Election Day
-            pd.Timestamp('2020-03-10', tz='Asia/Jerusalem'), # Purim
-            pd.Timestamp('2020-04-08', tz='Asia/Jerusalem'), # Passover I Eve
-            pd.Timestamp('2020-04-09', tz='Asia/Jerusalem'), # Passover I
-            pd.Timestamp('2020-04-14', tz='Asia/Jerusalem'), # Passover II Eve
-            pd.Timestamp('2020-04-15', tz='Asia/Jerusalem'), # Passover II
-            pd.Timestamp('2020-04-28', tz='Asia/Jerusalem'), # Memorial Day
-            pd.Timestamp('2020-04-29', tz='Asia/Jerusalem'), # Independence Day
-            pd.Timestamp('2020-05-28', tz='Asia/Jerusalem'), # Pentecost (Shavuot) Eve
-            pd.Timestamp('2020-05-29', tz='Asia/Jerusalem'), # Pentecost (Shavuot)
-            pd.Timestamp('2020-07-30', tz='Asia/Jerusalem'), # Fast Day
-            pd.Timestamp('2020-09-20', tz='Asia/Jerusalem'), # Jewesh New Year II
-            pd.Timestamp('2020-09-27', tz='Asia/Jerusalem'), # Yom Kippur Eve
-            pd.Timestamp('2020-09-28', tz='Asia/Jerusalem'), # Yom Kippur
+            # Election Day
+            pd.Timestamp('2020-03-02', tz='Asia/Jerusalem'),
+            # Purim
+            pd.Timestamp('2020-03-10', tz='Asia/Jerusalem'),
+            # Passover I Eve
+            pd.Timestamp('2020-04-08', tz='Asia/Jerusalem'),
+            # Passover I
+            pd.Timestamp('2020-04-09', tz='Asia/Jerusalem'),
+            # Passover II Eve
+            pd.Timestamp('2020-04-14', tz='Asia/Jerusalem'),
+            # Passover II
+            pd.Timestamp('2020-04-15', tz='Asia/Jerusalem'),
+            # Memorial Day
+            pd.Timestamp('2020-04-28', tz='Asia/Jerusalem'),
+            # Independence Day
+            pd.Timestamp('2020-04-29', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot) Eve
+            pd.Timestamp('2020-05-28', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot)
+            pd.Timestamp('2020-05-29', tz='Asia/Jerusalem'),
+            # Fast Day
+            pd.Timestamp('2020-07-30', tz='Asia/Jerusalem'),
+            # Jewesh New Year II
+            pd.Timestamp('2020-09-20', tz='Asia/Jerusalem'),
+            # Yom Kippur Eve
+            pd.Timestamp('2020-09-27', tz='Asia/Jerusalem'),
+            # Yom Kippur
+            pd.Timestamp('2020-09-28', tz='Asia/Jerusalem'),
             # 2021
-            pd.Timestamp('2021-02-26', tz='Asia/Jerusalem'), # Purim
-            pd.Timestamp('2021-03-28', tz='Asia/Jerusalem'), # Passover I
-            pd.Timestamp('2021-04-02', tz='Asia/Jerusalem'), # Passover II Eve
-            pd.Timestamp('2021-04-14', tz='Asia/Jerusalem'), # Memorial Day
-            pd.Timestamp('2021-04-15', tz='Asia/Jerusalem'), # Independence Day
-            pd.Timestamp('2021-05-16', tz='Asia/Jerusalem'), # Pentecost (Shavuot) Eve
-            pd.Timestamp('2021-05-17', tz='Asia/Jerusalem'), # Pentecost (Shavuot)
-            pd.Timestamp('2021-07-18', tz='Asia/Jerusalem'), # Fast Day
-            pd.Timestamp('2021-09-06', tz='Asia/Jerusalem'), # Jewesh New Year Eve
-            pd.Timestamp('2021-09-07', tz='Asia/Jerusalem'), # Jewesh New Year I
-            pd.Timestamp('2021-09-08', tz='Asia/Jerusalem'), # Jewesh New Year II
-            pd.Timestamp('2021-09-15', tz='Asia/Jerusalem'), # Yom Kippur Eve
-            pd.Timestamp('2021-09-16', tz='Asia/Jerusalem'), # Yom Kippur
-            pd.Timestamp('2021-09-20', tz='Asia/Jerusalem'), # Feast of Tabernacles (Sukkoth) Eve
-            pd.Timestamp('2021-09-21', tz='Asia/Jerusalem'), # Feast of Tabernacles (Sukkoth)
-            pd.Timestamp('2021-09-27', tz='Asia/Jerusalem'), # Recoicing of the Law (Simchat Tora) Eve
-            pd.Timestamp('2021-09-28', tz='Asia/Jerusalem'), # Recoicing of the Law (Simchat Tora)
+            # Purim
+            pd.Timestamp('2021-02-26', tz='Asia/Jerusalem'),
+            # Passover I
+            pd.Timestamp('2021-03-28', tz='Asia/Jerusalem'),
+            # Passover II Eve
+            pd.Timestamp('2021-04-02', tz='Asia/Jerusalem'),
+            # Memorial Day
+            pd.Timestamp('2021-04-14', tz='Asia/Jerusalem'),
+            # Independence Day
+            pd.Timestamp('2021-04-15', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot) Eve
+            pd.Timestamp('2021-05-16', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot)
+            pd.Timestamp('2021-05-17', tz='Asia/Jerusalem'),
+            # Fast Day
+            pd.Timestamp('2021-07-18', tz='Asia/Jerusalem'),
+            # Jewesh New Year Eve
+            pd.Timestamp('2021-09-06', tz='Asia/Jerusalem'),
+            # Jewesh New Year I
+            pd.Timestamp('2021-09-07', tz='Asia/Jerusalem'),
+            # Jewesh New Year II
+            pd.Timestamp('2021-09-08', tz='Asia/Jerusalem'),
+            # Yom Kippur Eve
+            pd.Timestamp('2021-09-15', tz='Asia/Jerusalem'),
+            # Yom Kippur
+            pd.Timestamp('2021-09-16', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles (Sukkoth) Eve
+            pd.Timestamp('2021-09-20', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles (Sukkoth)
+            pd.Timestamp('2021-09-21', tz='Asia/Jerusalem'),
+            # Recoicing of the Law (Simchat Tora) Eve
+            pd.Timestamp('2021-09-27', tz='Asia/Jerusalem'),
+            # Recoicing of the Law (Simchat Tora)
+            pd.Timestamp('2021-09-28', tz='Asia/Jerusalem'),
             # 2022
-            pd.Timestamp('2022-03-17', tz='Asia/Jerusalem'), # Purim
-            pd.Timestamp('2022-03-18', tz='Asia/Jerusalem'), # Shushan Purim
-            pd.Timestamp('2022-04-15', tz='Asia/Jerusalem'), # Passover Eve
-            pd.Timestamp('2022-04-21', tz='Asia/Jerusalem'), # Passover II Eve
-            pd.Timestamp('2022-04-22', tz='Asia/Jerusalem'), # Passover II
-            pd.Timestamp('2022-05-04', tz='Asia/Jerusalem'), # Memorial Day (moved up)
-            pd.Timestamp('2022-05-05', tz='Asia/Jerusalem'), # Independence Day
-            pd.Timestamp('2022-06-05', tz='Asia/Jerusalem'), # Pentecost (Shavuot)
-            pd.Timestamp('2022-08-07', tz='Asia/Jerusalem'), # Fast Day (postponed)
-            pd.Timestamp('2022-09-25', tz='Asia/Jerusalem'), # Jewish New Year Eve
-            pd.Timestamp('2022-09-26', tz='Asia/Jerusalem'), # Jewish New Year I
-            pd.Timestamp('2022-09-27', tz='Asia/Jerusalem'), # Jewish New Year II
-            pd.Timestamp('2022-10-04', tz='Asia/Jerusalem'), # Yom Kippur Eve
-            pd.Timestamp('2022-10-05', tz='Asia/Jerusalem'), # Yom Kippur
-            pd.Timestamp('2022-10-09', tz='Asia/Jerusalem'), # Feast of Tabernacles (Sukkoth) Eve
-            pd.Timestamp('2022-10-10', tz='Asia/Jerusalem'), # Feast of Tabernacles (Sukkoth)
-            pd.Timestamp('2022-10-16', tz='Asia/Jerusalem'), # Rejoicing of the Law (Simchat Tora) Eve
-            pd.Timestamp('2022-10-17', tz='Asia/Jerusalem'), # Rejoicing of the Law (Simchat Tora)
+            # Purim
+            pd.Timestamp('2022-03-17', tz='Asia/Jerusalem'),
+            # Shushan Purim
+            pd.Timestamp('2022-03-18', tz='Asia/Jerusalem'),
+            # Passover Eve
+            pd.Timestamp('2022-04-15', tz='Asia/Jerusalem'),
+            # Passover II Eve
+            pd.Timestamp('2022-04-21', tz='Asia/Jerusalem'),
+            # Passover II
+            pd.Timestamp('2022-04-22', tz='Asia/Jerusalem'),
+            # Memorial Day (moved up)
+            pd.Timestamp('2022-05-04', tz='Asia/Jerusalem'),
+            # Independence Day
+            pd.Timestamp('2022-05-05', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot)
+            pd.Timestamp('2022-06-05', tz='Asia/Jerusalem'),
+            # Fast Day (postponed)
+            pd.Timestamp('2022-08-07', tz='Asia/Jerusalem'),
+            # Jewish New Year Eve
+            pd.Timestamp('2022-09-25', tz='Asia/Jerusalem'),
+            # Jewish New Year I
+            pd.Timestamp('2022-09-26', tz='Asia/Jerusalem'),
+            # Jewish New Year II
+            pd.Timestamp('2022-09-27', tz='Asia/Jerusalem'),
+            # Yom Kippur Eve
+            pd.Timestamp('2022-10-04', tz='Asia/Jerusalem'),
+            # Yom Kippur
+            pd.Timestamp('2022-10-05', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles (Sukkoth) Eve
+            pd.Timestamp('2022-10-09', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles (Sukkoth)
+            pd.Timestamp('2022-10-10', tz='Asia/Jerusalem'),
+            # Rejoicing of the Law (Simchat Tora) Eve
+            pd.Timestamp('2022-10-16', tz='Asia/Jerusalem'),
+            # Rejoicing of the Law (Simchat Tora)
+            pd.Timestamp('2022-10-17', tz='Asia/Jerusalem'),
             # 2023
-            pd.Timestamp('2023-03-07', tz='Asia/Jerusalem'), # Purim
-            pd.Timestamp('2023-03-08', tz='Asia/Jerusalem'), # Shushan Purim
-            pd.Timestamp('2023-04-05', tz='Asia/Jerusalem'), # Passover Eve
-            pd.Timestamp('2023-04-06', tz='Asia/Jerusalem'), # Passover
-            pd.Timestamp('2023-04-11', tz='Asia/Jerusalem'), # Passover II Eve
-            pd.Timestamp('2023-04-12', tz='Asia/Jerusalem'), # Passover II
-            pd.Timestamp('2023-04-25', tz='Asia/Jerusalem'), # Memorial Day
-            pd.Timestamp('2023-04-26', tz='Asia/Jerusalem'), # Independence Day
-            pd.Timestamp('2023-05-25', tz='Asia/Jerusalem'), # Pentecost (Shavuot) Eve
-            pd.Timestamp('2023-05-26', tz='Asia/Jerusalem'), # Pentecost (Shavuot)
-            pd.Timestamp('2023-07-27', tz='Asia/Jerusalem'), # Fast Day
-            pd.Timestamp('2023-09-15', tz='Asia/Jerusalem'), # Jewish New Year Eve
-            pd.Timestamp('2023-09-17', tz='Asia/Jerusalem'), # Jewish New Year II
-            pd.Timestamp('2023-09-24', tz='Asia/Jerusalem'), # Yom Kippur Eve
-            pd.Timestamp('2023-09-25', tz='Asia/Jerusalem'), # Yom Kippur
-            pd.Timestamp('2023-09-29', tz='Asia/Jerusalem'), # Feast of Tabernacles (Sukkoth) Eve
-            pd.Timestamp('2023-10-06', tz='Asia/Jerusalem'), # Rejoicing of the Law (Simchat Tora) Eve
+            # Purim
+            pd.Timestamp('2023-03-07', tz='Asia/Jerusalem'),
+            # Shushan Purim
+            pd.Timestamp('2023-03-08', tz='Asia/Jerusalem'),
+            # Passover Eve
+            pd.Timestamp('2023-04-05', tz='Asia/Jerusalem'),
+            # Passover
+            pd.Timestamp('2023-04-06', tz='Asia/Jerusalem'),
+            # Passover II Eve
+            pd.Timestamp('2023-04-11', tz='Asia/Jerusalem'),
+            # Passover II
+            pd.Timestamp('2023-04-12', tz='Asia/Jerusalem'),
+            # Memorial Day
+            pd.Timestamp('2023-04-25', tz='Asia/Jerusalem'),
+            # Independence Day
+            pd.Timestamp('2023-04-26', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot) Eve
+            pd.Timestamp('2023-05-25', tz='Asia/Jerusalem'),
+            # Pentecost (Shavuot)
+            pd.Timestamp('2023-05-26', tz='Asia/Jerusalem'),
+            # Fast Day
+            pd.Timestamp('2023-07-27', tz='Asia/Jerusalem'),
+            # Jewish New Year Eve
+            pd.Timestamp('2023-09-15', tz='Asia/Jerusalem'),
+            # Jewish New Year II
+            pd.Timestamp('2023-09-17', tz='Asia/Jerusalem'),
+            # Yom Kippur Eve
+            pd.Timestamp('2023-09-24', tz='Asia/Jerusalem'),
+            # Yom Kippur
+            pd.Timestamp('2023-09-25', tz='Asia/Jerusalem'),
+            # Feast of Tabernacles (Sukkoth) Eve
+            pd.Timestamp('2023-09-29', tz='Asia/Jerusalem'),
+            # Rejoicing of the Law (Simchat Tora) Eve
+            pd.Timestamp('2023-10-06', tz='Asia/Jerusalem'),
         ]
 
     @property
