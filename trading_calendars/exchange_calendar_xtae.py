@@ -60,10 +60,8 @@ class XTAEExchangeCalendar(TradingCalendar):
     Daylight Saving time period the clock will be UTC+3, and UTC+2 for the rest
     of the year.
     """ # noqa
-    def __init__(self):
-        super(XTAEExchangeCalendar, self).__init__(pd.Timestamp('2019-01-01',
-                                                                tz=UTC))
-
+    start_date = pd.Timestamp('2019-01-01', tz=UTC)
+    
     name = 'XTAE'
 
     tz = timezone('Asia/Tel_Aviv')

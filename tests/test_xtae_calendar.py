@@ -1,11 +1,26 @@
 from unittest import TestCase
 import pandas as pd
+from pytz import UTC
 
 from .test_trading_calendar import ExchangeCalendarTestBase
 from trading_calendars.exchange_calendar_xtae import XTAEExchangeCalendar
 
 
 class XTAECalendarTestCase(ExchangeCalendarTestBase, TestCase):
+
+    # Custom values for start/end test, needed due to XTAE-specific weekmask.
+    TEST_START_END_FIRST = pd.Timestamp('2010-01-02', tz=UTC)
+    TEST_START_END_LAST = pd.Timestamp('2010-01-09', tz=UTC)
+    TEST_START_END_EXPECTED_FIRST = pd.Timestamp('2010-01-03', tz=UTC)
+    TEST_START_END_EXPECTED_LAST = pd.Timestamp('2010-01-07', tz=UTC)
+
+    # XTAE doesn't have early closes.
+    HAVE_EARLY_CLOSES = False
+
+    MINUTE_INDEX_TO_SESSION_LABELS_START = pd.Timestamp('2019-01-07', tz=UTC)
+    MINUTE_INDEX_TO_SESSION_LABELS_END = pd.Timestamp('2019-04-07', tz=UTC)
+
+    DAYLIGHT_SAVINGS_DATES = ["2019-03-31", "2019-10-27"]
 
     answer_key_filename = 'xtae'
     calendar_class = XTAEExchangeCalendar
