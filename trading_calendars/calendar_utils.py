@@ -49,6 +49,7 @@ from .exchange_calendar_xsgo import XSGOExchangeCalendar
 from .exchange_calendar_xshg import XSHGExchangeCalendar
 from .exchange_calendar_xsto import XSTOExchangeCalendar
 from .exchange_calendar_xswx import XSWXExchangeCalendar
+from .exchange_calendar_xtae import XTAEExchangeCalendar
 from .exchange_calendar_xtai import XTAIExchangeCalendar
 from .exchange_calendar_xtks import XTKSExchangeCalendar
 from .exchange_calendar_xtse import XTSEExchangeCalendar
@@ -102,6 +103,7 @@ _default_calendar_factories = {
     'XSHG': XSHGExchangeCalendar,
     'XSTO': XSTOExchangeCalendar,
     'XSWX': XSWXExchangeCalendar,
+    'XTAE': XTAEExchangeCalendar,
     'XTAI': XTAIExchangeCalendar,
     'XTKS': XTKSExchangeCalendar,
     'XTSE': XTSEExchangeCalendar,
@@ -136,6 +138,7 @@ _default_calendar_aliases = {
     'OSE': 'XOSL',
     'BSE': 'XBOM',
     'SSE': 'XSHG',
+    'TASE': 'XTAE',
 }
 
 default_calendar_names = sorted(_default_calendar_factories.keys())
