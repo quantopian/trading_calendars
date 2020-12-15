@@ -25,7 +25,9 @@ class XTAECalendarTestCase(ExchangeCalendarTestBase, TestCase):
     answer_key_filename = 'xtae'
     calendar_class = XTAEExchangeCalendar
 
-    # The XLON exchange is open from 10:00 am to 17:14 pm.
+    # Longest session is from 9:59:00 to 17:15:00, theoretically. Since
+    # open/close times are randomised by 60 seconds, 7.25 should be very close
+    # to the average case.
     MAX_SESSION_HOURS = 7.25
 
     def test_2019(self):

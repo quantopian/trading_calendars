@@ -26,9 +26,11 @@ class XTAEExchangeCalendar(TradingCalendar):
     """
     Exchange calendar for TASE Stock Exchange.
 
-    Open Time: 10:00 AM, Asia/Tel_Aviv
-    Close Time: 5:14 PM, Asia/Tel_Aviv (excluding pre-close and closing auction
-        phases)
+    Open/close times are continuous trading times valid Mon-Thu for Shares
+    Group A. Trading schedule differs on Sundays.
+
+    Open Time: 9:59 AM, Asia/Tel_Aviv (randomly between 9:59 and 10:00).
+    Close Time: 5:14 PM, Asia/Tel_Aviv (randomly between 5:14 and 5:15).
 
     Regularly-Observed Holidays (not necessarily in order):
     - Purim
@@ -67,11 +69,11 @@ class XTAEExchangeCalendar(TradingCalendar):
     tz = timezone('Asia/Tel_Aviv')
 
     open_times = (
-        (None, time(10, 1)),
+        (None, time(10, 0)),
     )
 
     close_times = (
-        (None, time(17, 14)),
+        (None, time(17, 15)),
     )
 
     @property
