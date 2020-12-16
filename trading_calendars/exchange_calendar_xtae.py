@@ -61,7 +61,7 @@ class XTAEExchangeCalendar(TradingCalendar):
     last Sunday in March, and lasts until the last Sunday in October. During the
     Daylight Saving time period the clock will be UTC+3, and UTC+2 for the rest
     of the year.
-    """ # noqa
+    """  # noqa
     start_date = pd.Timestamp('2019-01-01', tz=UTC)
 
     name = 'XTAE'
