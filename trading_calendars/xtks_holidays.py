@@ -87,7 +87,8 @@ VernalEquinoxes = [
     Timestamp('2017-03-20'),
     Timestamp('2018-03-21'),
     Timestamp('2019-03-21'),
-    Timestamp('2020-03-20')
+    Timestamp('2020-03-20'),
+    Timestamp('2021-03-20'),
 ]
 
 # The Golden Week holidays (late April - early May) are listed in reverse
@@ -186,12 +187,19 @@ MarineDay2020 = Holiday(
     year=2020,
 )
 
-MarineDay2021Onwards = Holiday(
-    "Marine Day (2021 onwards)",
+MarineDay2021 = Holiday(
+    "Marine Day (2021)",
+    month=7,
+    day=22,
+    year=2021,
+)
+
+MarineDay2022Onwards = Holiday(
+    "Marine Day (2022 onwards)",
     month=7,
     day=1,
     offset=DateOffset(weekday=MO(3)),
-    start_date='2021-01-01',
+    start_date='2022-01-01',
 )
 
 MountainDayThrough2019 = Holiday(
@@ -211,11 +219,18 @@ MountainDay2020 = Holiday(
     year=2020,
 )
 
-MountainDay2021Onwards = Holiday(
-    "Mountain Day (2021 onwards)",
+MountainDay2021 = Holiday(
+    "Mountain Day (2021)",
+    month=8,
+    day=9,
+    year=2021,
+)
+
+MountainDay2022Onwards = Holiday(
+    "Mountain Day (2022 onwards)",
     month=8,
     day=11,
-    start_date="2021-01-01",
+    start_date="2022-01-01",
     observance=sunday_to_monday,
 )
 
@@ -242,6 +257,7 @@ AutumnalEquinoxes = [
     Timestamp('2018-09-24'),
     Timestamp('2019-09-23'),
     Timestamp('2020-09-22'),
+    Timestamp('2021-09-23'),
 ]
 
 # If the Autumnal Equinox falls on a Wednesday, the Tuesday before
@@ -285,12 +301,19 @@ HealthAndSportsDay2020 = Holiday(
     year=2020,
 )
 
-HealthAndSportsDay2021Onwards = Holiday(
-    "Health and Sports Day (2021 onwards)",
+HealthAndSportsDay2021 = Holiday(
+    "Health and Sports Day (2021)",
+    month=7,
+    day=23,
+    year=2021,
+)
+
+HealthAndSportsDay2022Onwards = Holiday(
+    "Health and Sports Day (2022 onwards)",
     month=10,
     day=1,
     offset=DateOffset(weekday=MO(2)),
-    start_date="2021-01-01",
+    start_date="2022-01-01",
 )
 
 CultureDay = Holiday(
