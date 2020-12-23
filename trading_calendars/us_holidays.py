@@ -46,11 +46,29 @@ def following_tuesday_every_four_years_observance(dt):
 
 # These have the same definition, but are used in different places because the
 # NYSE closed at 2:00 PM on Christmas Eve until 1993.
-ChristmasEveBefore1993 = Holiday(
+ChristmasEveBefore1945 = Holiday(
     "Christmas Eve",
     month=12,
     day=24,
-    end_date=Timestamp("1993-01-01"),
+    end_date=Timestamp("1945-12-01"),
+    # When Christmas is a Saturday, the 24th is a full holiday.
+    days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY),
+)
+ChristmasEveBefore1946To1955 = Holiday(
+    "Christmas Eve",
+    month=12,
+    day=24,
+    start_date=Timestamp("1946-01-01"),
+    end_date=Timestamp("1956-01-01"),
+    # When Christmas is a Saturday, the 24th is a full holiday.
+    days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY),
+)
+ChristmasEveAfter1957Before1993 = Holiday(
+    "Christmas Eve",
+    month=12,
+    day=24,
+    start_date=Timestamp("1957-01-01"),
+    end_date=Timestamp("1992-12-31"),
     # When Christmas is a Saturday, the 24th is a full holiday.
     days_of_week=(MONDAY, TUESDAY, WEDNESDAY, THURSDAY),
 )

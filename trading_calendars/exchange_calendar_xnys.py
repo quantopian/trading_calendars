@@ -29,7 +29,9 @@ from .us_holidays import (
     August45VictoryOverJapan,
     Christmas,
     ChristmasBefore1954,
-    ChristmasEveBefore1993,
+    ChristmasEveBefore1945,
+    ChristmasEveBefore1946To1955,
+    ChristmasEveAfter1957Before1993,
     ChristmasEveInOrAfter1993,
     ChristmasEvesAdhoc,
     DayAfterChristmasAdhoc,
@@ -235,7 +237,12 @@ class XNYSExchangeCalendar(TradingCalendar):
             (
                 time(14),
                 HolidayCalendar(
-                    [ChristmasEveBefore1993, USBlackFridayBefore1993, ]
+                    [
+                        ChristmasEveBefore1945,
+                        ChristmasEveBefore1946To1955,
+                        ChristmasEveAfter1957Before1993,
+                        USBlackFridayBefore1993,
+                    ]
                 ),
             ),
         ]
@@ -246,7 +253,7 @@ class XNYSExchangeCalendar(TradingCalendar):
             (
                 self.regular_early_close,
                 DatetimeIndex(
-                    ["1997-12-26", "1999-12-31", "2003-12-26", ], tz=UTC,
+                    ["1997-12-26", "1999-12-31", "2003-12-26"], tz=UTC,
                 ),
             )
         ]
