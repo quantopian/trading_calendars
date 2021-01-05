@@ -23,7 +23,6 @@ class PrecomputedTradingCalendar(TradingCalendar):
             end = pd.Timestamp(
                 '{}-12-31'.format(latest_precomputed_year), tz=UTC
             )
-
         super(PrecomputedTradingCalendar, self).__init__(start=start, end=end)
 
         if earliest_precomputed_year > self.first_trading_session.year:
