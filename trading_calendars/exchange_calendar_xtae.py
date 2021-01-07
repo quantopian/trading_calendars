@@ -17,12 +17,11 @@ from datetime import time
 import pandas as pd
 from pytz import timezone, UTC
 from .trading_calendar import TradingCalendar, HolidayCalendar
-from .tase_holidays import (Purim, ShushanPurim, PassoverEve,
-                            Passover, Passover2Eve, Passover2, PentecostEve,
-                            Pentecost, FastDay, MemorialDay, IndependenceDay,
-                            NewYearsEve, NewYear, NewYear2, YomKippurEve,
-                            YomKippur, SukkothEve, Sukkoth, SimchatTorahEve,
-                            SimchatTorah)
+from .tase_holidays import (Purim, PassoverEve, Passover, Passover2Eve,
+                            Passover2, PentecostEve, Pentecost, FastDay,
+                            MemorialDay, IndependenceDay, NewYearsEve, NewYear,
+                            NewYear2, YomKippurEve, YomKippur, SukkothEve,
+                            Sukkoth, SimchatTorahEve, SimchatTorah)
 
 # All holidays are defined as ad-hoc holidays for each year since there is
 # currently no support for Hebrew calendar holiday rules in pandas.
@@ -40,7 +39,6 @@ class XTAEExchangeCalendar(TradingCalendar):
 
     Regularly-Observed Holidays (not necessarily in order):
     - Purim
-    - Shushan Purim
     - Passover Eve
     - Passover
     - Passover II Eve
@@ -87,7 +85,6 @@ class XTAEExchangeCalendar(TradingCalendar):
     def regular_holidays(self):
         return HolidayCalendar([
             Purim,
-            ShushanPurim,
             PassoverEve,
             Passover,
             Passover2Eve,
