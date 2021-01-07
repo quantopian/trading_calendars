@@ -118,7 +118,7 @@ def purim(year):
     """
     Return the Gregorian date for Purim in the given Gregorian calendar year.
     """
-    return _purim(_hebrew_year(year)).to_greg().to_pydate()
+    return _purim(_hebrew_year(year)).to_greg()
 
 
 def passover(year):
@@ -126,7 +126,7 @@ def passover(year):
     Return the Gregorian date for the first day of Passover in the given
     Gregorian calendar year.
     """
-    return _passover(_hebrew_year(year)).to_greg().to_pydate()
+    return _passover(_hebrew_year(year)).to_greg()
 
 
 def memorial_day(year):
@@ -136,7 +136,7 @@ def memorial_day(year):
     """
 
     # Regular Memorial Day date.
-    d = _memorial_day(_hebrew_year(year)).to_greg().to_pydate()
+    d = _memorial_day(_hebrew_year(year)).to_greg()
 
     # Reschedule to avoid Sabbath desecration, maybe.
     if d.isoweekday() == 4:
@@ -159,7 +159,7 @@ def pentecost(year):
     Return the Gregorian date for Pentecost in the given Gregorian calendar
     year.
     """
-    return _pentecost(_hebrew_year(year)).to_greg().to_pydate()
+    return _pentecost(_hebrew_year(year)).to_greg()
 
 
 def fast_day(year):
@@ -167,7 +167,7 @@ def fast_day(year):
     Return the Gregorian date for Tisha B'Av in the given Gregorian calendar
     year.
     """
-    d = _fast_day(_hebrew_year(year)).to_greg().to_pydate()
+    d = _fast_day(_hebrew_year(year)).to_greg()
 
     # Reschedule if it falls on Sabbath (Saturday), maybe.
     if d.isoweekday() == 6:
@@ -182,7 +182,7 @@ def new_year(year):
     Return the Gregorian date for the first day of a new year in the given
     Gregorian calendar year.
     """
-    return _new_year(_hebrew_year(year + 1)).to_greg().to_pydate()
+    return _new_year(_hebrew_year(year + 1)).to_greg()
 
 
 def yom_kippur(year):
@@ -190,14 +190,14 @@ def yom_kippur(year):
     Return the Gregorian date for Yom Kippur in the given Gregorian calendar
     year.
     """
-    return _yom_kippur(_hebrew_year(year + 1)).to_greg().to_pydate()
+    return _yom_kippur(_hebrew_year(year + 1)).to_greg()
 
 
 def sukkoth(year):
     """
     Return the Gregorian date for Sukkoth in the given Gregorian calendar year.
     """
-    return _sukkoth(_hebrew_year(year + 1)).to_greg().to_pydate()
+    return _sukkoth(_hebrew_year(year + 1)).to_greg()
 
 
 def simchat_torah(year):
@@ -205,7 +205,7 @@ def simchat_torah(year):
     Return the Gregorian date for Simchat Torah in the given Gregorian calendar
     year.
     """
-    return _simchat_torah(_hebrew_year(year + 1)).to_greg().to_pydate()
+    return _simchat_torah(_hebrew_year(year + 1)).to_greg()
 
 
 def _is_normalized(dt):
@@ -233,7 +233,7 @@ class _HolidayOffset(Easter):
 
     @apply_wraps
     def apply(self, other):
-        current = self.holiday(other.year)
+        current = self.holiday(other.year).to_pydate()
         current = datetime(current.year, current.month, current.day)
         current = localize_pydatetime(current, other.tzinfo)
 
@@ -246,7 +246,7 @@ class _HolidayOffset(Easter):
 
         # NOTE: self.holiday a dates.GregorianDate so we have to convert to
         # type of other
-        new = self.holiday(other.year + n)
+        new = self.holiday(other.year + n).to_pydate()
         new = datetime(
             new.year,
             new.month,
@@ -261,7 +261,8 @@ class _HolidayOffset(Easter):
     def is_on_offset(self, dt):
         if self.normalize and not _is_normalized(dt):
             return False
-        return date(dt.year, dt.month, dt.day) == self.holiday(dt.year)
+        return date(dt.year, dt.month, dt.day) \
+            == self.holiday(dt.year).to_pydate()
 
 
 # DateOffset subclasses for holidays observed by TASE.
