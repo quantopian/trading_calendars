@@ -5,12 +5,18 @@ from pandas.tseries.offsets import Easter
 
 try:
     from pandas._libs.tslibs.offsets import apply_wraps
+except ImportError:
+    from pandas.tseries.offsets import apply_wraps
+
+try:
     from pandas._libs.tslibs.conversion import localize_pydatetime
+except ImportError:
+    from pandas.tslib import _localize_pydatetime as localize_pydatetime
+
+try:
     from pandas._libs.tslibs.timestamps import _Timestamp
     HAVE_TIMESTAMP = True
-except Exception:
-    from pandas.tseries.offsets import apply_wraps
-    from pandas.tslib import _localize_pydatetime as localize_pydatetime
+except ImportError:
     HAVE_TIMESTAMP = False
 
 
