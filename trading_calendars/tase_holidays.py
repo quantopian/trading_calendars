@@ -139,15 +139,15 @@ def memorial_day(year):
     d = _memorial_day(_hebrew_year(year)).to_greg()
 
     # Reschedule to avoid Sabbath desecration, maybe.
-    if d.isoweekday() == 4:
+    if d.weekday() == 5:
         # Falls on a Thursday, so Independency Day falls on the Friday.
         # Moved down by one day.
         return d - 1
-    elif d.isoweekday() == 5:
+    elif d.weekday() == 6:
         # Falls on a Friday, so Independence Day falls on the Saturday.
         # Moved down by two days.
         return d - 2
-    elif d.isoweekday() == 6:
+    elif d.weekday() == 7:
         # Falls on a Saturday, therefore moved up by one day.
         return d + 1
     else:
@@ -170,7 +170,7 @@ def fast_day(year):
     d = _fast_day(_hebrew_year(year)).to_greg()
 
     # Reschedule if it falls on Sabbath (Saturday), maybe.
-    if d.isoweekday() == 6:
+    if d.weekday() == 7:
         # Falls on a Saturday, therefore moved up by one day.
         return d + 1
     else:
