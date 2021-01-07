@@ -323,8 +323,6 @@ class _SimchatTorah(_HolidayOffset):
 
 # Holiday instances for holidays observed by TASE.
 Purim = Holiday("Purim", month=1, day=1, offset=[_Purim()])
-ShushanPurim = Holiday("Shushan Purim", month=1, day=1,
-                       offset=[_Purim(), Day(1)], start_date='2022-01-01')
 PassoverEve = Holiday("Passover Eve", month=1, day=1,
                       offset=[_Passover(), Day(-1)])
 Passover = Holiday("Passover", month=1, day=1, offset=[_Passover()])
