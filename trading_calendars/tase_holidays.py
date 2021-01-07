@@ -8,7 +8,7 @@ try:
     from pandas._libs.tslibs.conversion import localize_pydatetime
     from pandas._libs.tslibs.timestamps import _Timestamp
     HAVE_TIMESTAMP = True
-except ModuleNotFoundError:
+except Exception:
     from pandas.tseries.offsets import apply_wraps
     from pandas.tslib import _localize_pydatetime as localize_pydatetime
     HAVE_TIMESTAMP = False
