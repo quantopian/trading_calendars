@@ -1,9 +1,18 @@
 from datetime import datetime, date
 from pyluach import dates, hebrewcal
 from pandas.tseries.holiday import Holiday, Day
-from pandas._libs.tslibs.offsets import apply_wraps, Easter
-from pandas._libs.tslibs.conversion import localize_pydatetime
-from pandas._libs.tslibs.timestamps import _Timestamp
+from pandas.tseries.offsets import Easter
+
+try:
+    from pandas._libs.tslibs.offsets import apply_wraps
+    from pandas._libs.tslibs.conversion import localize_pydatetime
+    from pandas._libs.tslibs.timestamps import _Timestamp
+    HAVE_TIMESTAMP = True
+except:
+    from pandas.tseries.offsets import apply_wraps
+    from pandas.tslib import _localize_pydatetime as localize_pydatetime
+    HAVE_TIMESTAMP = False
+
 
 # Auxiliary functions to get Hebrew dates for holidays observed by TASE for a
 # given Hebrew calendar year. These are just the raw dates with no adjustments
@@ -197,8 +206,9 @@ def _is_normalized(dt):
     if dt.hour != 0 or dt.minute != 0 or dt.second != 0 or dt.microsecond != 0:
         # Regardless of whether dt is datetime vs Timestamp
         return False
-    if isinstance(dt, _Timestamp):
-        return dt.nanosecond == 0
+    if HAVE_TIMESTAMP:
+        if isinstance(dt, _Timestamp):
+            return dt.nanosecond == 0
     return True
 
 
