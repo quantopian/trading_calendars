@@ -118,7 +118,7 @@ def purim(year):
     """
     Return the Gregorian date for Purim in the given Gregorian calendar year.
     """
-    return _purim(_hebrew_year(year)).to_greg()
+    return _purim(_hebrew_year(year)).to_greg().to_pydate()
 
 
 def passover(year):
@@ -126,7 +126,7 @@ def passover(year):
     Return the Gregorian date for the first day of Passover in the given
     Gregorian calendar year.
     """
-    return _passover(_hebrew_year(year)).to_greg()
+    return _passover(_hebrew_year(year)).to_greg().to_pydate()
 
 
 def memorial_day(year):
@@ -136,7 +136,7 @@ def memorial_day(year):
     """
 
     # Regular Memorial Day date.
-    d = _memorial_day(_hebrew_year(year)).to_greg()
+    d = _memorial_day(_hebrew_year(year)).to_greg().to_pydate()
 
     # Reschedule to avoid Sabbath desecration, maybe.
     if d.isoweekday() == 4:
@@ -159,7 +159,7 @@ def pentecost(year):
     Return the Gregorian date for Pentecost in the given Gregorian calendar
     year.
     """
-    return _pentecost(_hebrew_year(year)).to_greg()
+    return _pentecost(_hebrew_year(year)).to_greg().to_pydate()
 
 
 def fast_day(year):
@@ -167,7 +167,7 @@ def fast_day(year):
     Return the Gregorian date for Tisha B'Av in the given Gregorian calendar
     year.
     """
-    d = _fast_day(_hebrew_year(year)).to_greg()
+    d = _fast_day(_hebrew_year(year)).to_greg().to_pydate()
 
     # Reschedule if it falls on Sabbath (Saturday), maybe.
     if d.isoweekday() == 6:
@@ -182,7 +182,7 @@ def new_year(year):
     Return the Gregorian date for the first day of a new year in the given
     Gregorian calendar year.
     """
-    return _new_year(_hebrew_year(year + 1)).to_greg()
+    return _new_year(_hebrew_year(year + 1)).to_greg().to_pydate()
 
 
 def yom_kippur(year):
@@ -190,14 +190,14 @@ def yom_kippur(year):
     Return the Gregorian date for Yom Kippur in the given Gregorian calendar
     year.
     """
-    return _yom_kippur(_hebrew_year(year + 1)).to_greg()
+    return _yom_kippur(_hebrew_year(year + 1)).to_greg().to_pydate()
 
 
 def sukkoth(year):
     """
     Return the Gregorian date for Sukkoth in the given Gregorian calendar year.
     """
-    return _sukkoth(_hebrew_year(year + 1)).to_greg()
+    return _sukkoth(_hebrew_year(year + 1)).to_greg().to_pydate()
 
 
 def simchat_torah(year):
@@ -205,7 +205,7 @@ def simchat_torah(year):
     Return the Gregorian date for Simchat Torah in the given Gregorian calendar
     year.
     """
-    return _simchat_torah(_hebrew_year(year + 1)).to_greg()
+    return _simchat_torah(_hebrew_year(year + 1)).to_greg().to_pydate()
 
 
 def _is_normalized(dt):
