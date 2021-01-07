@@ -14,7 +14,7 @@ from pandas._libs.tslibs.timestamps import _Timestamp
 # https://en.wikipedia.org/wiki/Hebrew_calendar.
 
 
-def _purim(year: hebrewcal.Year) -> dates.HebrewDate:
+def _purim(year):
     """
     Return the Hebrew date for Purim in the given Hebrew year.
     """
@@ -22,7 +22,7 @@ def _purim(year: hebrewcal.Year) -> dates.HebrewDate:
     return dates.HebrewDate(year.year, 13 if year.leap else 12, 14)
 
 
-def _passover(year: hebrewcal.Year) -> dates.HebrewDate:
+def _passover(year):
     """
     Return the Hebrew date for the first day of Passover in the given Hebrew
     year.
@@ -30,7 +30,7 @@ def _passover(year: hebrewcal.Year) -> dates.HebrewDate:
     return dates.HebrewDate(year.year, 1, 15)
 
 
-def _memorial_day(year: hebrewcal.Year) -> dates.HebrewDate:
+def _memorial_day(year):
     """
     Return the Hebrew date for Memorial Day in the given Hebrew year.
 
@@ -39,21 +39,21 @@ def _memorial_day(year: hebrewcal.Year) -> dates.HebrewDate:
     return dates.HebrewDate(year.year, 2, 4)
 
 
-def _pentecost(year: hebrewcal.Year) -> dates.HebrewDate:
+def _pentecost(year):
     """
     Return the Hebrew date for Pentecost in the given Hebrew year.
     """
     return dates.HebrewDate(year.year, 3, 6)
 
 
-def _fast_day(year: hebrewcal.Year) -> dates.HebrewDate:
+def _fast_day(year):
     """
     Return the Hebrew date for Tisha B'Av in the given Hebrew year.
     """
     return dates.HebrewDate(year.year, 5, 9)
 
 
-def _new_year(year: hebrewcal.Year) -> dates.HebrewDate:
+def _new_year(year):
     """
     Return the Hebrew date for the first day of a new year in the given Hebrew
     year.
@@ -61,28 +61,28 @@ def _new_year(year: hebrewcal.Year) -> dates.HebrewDate:
     return dates.HebrewDate(year.year, 7, 1)
 
 
-def _yom_kippur(year: hebrewcal.Year) -> dates.HebrewDate:
+def _yom_kippur(year):
     """
     Return the Hebrew date for Yom Kippur in the given Hebrew year.
     """
     return dates.HebrewDate(year.year, 7, 10)
 
 
-def _sukkoth(year: hebrewcal.Year) -> dates.HebrewDate:
+def _sukkoth(year):
     """
     Return the Hebrew date for Sukkoth in the given Hebrew year.
     """
     return dates.HebrewDate(year.year, 7, 15)
 
 
-def _simchat_torah(year: hebrewcal.Year) -> dates.HebrewDate:
+def _simchat_torah(year):
     """
     Return the Hebrew date for Simchat Torah in the given Hebrew year.
     """
     return dates.HebrewDate(year.year, 7, 22)
 
 
-def _hebrew_year(year: int) -> hebrewcal.Year:
+def _hebrew_year(year):
     """
     Return the Hebrew calendar year that corresponds to 1st January of the
     given Gregorian calendar year.
@@ -99,14 +99,14 @@ def _hebrew_year(year: int) -> hebrewcal.Year:
 # TASE for a given Gregorian calendar year. Adjustments are also applied.
 
 
-def purim(year: int) -> dates.GregorianDate:
+def purim(year):
     """
     Return the Gregorian date for Purim in the given Gregorian calendar year.
     """
     return _purim(_hebrew_year(year)).to_greg()
 
 
-def passover(year: int) -> dates.GregorianDate:
+def passover(year):
     """
     Return the Gregorian date for the first day of Passover in the given
     Gregorian calendar year.
@@ -114,7 +114,7 @@ def passover(year: int) -> dates.GregorianDate:
     return _passover(_hebrew_year(year)).to_greg()
 
 
-def memorial_day(year: int) -> dates.GregorianDate:
+def memorial_day(year):
     """
     Return the Gregorian date for Memorial Day in the given Gregorian calendar
     year.
@@ -139,7 +139,7 @@ def memorial_day(year: int) -> dates.GregorianDate:
         return d
 
 
-def pentecost(year: int) -> dates.GregorianDate:
+def pentecost(year):
     """
     Return the Gregorian date for Pentecost in the given Gregorian calendar
     year.
@@ -147,7 +147,7 @@ def pentecost(year: int) -> dates.GregorianDate:
     return _pentecost(_hebrew_year(year)).to_greg()
 
 
-def fast_day(year: int) -> dates.GregorianDate:
+def fast_day(year):
     """
     Return the Gregorian date for Tisha B'Av in the given Gregorian calendar
     year.
@@ -162,7 +162,7 @@ def fast_day(year: int) -> dates.GregorianDate:
         return d
 
 
-def new_year(year: int) -> dates.GregorianDate:
+def new_year(year):
     """
     Return the Gregorian date for the first day of a new year in the given
     Gregorian calendar year.
@@ -170,7 +170,7 @@ def new_year(year: int) -> dates.GregorianDate:
     return _new_year(_hebrew_year(year + 1)).to_greg()
 
 
-def yom_kippur(year: int) -> dates.GregorianDate:
+def yom_kippur(year):
     """
     Return the Gregorian date for Yom Kippur in the given Gregorian calendar
     year.
@@ -178,14 +178,14 @@ def yom_kippur(year: int) -> dates.GregorianDate:
     return _yom_kippur(_hebrew_year(year + 1)).to_greg()
 
 
-def sukkoth(year: int) -> dates.GregorianDate:
+def sukkoth(year):
     """
     Return the Gregorian date for Sukkoth in the given Gregorian calendar year.
     """
     return _sukkoth(_hebrew_year(year + 1)).to_greg()
 
 
-def simchat_torah(year: int) -> dates.GregorianDate:
+def simchat_torah(year):
     """
     Return the Gregorian date for Simchat Torah in the given Gregorian calendar
     year.
@@ -193,7 +193,7 @@ def simchat_torah(year: int) -> dates.GregorianDate:
     return _simchat_torah(_hebrew_year(year + 1)).to_greg()
 
 
-def _is_normalized(dt: datetime):
+def _is_normalized(dt):
     if dt.hour != 0 or dt.minute != 0 or dt.second != 0 or dt.microsecond != 0:
         # Regardless of whether dt is datetime vs Timestamp
         return False
@@ -216,7 +216,7 @@ class _HolidayOffset(Easter):
         pass
 
     @apply_wraps
-    def apply(self, other: datetime) -> datetime:
+    def apply(self, other):
         current = self.holiday(other.year)
         current = datetime(current.year, current.month, current.day)
         current = localize_pydatetime(current, other.tzinfo)
@@ -242,7 +242,7 @@ class _HolidayOffset(Easter):
         )
         return new
 
-    def is_on_offset(self, dt: datetime) -> bool:
+    def is_on_offset(self, dt):
         if self.normalize and not _is_normalized(dt):
             return False
         return date(dt.year, dt.month, dt.day) == self.holiday(dt.year)
