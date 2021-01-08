@@ -118,7 +118,7 @@ class XTAEExchangeCalendar(TradingCalendar):
             pd.Timestamp('2020-03-02', tz='Asia/Jerusalem'),
             # 2021
             # Election Day
-            pd.Timestamp('2020-03-23', tz='Asia/Jerusalem')
+            pd.Timestamp('2021-03-23', tz='Asia/Jerusalem')
         ]
 
     @property
