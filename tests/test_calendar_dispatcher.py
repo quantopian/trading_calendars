@@ -10,6 +10,9 @@ from trading_calendars.errors import (
 from trading_calendars.calendar_utils import TradingCalendarDispatcher
 from trading_calendars.exchange_calendar_iepa import IEPAExchangeCalendar
 
+import pandas as pd
+import pytz
+
 
 class CalendarAliasTestCase(TestCase):
 
@@ -18,8 +21,8 @@ class CalendarAliasTestCase(TestCase):
         # Make a calendar once so that we don't spend time in every test
         # instantiating calendars.
         cls.dispatcher_kwargs = dict(
-            calendars={'IEPA': IEPAExchangeCalendar()},
-            calendar_factories={},
+            calendars={},
+            calendar_factories={'IEPA': IEPAExchangeCalendar},
             aliases={
                 'IEPA_ALIAS': 'IEPA',
                 'IEPA_ALIAS_ALIAS': 'IEPA_ALIAS',
@@ -104,3 +107,10 @@ class CalendarAliasTestCase(TestCase):
             sorted(self.dispatcher.get_calendar_names()),
             ['IEPA', 'IEPA_ALIAS', 'IEPA_ALIAS_ALIAS']
         )
+
+    def test_kwarg_passing(self):
+        start_date = pd.Timestamp('2000-01-03', tz=pytz.UTC)
+        cal = self.dispatcher.get_calendar(
+            'IEPA', start=start_date
+        )
+        self.assertEqual(cal.first_session, start_date)

@@ -167,7 +167,7 @@ class TradingCalendarDispatcher(object):
         self._calendar_factories = dict(calendar_factories)
         self._aliases = dict(aliases)
 
-    def get_calendar(self, name):
+    def get_calendar(self, name, **kwargs):
         """
         Retrieves an instance of an TradingCalendar whose name is given.
 
@@ -175,7 +175,10 @@ class TradingCalendarDispatcher(object):
         ----------
         name : str
             The name of the TradingCalendar to be retrieved.
-
+        kwargs: Dict[str, Any]
+            Optional keyword args passed to calendar `__init__.
+            Note: Arguments are only passed when the calendar is first
+            constructed. Subsequent calls will not affect the calendar.
         Returns
         -------
         calendar : calendars.TradingCalendar
@@ -196,7 +199,7 @@ class TradingCalendarDispatcher(object):
             raise InvalidCalendarName(calendar_name=name)
 
         # Cache the calendar for future use.
-        calendar = self._calendars[canonical_name] = factory()
+        calendar = self._calendars[canonical_name] = factory(**kwargs)
         return calendar
 
     def get_calendar_names(self):
