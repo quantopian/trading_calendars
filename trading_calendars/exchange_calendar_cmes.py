@@ -30,7 +30,9 @@ from .trading_calendar import TradingCalendar, HolidayCalendar
 from .us_holidays import (
     USNewYearsDay,
     Christmas,
-    ChristmasEveBefore1993,
+    ChristmasEveBefore1945,
+    ChristmasEveBefore1946To1955,
+    ChristmasEveAfter1957Before1993,
     ChristmasEveInOrAfter1993,
     USBlackFridayInOrAfter1993,
     USNationalDaysofMourning,
@@ -102,7 +104,9 @@ class CMESExchangeCalendar(TradingCalendar):
                 USIndependenceDay,
                 USThanksgivingDay,
                 USBlackFridayInOrAfter1993,
-                ChristmasEveBefore1993,
+                ChristmasEveBefore1945,
+                ChristmasEveBefore1946To1955,
+                ChristmasEveAfter1957Before1993,
                 ChristmasEveInOrAfter1993,
             ])
         )]
