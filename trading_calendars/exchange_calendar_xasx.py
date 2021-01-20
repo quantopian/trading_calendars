@@ -111,6 +111,17 @@ LastTradingDayOfCalendarYear = Holiday(
     observance=previous_friday,
 )
 
+# Early close on day prior to Good Friday 1992-2008
+LastTradingDayBeforeGoodFriday1992To2008 = Holiday(
+    "Day prior to Good Friday", 
+    month=1, 
+    day=1, 
+    offset=[Easter(), Day(-3)], 
+    start_date='1992',
+    end_date='2009'
+)
+
+
 # additional ad-hoc holidays
 NYEMonday1984AdHoc = Timestamp('1984-12-31', tz=UTC)
 NYEMonday1990AdHoc = Timestamp('1990-12-31', tz=UTC)
@@ -139,7 +150,7 @@ class XASXExchangeCalendar(TradingCalendar):
       - Last trading day before Christmas
       - Last trading day of the calendar year
     """
-    regular_early_close = time(14, 10)
+    regular_early_close = time(14, 12)  # Early close is a variable time 14:10-14:11, for Zipline compatiblity: (14,12)
 
     name = 'XASX'
 
@@ -150,7 +161,7 @@ class XASXExchangeCalendar(TradingCalendar):
     )
 
     close_times = (
-        (None, time(16)),
+        (None, time(16,12)),    # Single closing-price auction is a variable time 16:10-16:11, for Zipline compatiblity: (16,12)
     )
 
     @property
@@ -186,6 +197,7 @@ class XASXExchangeCalendar(TradingCalendar):
                 HolidayCalendar([
                     LastTradingDayBeforeChristmas,
                     LastTradingDayOfCalendarYear,
+                    LastTradingDayBeforeGoodFriday1992To2008,
                 ]),
             ),
         ]
