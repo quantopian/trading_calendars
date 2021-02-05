@@ -40,7 +40,7 @@ jobs:
       run: |
         echo "::set-output name=dir::$(pip cache dir)"
     - name: pip cache
-      uses: actions/cache@v2.1.3
+      uses: actions/cache@v2.1.4
       with:
         path: ${{ steps.pip-cache.outputs.dir }}
         key: ${{ runner.os }}-pip-py${{matrix.python-version}}-${{ hashFiles(env.PIP_CONSTRAINT) }}
