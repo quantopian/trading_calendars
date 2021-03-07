@@ -221,6 +221,8 @@ chinese_new_year_extras = pd.to_datetime([
     '2019-02-08',
     '2020-01-21',
     '2020-01-22',
+    '2020-02-08',
+    '2020-02-09',
 ])
 
 # Some abnormal observances of regularly observed holidays.
