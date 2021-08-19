@@ -125,6 +125,8 @@ _default_calendar_aliases = {
     'TSX': 'XTSE',
     'BMF': 'BVMF',
     'CME': 'CMES',
+    'GLOBEX': 'CMES',
+    'CMECRYPTO': 'CMES',
     'CBOT': 'CMES',
     'COMEX': 'CMES',
     'NYMEX': 'CMES',
