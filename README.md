@@ -1,3 +1,7 @@
+# **IMPORTANT NOTE**
+
+This package is currently unmaintained as the sponsor, quantopian, is going through corporate changes. As such there is a fork of this project that will receive more active maintenance, https://github.com/gerrymanoim/trading_calendars, and the actively developed and maintained alternative implimentation here: https://github.com/rsheftel/pandas_market_calendars . The process to merge these implementations will continue in those two respective repos.
+
 # trading_calendars
 
 [![CI](https://github.com/quantopian/trading_calendars/workflows/CI/badge.svg)](https://github.com/quantopian/trading_calendars/actions?query=workflow%3ACI)
