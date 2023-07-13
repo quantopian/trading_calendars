@@ -26,6 +26,7 @@ from pytz import UTC
 
 from .trading_calendar import TradingCalendar, HolidayCalendar
 from .us_holidays import (
+    Juneteenth,
     August45VictoryOverJapan,
     Christmas,
     ChristmasBefore1954,
@@ -179,6 +180,7 @@ class XNYSExchangeCalendar(TradingCalendar):
                 USMemorialDayBefore1964,
                 USMemorialDay1964to1969,
                 USMemorialDay,
+                Juneteenth,
                 USIndependenceDayBefore1954,
                 USIndependenceDay,
                 USLaborDay,

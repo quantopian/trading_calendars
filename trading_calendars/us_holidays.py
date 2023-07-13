@@ -217,7 +217,13 @@ Christmas = Holiday(
     start_date=Timestamp("1954-01-01"),
     observance=nearest_workday,
 )
-
+Juneteenth = Holiday(
+    "Juneteenth",
+    month=6,
+    day=19,
+    start_date=Timestamp("2021-06-19"),
+    observance=nearest_workday,
+)
 # Early Closes
 
 MonTuesThursBeforeIndependenceDay = Holiday(
